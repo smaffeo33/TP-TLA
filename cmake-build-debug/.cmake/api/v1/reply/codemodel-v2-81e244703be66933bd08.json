@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Compiler::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Compiler-Debug-9e0bb8992b699ad831f6.json",
+					"jsonFile" : "target-Compiler-Debug-073523deb22eda10bb0e.json",
 					"name" : "Compiler",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA/cmake-build-debug",
-		"source" : "/Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA"
+		"build" : "/Users/ivovilamowski/TP-TLA/cmake-build-debug",
+		"source" : "/Users/ivovilamowski/TP-TLA"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 4
+		"minor" : 7
 	}
 }

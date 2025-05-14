@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA/cmake-build-debug"
+			"value" : "/Users/ivovilamowski/TP-TLA/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -79,7 +79,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "24"
+			"value" : "31"
 		},
 		{
 			"name" : "CMAKE_CACHE_PATCH_VERSION",
@@ -91,7 +91,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "2"
+			"value" : "6"
 		},
 		{
 			"name" : "CMAKE_COLOR_DIAGNOSTICS",
@@ -115,7 +115,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake"
+			"value" : "/Users/ivovilamowski/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake"
 		},
 		{
 			"name" : "CMAKE_CPACK_COMMAND",
@@ -127,7 +127,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Applications/CLion.app/Contents/bin/cmake/mac/bin/cpack"
+			"value" : "/Users/ivovilamowski/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cpack"
 		},
 		{
 			"name" : "CMAKE_CTEST_COMMAND",
@@ -139,7 +139,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Applications/CLion.app/Contents/bin/cmake/mac/bin/ctest"
+			"value" : "/Users/ivovilamowski/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/ctest"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER",
@@ -383,7 +383,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "/Users/ivovilamowski/TP-TLA/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -395,7 +395,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "Ninja"
+			"value" : "Unix Makefiles"
 		},
 		{
 			"name" : "CMAKE_GENERATOR_INSTANCE",
@@ -443,7 +443,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA"
+			"value" : "/Users/ivovilamowski/TP-TLA"
 		},
 		{
 			"name" : "CMAKE_INSTALL_NAME_TOOL",
@@ -494,12 +494,16 @@
 			"properties" : 
 			[
 				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "Path to a program."
 				}
 			],
-			"type" : "UNINITIALIZED",
-			"value" : "/Applications/CLion.app/Contents/bin/ninja/mac/ninja"
+			"type" : "FILEPATH",
+			"value" : "/usr/bin/make"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -767,7 +771,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24"
+			"value" : "/Users/ivovilamowski/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/share/cmake-3.31"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -978,6 +982,22 @@
 			"value" : "/Library/Developer/CommandLineTools/usr/bin/strip"
 		},
 		{
+			"name" : "CMAKE_TAPI",
+			"properties" : 
+			[
+				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
+					"name" : "HELPSTRING",
+					"value" : "Path to a program."
+				}
+			],
+			"type" : "FILEPATH",
+			"value" : "/Library/Developer/CommandLineTools/usr/bin/tapi"
+		},
+		{
 			"name" : "CMAKE_UNAME",
 			"properties" : 
 			[
@@ -1015,7 +1035,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA/cmake-build-debug"
+			"value" : "/Users/ivovilamowski/TP-TLA/cmake-build-debug"
 		},
 		{
 			"name" : "Compiler_IS_TOP_LEVEL",
@@ -1039,7 +1059,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA"
+			"value" : "/Users/ivovilamowski/TP-TLA"
 		}
 	],
 	"kind" : "cache",
