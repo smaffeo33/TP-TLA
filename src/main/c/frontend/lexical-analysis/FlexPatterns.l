@@ -1,5 +1,6 @@
 %{
 
+#include "FlexActions.h"
 #include "AngularTransitionActions.h"
 
 static YY_BUFFER_STATE importedTransitionBufferState = NULL;
@@ -18,6 +19,8 @@ static YY_BUFFER_STATE importedTransitionBufferState = NULL;
 %x ANIMATION_PARAMS
 %x STATE_DEFINITION
 %x TRANSITION_DEFINITION
+%x APOSTROPHE_STRING
+%x QUOTATION_MARK_STRING
 %x MULTILINE_COMMENT
 
 /**
@@ -57,22 +60,26 @@ WHITESPACE  [ \t\r\n]
 "useAnimation"                                      { return KeywordLexemeAction(createLexicalContext(), USE_ANIMATION); }
 "animation"                                         { return KeywordLexemeAction(createLexicalContext(), ANIMATION); }
 
-"void"                                              { return VoidStateAction(createLexicalContext()); }
-"*"                                                 { return WildcardStateAction(createLexicalContext()); }
-":enter"                                            { return EnterQueryAction(createLexicalContext()); }
-":leave"                                            { return LeaveQueryAction(createLexicalContext()); }
+"void"                                              { return StateAction(createLexicalContext(), VOID_STATE); }
+"*"                                                 { return StateAction(createLexicalContext(), WILDCARD_STATE); }
+":enter"                                            { return StateAction(createLexicalContext(), ENTER_QUERY); }
+":leave"                                            { return StateAction(createLexicalContext(), LEAVE_QUERY); }
 
-"=>"                                                { return TransitionArrowAction(createLexicalContext(), FORWARD_TRANSITION); }
-"<=>"                                               { return TransitionArrowAction(createLexicalContext(), BIDIRECTIONAL_TRANSITION); }
+"=>"                                                { return PunctuationAction(createLexicalContext(), FORWARD_TRANSITION); }
+"<=>"                                               { return PunctuationAction(createLexicalContext(), BIDIRECTIONAL_TRANSITION); }
 
-"("                                                 { return DelimiterAction(createLexicalContext(), OPEN_PARENTHESIS); }
-")"                                                 { return DelimiterAction(createLexicalContext(), CLOSE_PARENTHESIS); }
+"("                                                 { return PunctuationAction(createLexicalContext(), OPEN_PARENTHESIS); }
+")"                                                 { return PunctuationAction(createLexicalContext(), CLOSE_PARENTHESIS); }
 
-"["                                                 { return DelimiterAction(createLexicalContext(), OPEN_BRACKET); }
-"]"                                                 { return DelimiterAction(createLexicalContext(), CLOSE_BRACKET); }
+"["                                                 { return PunctuationAction(createLexicalContext(), OPEN_BRACKET); }
+"]"                                                 { return PunctuationAction(createLexicalContext(), CLOSE_BRACKET); }
 
-"{"                                                 { return DelimiterAction(createLexicalContext(), OPEN_BRACE); }
-"}"                                                 { return DelimiterAction(createLexicalContext(), CLOSE_BRACE); }
+"{"                                                 { return PunctuationAction(createLexicalContext(), OPEN_BRACE); }
+"}"                                                 { return PunctuationAction(createLexicalContext(), CLOSE_BRACE); }
+
+","                                                 { return PunctuationAction(createLexicalContext(), COMMA); }
+":"                                                 { return PunctuationAction(createLexicalContext(), COLON); }
+"."                                                 { return PunctuationAction(createLexicalContext(), DOT); }
 
 "\'"                                                {
                                                         BEGIN(APOSTROPHE_STRING);
@@ -84,36 +91,32 @@ WHITESPACE  [ \t\r\n]
                                                         return StringLiteralAction(createLexicalContext(), APOSTROPHE);
                                                     }
 
-<APOSTROPHE_STRING>{TIME}                           { return TimeValueAction(createLexicalContext()); }
-<APOSTROPHE_STRING>{EASING}                         { return EasingFunctionAction(createLexicalContext()); }
-<APOSTROPHE_STRING>"=>"                             { return TransitionArrowAction(createLexicalContext(), FORWARD_TRANSITION); }
-<APOSTROPHE_STRING>"<=>"                            { return TransitionArrowAction(createLexicalContext(), BIDIRECTIONAL_TRANSITION); }
-<APOSTROPHE_STRING>{ID}                             { return NameAction(createLexicalContext()); }
-<APOSTROPHE_STRING>{COLOR}                          { return ColorAction(createLexicalContext()); }
+<APOSTROPHE_STRING>{TIME}                           { return AnimationAction(createLexicalContext(), TIME_VALUE); }
+<APOSTROPHE_STRING>{EASING}                         { return AnimationAction(createLexicalContext(), EASING_FUNCTION); }
+<APOSTROPHE_STRING>"=>"                             { return AnimationAction(createLexicalContext(), FORWARD_TRANSITION); }
+<APOSTROPHE_STRING>"<=>"                            { return AnimationAction(createLexicalContext(), BIDIRECTIONAL_TRANSITION); }
+<APOSTROPHE_STRING>{ID}                             { return AnimationAction(createLexicalContext(), NAME); }
+<APOSTROPHE_STRING>{COLOR}                          { return AnimationAction(createLexicalContext(), COLOR_VALUE); }
 
 "\""                                                {
                                                         BEGIN(QUOTATION_MARK_STRING);
                                                         return StringLiteralAction(createLexicalContext(), QUOTATION_MARK);
                                                     }
 
-<APOSTROPHE_STRING>"\""                             {
+<QUOTATION_MARK_STRING>"\""                         {
                                                         BEGIN(INITIAL);
                                                         return StringLiteralAction(createLexicalContext(), QUOTATION_MARK);
                                                     }
 
-<QUOTATION_MARK_STRING>{TIME}                       { return TimeValueAction(createLexicalContext()); }
-<QUOTATION_MARK_STRING>{EASING}                     { return EasingFunctionAction(createLexicalContext()); }
-<QUOTATION_MARK_STRING>"=>"                         { return TransitionArrowAction(createLexicalContext(), FORWARD_TRANSITION); }
-<QUOTATION_MARK_STRING>"<=>"                        { return TransitionArrowAction(createLexicalContext(), BIDIRECTIONAL_TRANSITION); }
-<QUOTATION_MARK_STRING>{ID}                         { return NameAction(createLexicalContext()); }
-<QUOTATION_MARK_STRING>{COLOR}                      { return ColorAction(createLexicalContext()); }
+<QUOTATION_MARK_STRING>{TIME}                       { return AnimationAction(createLexicalContext(), TIME_VALUE); }
+<QUOTATION_MARK_STRING>{EASING}                     { return AnimationAction(createLexicalContext(), EASING_FUNCTION); }
+<QUOTATION_MARK_STRING>"=>"                         { return AnimationAction(createLexicalContext(), FORWARD_TRANSITION); }
+<QUOTATION_MARK_STRING>"<=>"                        { return AnimationAction(createLexicalContext(), BIDIRECTIONAL_TRANSITION); }
+<QUOTATION_MARK_STRING>{ID}                         { return AnimationAction(createLexicalContext(), NAME); }
+<QUOTATION_MARK_STRING>{COLOR}                      { return AnimationAction(createLexicalContext(), COLOR_VALUE); }
 
 {ID}                                                { return StylePropertyAction(createLexicalContext()); }
 {NUMBER}                                            { return ValueAction(createLexicalContext()); }
-
-","                                                 { return CommaAction(createLexicalContext()); }
-":"                                                 { return ColonAction(createLexicalContext()); }
-"."                                                 { return DotAction(createLexicalContext()); }
 
 {WHITESPACE}+                                       { IgnoredLexemeAction(createLexicalContext()); }
 .                                                   { return UnknownLexemeAction(createLexicalContext()); }

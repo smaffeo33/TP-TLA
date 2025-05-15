@@ -18,6 +18,11 @@ void initializeFlexActionsModule();
 void shutdownFlexActionsModule();
 
 /**
+ * Create a lexical context from current position in the input.
+ */
+LexicalAnalyzerContext * createLexicalContext();
+
+/**
  * Flex lexeme processing actions.
  */
 
@@ -29,37 +34,21 @@ void IgnoredLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 /* Keywords */
 Token KeywordLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
-/* State specifiers */
-Token VoidStateAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-Token WildcardStateAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-Token EnterQueryAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-Token LeaveQueryAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
+/* State handling */
+Token StateAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
-/* Transition arrows */
-Token TransitionArrowAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+/* Animation handling */
+Token AnimationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
-/* Delimiters */
-Token DelimiterAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+/* String literals */
+Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token quoteType);
 
-/* Style object */
+/* Style properties */
 Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-Token StyleValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-Token StyleNumberAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-Token StyleUnitAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-
-/* Animation parameters */
-Token TimeValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-Token EasingFunctionAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-
-/* Basic tokens */
-Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-Token IdentifierAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-Token NumberAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
+Token ValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 /* Punctuation */
-Token CommaAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-Token ColonAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-Token DotAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
+Token PunctuationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
 /* Error handling */
 Token UnknownLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);

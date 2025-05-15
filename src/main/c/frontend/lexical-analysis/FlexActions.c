@@ -57,6 +57,7 @@ void IgnoredLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
 	destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
 }
 
+
 Token ArithmeticOperatorLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
 	lexicalAnalyzerContext->semanticValue->token = token;
