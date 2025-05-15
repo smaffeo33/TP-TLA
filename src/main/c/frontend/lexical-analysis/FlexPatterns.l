@@ -32,6 +32,7 @@ ALPHANUM    [a-zA-Z0-9]
 ID          [a-zA-Z][a-zA-Z0-9_]*
 STRING      ['"][^'"]*['"]
 NUMBER      {DIGIT}+(\.{DIGIT}+)?
+INTEGER     {DIGIT}+
 TIME_UNIT   "ms"|"s"
 COLOR       #[0-9a-fA-F]{6}
 TIME        {NUMBER}{TIME_UNIT}
@@ -116,7 +117,7 @@ WHITESPACE  [ \t\r\n]
 <QUOTATION_MARK_STRING>{COLOR}                      { return AnimationAction(createLexicalContext(), COLOR_VALUE); }
 
 {ID}                                                { return StylePropertyAction(createLexicalContext()); }
-{NUMBER}                                            { return ValueAction(createLexicalContext()); }
+{INTEGER}                                           { return IntegerAction(createLexicalContext()); }
 
 {WHITESPACE}+                                       { IgnoredLexemeAction(createLexicalContext()); }
 .                                                   { return UnknownLexemeAction(createLexicalContext()); }

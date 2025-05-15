@@ -78,25 +78,18 @@ Token AnimationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token tok
     return token;
 }
 
-Token StringLiteralLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token quoteType) {
-    _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-    strcpy(lexicalAnalyzerContext->semanticValue->string, lexicalAnalyzerContext->lexeme);
-    lexicalAnalyzerContext->semanticValue->quoteType = quoteType;
-    destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
-    return STRING_LITERAL;
-}
-
 Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
     strcpy(lexicalAnalyzerContext->semanticValue->string,lexicalAnalyzerContext->lexeme);
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
     return STYLE_PROPERTY;
 }
-Token ValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
+
+Token IntegerAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-     strcpy(lexicalAnalyzerContext->semanticValue->string, lexicalAnalyzerContext->lexeme);
+    lexicalAnalyzerContext->semanticValue->integer = atoi(lexicalAnalyzerContext->lexeme);
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
-    return VALUE;
+    return INTEGER;
 }
 
 Token PunctuationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {

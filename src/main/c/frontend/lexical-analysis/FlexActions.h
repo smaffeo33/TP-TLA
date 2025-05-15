@@ -40,15 +40,13 @@ Token StateAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 /* Animation handling */
 Token AnimationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
-/* String literals */
-Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token quoteType);
-
 /* Style properties */
 Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-Token ValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 /* Punctuation */
 Token PunctuationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+
+Token IntegerAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 /* Error handling */
 Token UnknownLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);

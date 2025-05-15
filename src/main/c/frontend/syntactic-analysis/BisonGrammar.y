@@ -35,12 +35,31 @@
 
 /** Terminals. */
 %token <integer> INTEGER
-%token <token> ADD
+%token <token> VALUE
+%token <token> TIME_VALUE
+%token <token> COLOR_VALUE
 %token <token> CLOSE_PARENTHESIS
-%token <token> DIV
-%token <token> MUL
 %token <token> OPEN_PARENTHESIS
-%token <token> SUB
+%token <token> CLOSE_BRACE
+%token <token> OPEN_BRACE
+%token <token> CLOSE_BRACKET
+%token <token> OPEN_BRACKET
+%token <token> FORWARD_TRANSITION
+%token <token> BIDIRECTIONAL_TRANSITION
+%token <token> APOSTROPHE
+%token <token> QUOTATION_MARK
+%token <token> TRIGGER
+%token <token> STATE
+%token <token> STYLE
+%token <token> TRANSITION
+%token <token> ANIMATE
+%token <token> SEQUENCE
+%token <token> GROUP
+%token <token> QUERY
+%token <token> STAGGER
+%token <token> KEYFRAMES
+%token <token> USE_ANIMATION
+%token <token> ANIMATION
 
 %token <token> UNKNOWN
 
