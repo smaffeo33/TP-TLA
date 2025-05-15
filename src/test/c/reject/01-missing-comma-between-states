@@ -1,0 +1,11 @@
+trigger('errorAnimation1', [
+state('first', style({
+height: '100px',
+width: '100px'
+}))
+state('second', style({
+height: '200px',
+width: '200px'
+})),
+transition('first => second', animate('300ms ease'))
+])

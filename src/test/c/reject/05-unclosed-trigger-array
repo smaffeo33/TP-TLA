@@ -1,0 +1,6 @@
+trigger('errorAnimation5', [
+state('default', style({
+height: '100px',
+width: '100px'
+})),
+transition('default => active', animate('200ms ease'))
