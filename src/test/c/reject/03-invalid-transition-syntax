@@ -1,0 +1,11 @@
+trigger('errorAnimation3', [
+state('default', style({
+height: '100px',
+width: '100px'
+})),
+state('active', style({
+height: '200px',
+width: '200px'
+})),
+transition('default -> active', animate('200ms ease'))
+])
