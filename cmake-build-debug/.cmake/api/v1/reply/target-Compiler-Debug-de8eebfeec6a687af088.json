@@ -2,7 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Compiler"
+			"path" : "Compiler.exe"
+		},
+		{
+			"path" : "Compiler.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -10,7 +13,9 @@
 	{
 		"commands" : 
 		[
-			"add_executable"
+			"add_executable",
+			"add_link_options",
+			"add_compile_options"
 		],
 		"files" : 
 		[
@@ -26,6 +31,36 @@
 				"file" : 0,
 				"line" : 57,
 				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 19,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 20,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 21,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 22,
+				"parent" : 0
 			}
 		]
 	},
@@ -35,7 +70,23 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics"
+					"fragment" : "-g -fdiagnostics-color=always"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-fsanitize=address"
+				},
+				{
+					"backtrace" : 4,
+					"fragment" : "-O3"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-static-libgcc"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-std=gnu99"
 				}
 			],
 			"language" : "C",
@@ -69,12 +120,21 @@
 			{
 				"fragment" : "",
 				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-fsanitize=address",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+				"role" : "libraries"
 			}
 		],
 		"language" : "C"
 	},
 	"name" : "Compiler",
-	"nameOnDisk" : "Compiler",
+	"nameOnDisk" : "Compiler.exe",
 	"paths" : 
 	{
 		"build" : ".",

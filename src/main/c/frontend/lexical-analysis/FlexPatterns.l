@@ -15,12 +15,7 @@ static YY_BUFFER_STATE importedTransitionBufferState = NULL;
 /**
  * Flex contexts (a.k.a. start conditions).
  */
-%x STYLE_OBJECT
-%x ANIMATION_PARAMS
-%x STATE_DEFINITION
-%x TRANSITION_DEFINITION
-%x APOSTROPHE_STRING
-%x QUOTATION_MARK_STRING
+
 %x MULTILINE_COMMENT
 
 /**
@@ -34,10 +29,8 @@ STRING      ['"][^'"]*['"]
 NUMBER      {DIGIT}+(\.{DIGIT}+)?
 INTEGER     {DIGIT}+
 TIME_UNIT   "ms"|"s"
-COLOR       #[0-9a-fA-F]{6}
-TIME        {NUMBER}{TIME_UNIT}
+COLOR       #[0-9a-fA-F]{6} | #[0-9a-fA-F]{3} | rgba\({WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*\) | rgb\({WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*\)
 VALUE_UNIT  "px"|"em"|"%"|"rem"|"vh"|"vw"
-VALUE       {NUMBER}{VALUE_UNIT}
 EASING      "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-bezier"{WHITESPACE}*\({WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*\)
 WHITESPACE  [ \t\r\n]
 
@@ -82,41 +75,20 @@ WHITESPACE  [ \t\r\n]
 ":"                                                 { return PunctuationAction(createLexicalContext(), COLON); }
 "."                                                 { return PunctuationAction(createLexicalContext(), DOT); }
 
-"\'"                                                {
-                                                        BEGIN(APOSTROPHE_STRING);
-                                                        return StringLiteralAction(createLexicalContext(), APOSTROPHE);
-                                                    }
+"\'"                                                { return StringLiteralAction(createLexicalContext(), APOSTROPHE); }
+"\""                                                { return StringLiteralAction(createLexicalContext(), QUOTATION_MARK); }
 
-<APOSTROPHE_STRING>"\'"                             {
-                                                        BEGIN(INITIAL);
-                                                        return StringLiteralAction(createLexicalContext(), APOSTROPHE);
-                                                    }
+{NUMBER}                                            { return AnimationAction(createLexicalContext(), NUMBER); }
+{EASING}                                            { return AnimationAction(createLexicalContext(), EASING_FUNCTION); }
 
-<APOSTROPHE_STRING>{TIME}                           { return AnimationAction(createLexicalContext(), TIME_VALUE); }
-<APOSTROPHE_STRING>{EASING}                         { return AnimationAction(createLexicalContext(), EASING_FUNCTION); }
-<APOSTROPHE_STRING>"=>"                             { return AnimationAction(createLexicalContext(), FORWARD_TRANSITION); }
-<APOSTROPHE_STRING>"<=>"                            { return AnimationAction(createLexicalContext(), BIDIRECTIONAL_TRANSITION); }
-<APOSTROPHE_STRING>{ID}                             { return AnimationAction(createLexicalContext(), NAME); }
-<APOSTROPHE_STRING>{COLOR}                          { return AnimationAction(createLexicalContext(), COLOR_VALUE); }
+{VALUE_UNIT}                                        { return UnitAction(createLexicalContext(), VALUE_UNIT); }
+{TIME_UNIT}                                         { return UnitAction(createLexicalContext(), TIME_UNIT); }
 
-"\""                                                {
-                                                        BEGIN(QUOTATION_MARK_STRING);
-                                                        return StringLiteralAction(createLexicalContext(), QUOTATION_MARK);
-                                                    }
-
-<QUOTATION_MARK_STRING>"\""                         {
-                                                        BEGIN(INITIAL);
-                                                        return StringLiteralAction(createLexicalContext(), QUOTATION_MARK);
-                                                    }
-
-<QUOTATION_MARK_STRING>{TIME}                       { return AnimationAction(createLexicalContext(), TIME_VALUE); }
-<QUOTATION_MARK_STRING>{EASING}                     { return AnimationAction(createLexicalContext(), EASING_FUNCTION); }
-<QUOTATION_MARK_STRING>"=>"                         { return AnimationAction(createLexicalContext(), FORWARD_TRANSITION); }
-<QUOTATION_MARK_STRING>"<=>"                        { return AnimationAction(createLexicalContext(), BIDIRECTIONAL_TRANSITION); }
-<QUOTATION_MARK_STRING>{ID}                         { return AnimationAction(createLexicalContext(), NAME); }
-<QUOTATION_MARK_STRING>{COLOR}                      { return AnimationAction(createLexicalContext(), COLOR_VALUE); }
+{NUMBER}                                            { return ValueAction(createLexicalContext(), VALUE_UNIT); }
+{COLOR}                                             { return ValueAction(createLexicalContext(), COLOR_VALUE); }
 
 {ID}                                                { return StylePropertyAction(createLexicalContext()); }
+
 {INTEGER}                                           { return IntegerAction(createLexicalContext()); }
 
 {WHITESPACE}+                                       { IgnoredLexemeAction(createLexicalContext()); }

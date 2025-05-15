@@ -15,10 +15,14 @@
 
 	/** Non-terminals. */
 
-	Constant * constant;
-	Expression * expression;
-	Factor * factor;
 	Program * program;
+	Trigger * trigger;
+	Transition * transition;
+	State * state;
+	Style * style;
+	Animate * animate;
+	Property * property;
+	TriggerList * triggerList;
 }
 
 /**
@@ -64,9 +68,14 @@
 %token <token> UNKNOWN
 
 /** Non-terminals. */
-%type <constant> constant
-%type <expression> expression
-%type <factor> factor
+%type <trigger> trigger
+%type <state> state
+%type <transition> transition
+%type <style> style
+%type <animate> animate
+%type <property> property
+%type <value> value
+%type <triggerList> triggerList
 %type <program> program
 
 /**
@@ -74,14 +83,12 @@
  *
  * @see https://www.gnu.org/software/bison/manual/html_node/Precedence.html
  */
-%left ADD SUB
-%left MUL DIV
 
 %%
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
 
-program: expression													{ $$ = ExpressionProgramSemanticAction(currentCompilerState(), $1); }
+program: triggerList												{ $$ = ExpressionProgramSemanticAction(currentCompilerState(), $1); }
 	;
 
 expression: expression[left] ADD expression[right]					{ $$ = ArithmeticExpressionSemanticAction($left, $right, ADDITION); }

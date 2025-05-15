@@ -16,51 +16,84 @@ void shutdownAbstractSyntaxTreeModule() {
 
 /** PUBLIC FUNCTIONS */
 
-void releaseConstant(Constant * constant) {
+void releaseTrigger(Trigger * trigger) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
-	if (constant != NULL) {
-		free(constant);
+	if (trigger != NULL) {
+		free(trigger->name);
+		for (size_t i = 0; i < trigger->stateCount; i++) {
+			releaseState(trigger->states[i]);
+		}
+		free(trigger->states);
+		for (size_t i = 0; i < trigger->transitionCount; i++) {
+			releaseTransition(trigger->transitions[i]);
+		}
 	}
 }
 
-void releaseExpression(Expression * expression) {
+void releaseState(State * state) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
-	if (expression != NULL) {
-		switch (expression->type) {
-			case ADDITION:
-			case DIVISION:
-			case MULTIPLICATION:
-			case SUBTRACTION:
-				releaseExpression(expression->leftExpression);
-				releaseExpression(expression->rightExpression);
-				break;
-			case FACTOR:
-				releaseFactor(expression->factor);
-				break;
-		}
-		free(expression);
+	if (state != NULL) {
+		free(state->name);
+		releaseStyle(state->style);
+		free(state);
 	}
 }
 
-void releaseFactor(Factor * factor) {
+void releaseTransition(Transition * transition) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
-	if (factor != NULL) {
-		switch (factor->type) {
-			case CONSTANT:
-				releaseConstant(factor->constant);
-				break;
-			case EXPRESSION:
-				releaseExpression(factor->expression);
-				break;
+	if (transition != NULL) {
+		free(transition->fromState);
+		free(transition->toState);
+		releaseAnimate(transition->animate);
+		releaseStyle(transition->style);
+		free(transition);
+	}
+}
+
+void releaseStyle(Style * style) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (style != NULL) {
+		for (size_t i = 0; i < style->propertyCount; i++) {
+			releaseProperty(style->properties[i]);
 		}
-		free(factor);
+		free(style->properties);
+		free(style);
+	}
+}
+
+void releaseAnimate(Animate * animate) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (animate != NULL) {
+		free(animate->duration);
+		free(animate->easing);
+		free(animate);
+	}
+}
+
+void releaseProperty(Property * property) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (property != NULL) {
+		free(property->name);
+		free(property->value);
+		free(property);
+	}
+}
+
+void releaseTriggerList(TriggerList * triggerList) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (triggerList != NULL) {
+		for (size_t i = 0; i < triggerList->triggerCount; i++) {
+			releaseTrigger(triggerList->trigger[i]);
+		}
+		free(triggerList->trigger);
+		free(triggerList);
 	}
 }
 
 void releaseProgram(Program * program) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (program != NULL) {
-		releaseExpression(program->expression);
+		releaseTriggerList(program->triggerList);
 		free(program);
 	}
 }

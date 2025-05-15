@@ -14,64 +14,69 @@ void shutdownAbstractSyntaxTreeModule();
  * This typedefs allows self-referencing types.
  */
 
-typedef enum ExpressionType ExpressionType;
-typedef enum FactorType FactorType;
-
-typedef struct Constant Constant;
-typedef struct Expression Expression;
-typedef struct Factor Factor;
 typedef struct Program Program;
+typedef struct Trigger Trigger;
+typedef struct State State;
+typedef struct Transition Transition;
+typedef struct Style Style;
+typedef struct Animate Animate;
+typedef struct Property Property;
+typedef struct TriggerList TriggerList;
 
-/**
- * Node types for the Abstract Syntax Tree (AST).
- */
-
-enum ExpressionType {
-	ADDITION,
-	DIVISION,
-	FACTOR,
-	MULTIPLICATION,
-	SUBTRACTION
+struct Trigger {
+	char *name; // e.g., "cardAnimation"
+	State **states; // Array of states
+	size_t stateCount;
+	Transition **transitions; // Array of transitions
+	size_t transitionCount;
 };
 
-enum FactorType {
-	CONSTANT,
-	EXPRESSION
+struct State {
+	char *name; // e.g., "default"
+	Style *style; // Associated style
 };
 
-struct Constant {
-	int value;
+struct Transition {
+	char *fromState; // e.g., "default"
+	char *toState; // e.g., "expanded"
+	Animate *animate; // Associated animation
+	Style *style;
 };
 
-struct Factor {
-	union {
-		Constant * constant;
-		Expression * expression;
-	};
-	FactorType type;
+struct Style {
+	Property **properties; // Array of style properties
+	size_t propertyCount;
 };
 
-struct Expression {
-	union {
-		Factor * factor;
-		struct {
-			Expression * leftExpression;
-			Expression * rightExpression;
-		};
-	};
-	ExpressionType type;
+struct Animate {
+	char *duration; // e.g., "300ms"
+	char *easing; // e.g., "cubic-bezier(0.4, 0.0, 0.2, 1)"
+};
+
+struct Property {
+	char *name; // e.g., "height"
+	char *value; // e.g., "200px"
 };
 
 struct Program {
-	Expression * expression;
+	TriggerList * triggerList;
+};
+
+struct TriggerList {
+	Trigger **trigger;
+	size_t triggerCount;
 };
 
 /**
  * Node recursive destructors.
  */
-void releaseConstant(Constant * constant);
-void releaseExpression(Expression * expression);
-void releaseFactor(Factor * factor);
 void releaseProgram(Program * program);
+void releaseTrigger(Trigger * trigger);
+void releaseTriggerList(TriggerList * triggerList);
+void releaseState(State * state);
+void releaseTransition(Transition * transition);
+void releaseStyle(Style * style);
+void releaseAnimate(Animate * animate);
+void releaseProperty(Property * property);
 
 #endif
