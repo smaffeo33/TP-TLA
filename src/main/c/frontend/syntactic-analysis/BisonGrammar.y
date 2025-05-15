@@ -99,64 +99,51 @@
 %%
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
-
-program: triggerList                                                                                                { $$ = TriggerListProgramSemanticAction($1); }
-	;
-
-triggerList: trigger                                                                                                { $$ = TriggerSemanticAction($1); }
-    | triggerList COMMA trigger                                                                                     { $$ = TriggerListSemanticAction($1, $3); }
+//VER
+program: triggerList                                                                { $$ = TriggerListProgramSemanticAction($1); }
     ;
 
-trigger: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA triggerBlock CLOSE_PARENTHESIS                           { $$ = TriggerSemanticAction($3, $6); }
+triggerList: trigger                                                                { $$ = TriggerSemanticAction($1); }
+    | triggerList COMMA trigger                                                     { $$ = TriggerListSemanticAction($1, $3); }
     ;
 
-triggerBlock: OPEN_BRACKET stateList COMMA transitionList CLOSE_BRACKET
+trigger: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA triggerBlock CLOSE_PARENTHESIS
+                                                                                    { $$ = TriggerSemanticAction($3, $6); }
     ;
 
-stateList: state
-    | stateList COMMA state
+triggerBlock: OPEN_BRACKET stateList COMMA transitionList CLOSE_BRACKET             { $$ = TriggerBlockSemanticAction($2, $4); }
     ;
 
-transitionList: transition
-    | transitionList COMMA transition
+stateList: state                                                                    { $$ = StateSemanticAction($1); }
+    | stateList COMMA state                                                         { $$ = StateListSemanticAction($1, $3); }
     ;
 
-state: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS
+transitionList: transition                                                          { $$ = TransitionSemanticAction($1); }
+    | transitionList COMMA transition                                               { $$ = TransitionListSemanticAction($1, $3); }
+    ;
+
+state: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS    { $$ = StateDefinitionSemanticAction($3, $6); }
     ;
 
 transition: OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_DIRECTION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
+                                                                                    { $$ = ForwardTransitionSemanticAction($3, $5, $8); }
     | OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_DIRECTION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
+                                                                                    { $$ = BidirectionalTransitionSemanticAction($3, $5, $8); }
     ;
 
-style: OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS
+style: OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS      { $$ = StyleSemanticAction($3); }
     ;
 
-propertyList: property
-    | propertyList COMMA property
+propertyList: property                                                              { $$ = PropertySemanticAction($1); }
+    | propertyList COMMA property                                                   { $$ = PropertyListSemanticAction($1, $3); }
     ;
 
-property: NAME COLON APOSTROPHE VALUE APOSTROPHE
-    | NAME COLON APOSTROPHE COLOR_VALUE APOSTROPHE
-    | NAME COLON APOSTROPHE NUMBER APOSTROPHE
+property: NAME COLON APOSTROPHE VALUE APOSTROPHE                                    { $$ = TextPropertySemanticAction($1, $4); }
+    | NAME COLON APOSTROPHE COLOR_VALUE APOSTROPHE                                  { $$ = ColorPropertySemanticAction($1, $4); }
+    | NAME COLON APOSTROPHE NUMBER APOSTROPHE                                       { $$ = NumericPropertySemanticAction($1, $4); }
     ;
 
-animate: OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE CLOSE_PARENTHESIS
+animate: OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE CLOSE_PARENTHESIS      { $$ = AnimateSemanticAction($3, $4); }
     ;
-
-
-
-expression: expression[left] ADD expression[right]					            { $$ = ArithmeticExpressionSemanticAction($left, $right, ADDITION); }
-	| expression[left] DIV expression[right]						            { $$ = ArithmeticExpressionSemanticAction($left, $right, DIVISION); }
-	| expression[left] MUL expression[right]						            { $$ = ArithmeticExpressionSemanticAction($left, $right, MULTIPLICATION); }
-	| expression[left] SUB expression[right]						            { $$ = ArithmeticExpressionSemanticAction($left, $right, SUBTRACTION); }
-	| factor														            { $$ = FactorExpressionSemanticAction($1); }
-	;
-
-factor: OPEN_PARENTHESIS expression CLOSE_PARENTHESIS				            { $$ = ExpressionFactorSemanticAction($2); }
-	| constant														            { $$ = ConstantFactorSemanticAction($1); }
-	;
-
-constant: INTEGER													            { $$ = IntegerConstantSemanticAction($1); }
-	;
 
 %%
