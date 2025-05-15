@@ -152,54 +152,6 @@ src/main/c/EntryPoint.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.s
 .PHONY : src/main/c/EntryPoint.c.s
 
-src/main/c/backend/code-generation/Generator.obj: src/main/c/backend/code-generation/Generator.c.obj
-.PHONY : src/main/c/backend/code-generation/Generator.obj
-
-# target to build an object file
-src/main/c/backend/code-generation/Generator.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.obj
-.PHONY : src/main/c/backend/code-generation/Generator.c.obj
-
-src/main/c/backend/code-generation/Generator.i: src/main/c/backend/code-generation/Generator.c.i
-.PHONY : src/main/c/backend/code-generation/Generator.i
-
-# target to preprocess a source file
-src/main/c/backend/code-generation/Generator.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.i
-.PHONY : src/main/c/backend/code-generation/Generator.c.i
-
-src/main/c/backend/code-generation/Generator.s: src/main/c/backend/code-generation/Generator.c.s
-.PHONY : src/main/c/backend/code-generation/Generator.s
-
-# target to generate assembly for a file
-src/main/c/backend/code-generation/Generator.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.s
-.PHONY : src/main/c/backend/code-generation/Generator.c.s
-
-src/main/c/backend/domain-specific/Calculator.obj: src/main/c/backend/domain-specific/Calculator.c.obj
-.PHONY : src/main/c/backend/domain-specific/Calculator.obj
-
-# target to build an object file
-src/main/c/backend/domain-specific/Calculator.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.obj
-.PHONY : src/main/c/backend/domain-specific/Calculator.c.obj
-
-src/main/c/backend/domain-specific/Calculator.i: src/main/c/backend/domain-specific/Calculator.c.i
-.PHONY : src/main/c/backend/domain-specific/Calculator.i
-
-# target to preprocess a source file
-src/main/c/backend/domain-specific/Calculator.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.i
-.PHONY : src/main/c/backend/domain-specific/Calculator.c.i
-
-src/main/c/backend/domain-specific/Calculator.s: src/main/c/backend/domain-specific/Calculator.c.s
-.PHONY : src/main/c/backend/domain-specific/Calculator.s
-
-# target to generate assembly for a file
-src/main/c/backend/domain-specific/Calculator.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.s
-.PHONY : src/main/c/backend/domain-specific/Calculator.c.s
-
 src/main/c/frontend/lexical-analysis/FlexActions.obj: src/main/c/frontend/lexical-analysis/FlexActions.c.obj
 .PHONY : src/main/c/frontend/lexical-analysis/FlexActions.obj
 
@@ -452,12 +404,6 @@ help:
 	@echo ... src/main/c/EntryPoint.obj
 	@echo ... src/main/c/EntryPoint.i
 	@echo ... src/main/c/EntryPoint.s
-	@echo ... src/main/c/backend/code-generation/Generator.obj
-	@echo ... src/main/c/backend/code-generation/Generator.i
-	@echo ... src/main/c/backend/code-generation/Generator.s
-	@echo ... src/main/c/backend/domain-specific/Calculator.obj
-	@echo ... src/main/c/backend/domain-specific/Calculator.i
-	@echo ... src/main/c/backend/domain-specific/Calculator.s
 	@echo ... src/main/c/frontend/lexical-analysis/FlexActions.obj
 	@echo ... src/main/c/frontend/lexical-analysis/FlexActions.i
 	@echo ... src/main/c/frontend/lexical-analysis/FlexActions.s

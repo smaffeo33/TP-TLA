@@ -9,8 +9,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/EntryPoint.c" "CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.obj.d"
-  "C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/backend/code-generation/Generator.c" "CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.obj.d"
-  "C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/backend/domain-specific/Calculator.c" "CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.obj.d"
   "C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/frontend/lexical-analysis/FlexActions.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.obj.d"
   "C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/frontend/lexical-analysis/FlexScanner.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.obj.d"
   "C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.obj.d"

@@ -12,6 +12,7 @@
 
 	int integer;
 	Token token;
+	char *string;
 
 	/** Non-terminals. */
 
@@ -37,9 +38,19 @@
  *
  * @see https://www.gnu.org/software/bison/manual/html_node/Destructor-Decl.html
  */
-%destructor { releaseConstant($$); } <constant>
-%destructor { releaseExpression($$); } <expression>
-%destructor { releaseFactor($$); } <factor>
+%destructor { releaseTrigger($$); } <trigger>
+%destructor { releaseTriggerList($$); } <triggerList>
+%destructor { releaseTriggerBlock($$); } <triggerBlock>
+%destructor { releaseState($$); } <state>
+%destructor { releaseStateList($$); } <stateList>
+%destructor { releaseTransition($$); } <transition>
+%destructor { releaseTransitionList($$); } <transitionList>
+%destructor { releaseStyle($$); } <style>
+%destructor { releaseAnimate($$); } <animate>
+%destructor { releaseProperty($$); } <property>
+%destructor { releasePropertyList($$); } <propertyList>
+
+
 
 /** Terminals. */
 %token <integer> INTEGER
@@ -71,7 +82,12 @@
 %token <token> ANIMATION
 %token <token> COMMA
 %token <token> COLON
-%token <token> NAME
+%token <string> NAME
+%token <token> EASING
+%token <token> LEAVE_QUERY
+%token <token> ENTER_QUERY
+%token <token> VOID_STATE
+%token <token> WILDCARD_STATE
 
 %token <token> UNKNOWN
 
@@ -82,7 +98,6 @@
 %type <style> style
 %type <animate> animate
 %type <property> property
-%type <value> value
 %type <triggerList> triggerList
 %type <triggerBlock> triggerBlock
 %type <stateList> stateList
@@ -100,7 +115,7 @@
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
 //VER
-program: triggerList                                                                { $$ = TriggerListProgramSemanticAction($1); }
+program: triggerList                                                                { $$ = TriggerListProgramSemanticAction(currentCompilerState(), $1); }
     ;
 
 triggerList: trigger                                                                { $$ = TriggerSemanticAction($1); }
@@ -125,9 +140,9 @@ transitionList: transition                                                      
 state: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS    { $$ = StateDefinitionSemanticAction($3, $6); }
     ;
 
-transition: OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_DIRECTION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
+transition: OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
                                                                                     { $$ = ForwardTransitionSemanticAction($3, $5, $8); }
-    | OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_DIRECTION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
+    | OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_TRANSITION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
                                                                                     { $$ = BidirectionalTransitionSemanticAction($3, $5, $8); }
     ;
 

@@ -102,9 +102,7 @@
 				7,
 				8,
 				9,
-				10,
-				11,
-				12
+				10
 			]
 		}
 	],
@@ -156,34 +154,20 @@
 				7,
 				8,
 				9,
-				10,
-				11,
-				12
+				10
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				13,
-				14
+				11,
+				12
 			]
 		}
 	],
 	"sources" : 
 	[
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "src/main/c/backend/code-generation/Generator.c",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "src/main/c/backend/domain-specific/Calculator.c",
-			"sourceGroupIndex" : 0
-		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,

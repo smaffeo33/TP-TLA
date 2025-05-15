@@ -294,4 +294,3 @@ Animate * AnimateSemanticAction(const char * time, const char * easing) {
     return animate;
 }
 
-

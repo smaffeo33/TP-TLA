@@ -83,38 +83,10 @@ C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/frontend/syntactic-analysis/Bison
 CMakeFiles/Compiler.dir/codegen:
 .PHONY : CMakeFiles/Compiler.dir/codegen
 
-CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.obj: CMakeFiles/Compiler.dir/flags.make
-CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.obj: C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/backend/code-generation/Generator.c
-CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.obj: CMakeFiles/Compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.obj"
-	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.obj -MF CMakeFiles\Compiler.dir\src\main\c\backend\code-generation\Generator.c.obj.d -o CMakeFiles\Compiler.dir\src\main\c\backend\code-generation\Generator.c.obj -c C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\backend\code-generation\Generator.c
-
-CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.i"
-	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\backend\code-generation\Generator.c > CMakeFiles\Compiler.dir\src\main\c\backend\code-generation\Generator.c.i
-
-CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.s"
-	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\backend\code-generation\Generator.c -o CMakeFiles\Compiler.dir\src\main\c\backend\code-generation\Generator.c.s
-
-CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.obj: CMakeFiles/Compiler.dir/flags.make
-CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.obj: C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/backend/domain-specific/Calculator.c
-CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.obj: CMakeFiles/Compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.obj"
-	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.obj -MF CMakeFiles\Compiler.dir\src\main\c\backend\domain-specific\Calculator.c.obj.d -o CMakeFiles\Compiler.dir\src\main\c\backend\domain-specific\Calculator.c.obj -c C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\backend\domain-specific\Calculator.c
-
-CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.i"
-	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\backend\domain-specific\Calculator.c > CMakeFiles\Compiler.dir\src\main\c\backend\domain-specific\Calculator.c.i
-
-CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.s"
-	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\backend\domain-specific\Calculator.c -o CMakeFiles\Compiler.dir\src\main\c\backend\domain-specific\Calculator.c.s
-
 CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.obj: C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/EntryPoint.c
 CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.obj: CMakeFiles/Compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.obj"
 	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.obj -MF CMakeFiles\Compiler.dir\src\main\c\EntryPoint.c.obj.d -o CMakeFiles\Compiler.dir\src\main\c\EntryPoint.c.obj -c C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\EntryPoint.c
 
 CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.i: cmake_force
@@ -128,7 +100,7 @@ CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.s: cmake_force
 CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.obj: C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/frontend/lexical-analysis/FlexActions.c
 CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.obj: CMakeFiles/Compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.obj"
 	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.obj -MF CMakeFiles\Compiler.dir\src\main\c\frontend\lexical-analysis\FlexActions.c.obj.d -o CMakeFiles\Compiler.dir\src\main\c\frontend\lexical-analysis\FlexActions.c.obj -c C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\frontend\lexical-analysis\FlexActions.c
 
 CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.i: cmake_force
@@ -142,7 +114,7 @@ CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.s: cm
 CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.obj: C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/frontend/lexical-analysis/FlexScanner.c
 CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.obj: CMakeFiles/Compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.obj"
 	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.obj -MF CMakeFiles\Compiler.dir\src\main\c\frontend\lexical-analysis\FlexScanner.c.obj.d -o CMakeFiles\Compiler.dir\src\main\c\frontend\lexical-analysis\FlexScanner.c.obj -c C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\frontend\lexical-analysis\FlexScanner.c
 
 CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.i: cmake_force
@@ -156,7 +128,7 @@ CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.s: cm
 CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.obj: C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c
 CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.obj: CMakeFiles/Compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.obj"
 	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.obj -MF CMakeFiles\Compiler.dir\src\main\c\frontend\lexical-analysis\LexicalAnalyzerContext.c.obj.d -o CMakeFiles\Compiler.dir\src\main\c\frontend\lexical-analysis\LexicalAnalyzerContext.c.obj -c C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\frontend\lexical-analysis\LexicalAnalyzerContext.c
 
 CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.i: cmake_force
@@ -170,7 +142,7 @@ CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerCont
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c.obj: C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c.obj: CMakeFiles/Compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c.obj"
 	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c.obj -MF CMakeFiles\Compiler.dir\src\main\c\frontend\syntactic-analysis\AbstractSyntaxTree.c.obj.d -o CMakeFiles\Compiler.dir\src\main\c\frontend\syntactic-analysis\AbstractSyntaxTree.c.obj -c C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\frontend\syntactic-analysis\AbstractSyntaxTree.c
 
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c.i: cmake_force
@@ -184,7 +156,7 @@ CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTre
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.obj: C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/frontend/syntactic-analysis/BisonActions.c
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.obj: CMakeFiles/Compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.obj"
 	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.obj -MF CMakeFiles\Compiler.dir\src\main\c\frontend\syntactic-analysis\BisonActions.c.obj.d -o CMakeFiles\Compiler.dir\src\main\c\frontend\syntactic-analysis\BisonActions.c.obj -c C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\frontend\syntactic-analysis\BisonActions.c
 
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.i: cmake_force
@@ -198,7 +170,7 @@ CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.s:
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.obj: C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/frontend/syntactic-analysis/BisonParser.c
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.obj: CMakeFiles/Compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.obj"
 	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.obj -MF CMakeFiles\Compiler.dir\src\main\c\frontend\syntactic-analysis\BisonParser.c.obj.d -o CMakeFiles\Compiler.dir\src\main\c\frontend\syntactic-analysis\BisonParser.c.obj -c C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\frontend\syntactic-analysis\BisonParser.c
 
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.i: cmake_force
@@ -212,7 +184,7 @@ CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.s: 
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c.obj: C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c.obj: CMakeFiles/Compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c.obj"
 	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c.obj -MF CMakeFiles\Compiler.dir\src\main\c\frontend\syntactic-analysis\SyntacticAnalyzer.c.obj.d -o CMakeFiles\Compiler.dir\src\main\c\frontend\syntactic-analysis\SyntacticAnalyzer.c.obj -c C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\frontend\syntactic-analysis\SyntacticAnalyzer.c
 
 CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c.i: cmake_force
@@ -226,7 +198,7 @@ CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer
 CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.obj: C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/shared/Environment.c
 CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.obj: CMakeFiles/Compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.obj"
 	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.obj -MF CMakeFiles\Compiler.dir\src\main\c\shared\Environment.c.obj.d -o CMakeFiles\Compiler.dir\src\main\c\shared\Environment.c.obj -c C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\shared\Environment.c
 
 CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.i: cmake_force
@@ -240,7 +212,7 @@ CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.s: cmake_force
 CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.obj: C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/shared/Logger.c
 CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.obj: CMakeFiles/Compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.obj"
 	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.obj -MF CMakeFiles\Compiler.dir\src\main\c\shared\Logger.c.obj.d -o CMakeFiles\Compiler.dir\src\main\c\shared\Logger.c.obj -c C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\shared\Logger.c
 
 CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.i: cmake_force
@@ -254,7 +226,7 @@ CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.s: cmake_force
 CMakeFiles/Compiler.dir/src/main/c/shared/String.c.obj: CMakeFiles/Compiler.dir/flags.make
 CMakeFiles/Compiler.dir/src/main/c/shared/String.c.obj: C:/Users/joseb/CLionProjects/TP-TLA/src/main/c/shared/String.c
 CMakeFiles/Compiler.dir/src/main/c/shared/String.c.obj: CMakeFiles/Compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/Compiler.dir/src/main/c/shared/String.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/Compiler.dir/src/main/c/shared/String.c.obj"
 	C:\Users\joseb\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Compiler.dir/src/main/c/shared/String.c.obj -MF CMakeFiles\Compiler.dir\src\main\c\shared\String.c.obj.d -o CMakeFiles\Compiler.dir\src\main\c\shared\String.c.obj -c C:\Users\joseb\CLionProjects\TP-TLA\src\main\c\shared\String.c
 
 CMakeFiles/Compiler.dir/src/main/c/shared/String.c.i: cmake_force
@@ -267,8 +239,6 @@ CMakeFiles/Compiler.dir/src/main/c/shared/String.c.s: cmake_force
 
 # Object files for target Compiler
 Compiler_OBJECTS = \
-"CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.obj" \
-"CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.obj" \
 "CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.obj" \
 "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.obj" \
 "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.obj" \
@@ -284,8 +254,6 @@ Compiler_OBJECTS = \
 # External object files for target Compiler
 Compiler_EXTERNAL_OBJECTS =
 
-Compiler.exe: CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.obj
-Compiler.exe: CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.obj
 Compiler.exe: CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.obj
 Compiler.exe: CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.obj
 Compiler.exe: CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.obj
@@ -301,7 +269,7 @@ Compiler.exe: CMakeFiles/Compiler.dir/build.make
 Compiler.exe: CMakeFiles/Compiler.dir/linkLibs.rsp
 Compiler.exe: CMakeFiles/Compiler.dir/objects1.rsp
 Compiler.exe: CMakeFiles/Compiler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking C executable Compiler.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\joseb\CLionProjects\TP-TLA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking C executable Compiler.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Compiler.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

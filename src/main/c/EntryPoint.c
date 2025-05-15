@@ -37,26 +37,26 @@ const int main(const int count, const char ** arguments) {
 	const SyntacticAnalysisStatus syntacticAnalysisStatus = parse(&compilerState);
 	CompilationStatus compilationStatus = SUCCEED;
 	Program * program = compilerState.abstractSyntaxtTree;
-	if (syntacticAnalysisStatus == ACCEPT) {
-		// ----------------------------------------------------------------------------------------
-		// Beginning of the Backend... ------------------------------------------------------------
-		logDebugging(logger, "Computing expression value...");
-		ComputationResult computationResult = computeExpression(program->expression);
-		if (computationResult.succeed) {
-			compilerState.value = computationResult.value;
-			generate(&compilerState);
-		}
-		else {
-			logError(logger, "The computation phase rejects the input program.");
-			compilationStatus = FAILED;
-		}
-		// ...end of the Backend. -----------------------------------------------------------------
-		// ----------------------------------------------------------------------------------------
-	}
-	else {
-		logError(logger, "The syntactic-analysis phase rejects the input program.");
-		compilationStatus = FAILED;
-	}
+	// if (syntacticAnalysisStatus == ACCEPT) {
+	// 	// ----------------------------------------------------------------------------------------
+	// 	// Beginning of the Backend... ------------------------------------------------------------
+	// 	logDebugging(logger, "Computing expression value...");
+	// 	ComputationResult computationResult = computeExpression(program->triggerList);
+	// 	if (computationResult.succeed) {
+	// 		compilerState.value = computationResult.value;
+	// 		generate(&compilerState);
+	// 	}
+	// 	else {
+	// 		logError(logger, "The computation phase rejects the input program.");
+	// 		compilationStatus = FAILED;
+	// 	}
+	// 	// ...end of the Backend. -----------------------------------------------------------------
+	// 	// ----------------------------------------------------------------------------------------
+	// }
+	// else {
+	// 	logError(logger, "The syntactic-analysis phase rejects the input program.");
+	// 	compilationStatus = FAILED;
+	// }
 	logDebugging(logger, "Releasing AST resources...");
 	releaseProgram(program);
 	logDebugging(logger, "Releasing modules resources...");

@@ -80,9 +80,9 @@ Token AnimationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token tok
 
 Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-    strcpy(lexicalAnalyzerContext->semanticValue->string,lexicalAnalyzerContext->lexeme);
+    lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
-    return STYLE_PROPERTY;
+    return NAME;
 }
 
 Token IntegerAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
