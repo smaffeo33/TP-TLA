@@ -77,13 +77,12 @@ WHITESPACE  [ \t\r\n]
 "\'"                                                { return StringLiteralAction(createLexicalContext(), APOSTROPHE); }
 "\""                                                { return StringLiteralAction(createLexicalContext(), QUOTATION_MARK); }
 
-{NUMBER}                                            { return AnimationAction(createLexicalContext(), NUMBER); }
 {EASING}                                            { return AnimationAction(createLexicalContext(), EASING_FUNCTION); }
 
-{VALUE_UNIT}                                        { return UnitAction(createLexicalContext(), VALUE_UNIT); }
-{TIME_UNIT}                                         { return UnitAction(createLexicalContext(), TIME_UNIT); }
+{NUMBER}{VALUE_UNIT}                                { return ValueAction(createLexicalContext(), VALUE); }
+{NUMBER}{TIME_UNIT}                                 { return ValueAction(createLexicalContext(), TIME); }
 
-{NUMBER}                                            { return ValueAction(createLexicalContext(), VALUE_UNIT); }
+{NUMBER}                                            { return ValueAction(createLexicalContext(), NUMBER); }
 {COLOR}                                             { return ValueAction(createLexicalContext(), COLOR_VALUE); }
 
 {ID}                                                { return StylePropertyAction(createLexicalContext()); }

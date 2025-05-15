@@ -24,6 +24,9 @@
 	Property * property;
 	TriggerList * triggerList;
 	TriggerBlock * triggerBlock;
+	StateList * stateList;
+	PropertyList * propertyList;
+	TransitionList * transitionList;
 }
 
 /**
@@ -40,8 +43,9 @@
 
 /** Terminals. */
 %token <integer> INTEGER
+%token <token> NUMBER
 %token <token> VALUE
-%token <token> TIME_VALUE
+%token <token> TIME
 %token <token> COLOR_VALUE
 %token <token> CLOSE_PARENTHESIS
 %token <token> OPEN_PARENTHESIS
@@ -67,6 +71,7 @@
 %token <token> ANIMATION
 %token <token> COMMA
 %token <token> COLON
+%token <token> NAME
 
 %token <token> UNKNOWN
 
@@ -80,6 +85,9 @@
 %type <value> value
 %type <triggerList> triggerList
 %type <triggerBlock> triggerBlock
+%type <stateList> stateList
+%type <transitionList> transitionList
+%type <propertyList> propertyList
 %type <program> program
 
 /**
@@ -92,15 +100,53 @@
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
 
-program: triggerList												            { $$ = ExpressionProgramSemanticAction(currentCompilerState(), $1); }
+program: triggerList
 	;
 
-triggerList: trigger			                                                { $$ = TriggerListSemanticAction($1, $3); }
-    | triggerList COMMA trigger		                                            { $$ = TriggerListSemanticAction($1, $2); }
+triggerList: trigger
+    | triggerList COMMA trigger
     ;
 
-trigger: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA triggerBlock
+trigger: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA triggerBlock CLOSE_PARENTHESIS
     ;
+
+triggerBlock: OPEN_BRACKET stateList COMMA transitionList CLOSE_BRACKET
+    ;
+
+stateList: state
+    | stateList COMMA state
+    ;
+
+transitionList: transition
+    | transitionList COMMA transition
+    ;
+
+state: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS
+    ;
+
+transition: OPEN_PARENTHESIS APOSTROPHE NAME direction NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
+    ;
+
+style: OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS
+    ;
+
+propertyList: property
+    | propertyList COMMA property
+    ;
+
+property: NAME COLON APOSTROPHE VALUE APOSTROPHE
+    | NAME COLON APOSTROPHE COLOR_VALUE APOSTROPHE
+    | NAME COLON APOSTROPHE NUMBER APOSTROPHE
+    ;
+
+animate: OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE CLOSE_PARENTHESIS
+    ;
+
+direction: FORWARD_DIRECTION
+    | BIDIRECTIONAL_DIRECTION
+    ;
+
+
 
 expression: expression[left] ADD expression[right]					            { $$ = ArithmeticExpressionSemanticAction($left, $right, ADDITION); }
 	| expression[left] DIV expression[right]						            { $$ = ArithmeticExpressionSemanticAction($left, $right, DIVISION); }

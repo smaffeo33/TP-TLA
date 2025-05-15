@@ -22,7 +22,11 @@ typedef struct Style Style;
 typedef struct Animate Animate;
 typedef struct Property Property;
 typedef struct TriggerList TriggerList;
+typedef struct StateList StateList;
+typedef struct TransitionList TransitionList;
+typedef struct PropertyList PropertyList;
 typedef struct TriggerBlock TriggerBlock;
+typedef struct TransitionRule TransitionRule;
 
 struct Trigger {
 	char *name; // e.g., "cardAnimation"
@@ -30,10 +34,18 @@ struct Trigger {
 };
 
 struct TriggerBlock {
-	State **states; // Array of states
-	size_t stateCount;
+	StateList *stateList;
+	TransitionList *transitionList;
+};
+
+struct TransitionList {
 	Transition **transitions; // Array of transitions
 	size_t transitionCount;
+};
+
+struct StateList {
+	State **states; // Array of states
+	size_t stateCount;
 };
 
 struct State {
@@ -44,12 +56,17 @@ struct State {
 struct Transition {
 	char *fromState; // e.g., "default"
 	char *toState; // e.g., "expanded"
+	char *direction; // e.g., "=>"
 	Animate *animate; // Associated animation
 	Style *style;
 };
 
 struct Style {
-	Property **properties; // Array of style properties
+	PropertyList *properties;
+};
+
+struct PropertyList {
+	Property **properties; // Array of properties
 	size_t propertyCount;
 };
 
@@ -80,8 +97,11 @@ void releaseTrigger(Trigger * trigger);
 void releaseTriggerBlock(TriggerBlock * triggerBlock);
 void releaseTriggerList(TriggerList * triggerList);
 void releaseState(State * state);
+void releaseStateList(StateList * stateList);
 void releaseTransition(Transition * transition);
+void releaseTransitionList(TransitionList * transitionList);
 void releaseStyle(Style * style);
+void releasePropertyList(PropertyList * propertyList);
 void releaseAnimate(Animate * animate);
 void releaseProperty(Property * property);
 

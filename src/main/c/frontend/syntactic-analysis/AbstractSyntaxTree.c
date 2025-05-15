@@ -28,15 +28,31 @@ void releaseTrigger(Trigger * trigger) {
 void releaseTriggerBlock(TriggerBlock * triggerBlock) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (triggerBlock != NULL) {
-		for (size_t i = 0; i < triggerBlock->stateCount; i++) {
-			releaseState(triggerBlock->states[i]);
-		}
-		free(triggerBlock->states);
-		for (size_t i = 0; i < triggerBlock->transitionCount; i++) {
-			releaseTransition(triggerBlock->transitions[i]);
-		}
-		free(triggerBlock->transitions);
+		releaseTransitionList(triggerBlock->transitionList);
+		releaseStateList(triggerBlock->stateList);
 		free(triggerBlock);
+	}
+}
+
+void releaseStateList(StateList * stateList) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (stateList != NULL) {
+		for (size_t i = 0; i < stateList->stateCount; i++) {
+			releaseState(stateList->states[i]);
+		}
+		free(stateList->states);
+		free(stateList);
+	}
+}
+
+void releaseTransitionList(TransitionList * transitionList) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (transitionList != NULL) {
+		for (size_t i = 0; i < transitionList->transitionCount; i++) {
+			releaseTransition(transitionList->transitions[i]);
+		}
+		free(transitionList->transitions);
+		free(transitionList);
 	}
 }
 
@@ -54,6 +70,7 @@ void releaseTransition(Transition * transition) {
 	if (transition != NULL) {
 		free(transition->fromState);
 		free(transition->toState);
+		free(transition->direction);
 		releaseAnimate(transition->animate);
 		releaseStyle(transition->style);
 		free(transition);
@@ -63,11 +80,19 @@ void releaseTransition(Transition * transition) {
 void releaseStyle(Style * style) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (style != NULL) {
-		for (size_t i = 0; i < style->propertyCount; i++) {
-			releaseProperty(style->properties[i]);
-		}
-		free(style->properties);
+		releasePropertyList(style->properties);
 		free(style);
+	}
+}
+
+void releasePropertyList(PropertyList * propertyList) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (propertyList != NULL) {
+		for (size_t i = 0; i < propertyList->propertyCount; i++) {
+			releaseProperty(propertyList->properties[i]);
+		}
+		free(propertyList->properties);
+		free(propertyList);
 	}
 }
 

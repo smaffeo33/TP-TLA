@@ -47,7 +47,7 @@ Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 Token PunctuationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
 /* Unit handling */
-Token UnitAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+Token ValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
 
 Token IntegerAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
