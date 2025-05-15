@@ -73,7 +73,6 @@ WHITESPACE  [ \t\r\n]
 
 ","                                                 { return PunctuationAction(createLexicalContext(), COMMA); }
 ":"                                                 { return PunctuationAction(createLexicalContext(), COLON); }
-"."                                                 { return PunctuationAction(createLexicalContext(), DOT); }
 
 "\'"                                                { return StringLiteralAction(createLexicalContext(), APOSTROPHE); }
 "\""                                                { return StringLiteralAction(createLexicalContext(), QUOTATION_MARK); }

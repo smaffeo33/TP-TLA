@@ -23,6 +23,7 @@
 	Animate * animate;
 	Property * property;
 	TriggerList * triggerList;
+	TriggerBlock * triggerBlock;
 }
 
 /**
@@ -64,6 +65,8 @@
 %token <token> KEYFRAMES
 %token <token> USE_ANIMATION
 %token <token> ANIMATION
+%token <token> COMMA
+%token <token> COLON
 
 %token <token> UNKNOWN
 
@@ -76,6 +79,7 @@
 %type <property> property
 %type <value> value
 %type <triggerList> triggerList
+%type <triggerBlock> triggerBlock
 %type <program> program
 
 /**
@@ -88,21 +92,28 @@
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
 
-program: triggerList												{ $$ = ExpressionProgramSemanticAction(currentCompilerState(), $1); }
+program: triggerList												            { $$ = ExpressionProgramSemanticAction(currentCompilerState(), $1); }
 	;
 
-expression: expression[left] ADD expression[right]					{ $$ = ArithmeticExpressionSemanticAction($left, $right, ADDITION); }
-	| expression[left] DIV expression[right]						{ $$ = ArithmeticExpressionSemanticAction($left, $right, DIVISION); }
-	| expression[left] MUL expression[right]						{ $$ = ArithmeticExpressionSemanticAction($left, $right, MULTIPLICATION); }
-	| expression[left] SUB expression[right]						{ $$ = ArithmeticExpressionSemanticAction($left, $right, SUBTRACTION); }
-	| factor														{ $$ = FactorExpressionSemanticAction($1); }
+triggerList: trigger			                                                { $$ = TriggerListSemanticAction($1, $3); }
+    | triggerList COMMA trigger		                                            { $$ = TriggerListSemanticAction($1, $2); }
+    ;
+
+trigger: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA triggerBlock
+    ;
+
+expression: expression[left] ADD expression[right]					            { $$ = ArithmeticExpressionSemanticAction($left, $right, ADDITION); }
+	| expression[left] DIV expression[right]						            { $$ = ArithmeticExpressionSemanticAction($left, $right, DIVISION); }
+	| expression[left] MUL expression[right]						            { $$ = ArithmeticExpressionSemanticAction($left, $right, MULTIPLICATION); }
+	| expression[left] SUB expression[right]						            { $$ = ArithmeticExpressionSemanticAction($left, $right, SUBTRACTION); }
+	| factor														            { $$ = FactorExpressionSemanticAction($1); }
 	;
 
-factor: OPEN_PARENTHESIS expression CLOSE_PARENTHESIS				{ $$ = ExpressionFactorSemanticAction($2); }
-	| constant														{ $$ = ConstantFactorSemanticAction($1); }
+factor: OPEN_PARENTHESIS expression CLOSE_PARENTHESIS				            { $$ = ExpressionFactorSemanticAction($2); }
+	| constant														            { $$ = ConstantFactorSemanticAction($1); }
 	;
 
-constant: INTEGER													{ $$ = IntegerConstantSemanticAction($1); }
+constant: INTEGER													            { $$ = IntegerConstantSemanticAction($1); }
 	;
 
 %%

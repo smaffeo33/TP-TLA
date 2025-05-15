@@ -20,13 +20,23 @@ void releaseTrigger(Trigger * trigger) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (trigger != NULL) {
 		free(trigger->name);
-		for (size_t i = 0; i < trigger->stateCount; i++) {
-			releaseState(trigger->states[i]);
+		releaseTriggerBlock(trigger->block);
+		free(trigger);
+	}
+}
+
+void releaseTriggerBlock(TriggerBlock * triggerBlock) {
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (triggerBlock != NULL) {
+		for (size_t i = 0; i < triggerBlock->stateCount; i++) {
+			releaseState(triggerBlock->states[i]);
 		}
-		free(trigger->states);
-		for (size_t i = 0; i < trigger->transitionCount; i++) {
-			releaseTransition(trigger->transitions[i]);
+		free(triggerBlock->states);
+		for (size_t i = 0; i < triggerBlock->transitionCount; i++) {
+			releaseTransition(triggerBlock->transitions[i]);
 		}
+		free(triggerBlock->transitions);
+		free(triggerBlock);
 	}
 }
 

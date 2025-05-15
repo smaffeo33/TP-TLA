@@ -22,9 +22,14 @@ typedef struct Style Style;
 typedef struct Animate Animate;
 typedef struct Property Property;
 typedef struct TriggerList TriggerList;
+typedef struct TriggerBlock TriggerBlock;
 
 struct Trigger {
 	char *name; // e.g., "cardAnimation"
+	TriggerBlock *block;
+};
+
+struct TriggerBlock {
 	State **states; // Array of states
 	size_t stateCount;
 	Transition **transitions; // Array of transitions
@@ -72,6 +77,7 @@ struct TriggerList {
  */
 void releaseProgram(Program * program);
 void releaseTrigger(Trigger * trigger);
+void releaseTriggerBlock(TriggerBlock * triggerBlock);
 void releaseTriggerList(TriggerList * triggerList);
 void releaseState(State * state);
 void releaseTransition(Transition * transition);
