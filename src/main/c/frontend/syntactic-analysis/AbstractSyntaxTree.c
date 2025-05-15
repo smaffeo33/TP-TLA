@@ -70,7 +70,6 @@ void releaseTransition(Transition * transition) {
 	if (transition != NULL) {
 		free(transition->fromState);
 		free(transition->toState);
-		free(transition->direction);
 		releaseAnimate(transition->animate);
 		releaseStyle(transition->style);
 		free(transition);

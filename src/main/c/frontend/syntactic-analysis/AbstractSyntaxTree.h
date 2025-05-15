@@ -14,6 +14,8 @@ void shutdownAbstractSyntaxTreeModule();
  * This typedefs allows self-referencing types.
  */
 
+typedef enum Direction Direction;
+
 typedef struct Program Program;
 typedef struct Trigger Trigger;
 typedef struct State State;
@@ -28,9 +30,19 @@ typedef struct PropertyList PropertyList;
 typedef struct TriggerBlock TriggerBlock;
 typedef struct TransitionRule TransitionRule;
 
+enum Direction {
+	FORWARD,
+	BIDIRECTIONAL,
+};
+
 struct Trigger {
 	char *name; // e.g., "cardAnimation"
 	TriggerBlock *block;
+};
+
+struct TriggerList {
+	Trigger **trigger;
+	size_t triggerCount;
 };
 
 struct TriggerBlock {
@@ -56,7 +68,7 @@ struct State {
 struct Transition {
 	char *fromState; // e.g., "default"
 	char *toState; // e.g., "expanded"
-	char *direction; // e.g., "=>"
+	Direction direction; // e.g., "=>"
 	Animate *animate; // Associated animation
 	Style *style;
 };
@@ -82,11 +94,6 @@ struct Property {
 
 struct Program {
 	TriggerList * triggerList;
-};
-
-struct TriggerList {
-	Trigger **trigger;
-	size_t triggerCount;
 };
 
 /**

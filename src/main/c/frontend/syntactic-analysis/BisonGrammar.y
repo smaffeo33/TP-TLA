@@ -100,14 +100,14 @@
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
 
-program: triggerList
+program: triggerList                                                                                                { $$ = TriggerListProgramSemanticAction($1); }
 	;
 
-triggerList: trigger
-    | triggerList COMMA trigger
+triggerList: trigger                                                                                                { $$ = TriggerSemanticAction($1); }
+    | triggerList COMMA trigger                                                                                     { $$ = TriggerListSemanticAction($1, $3); }
     ;
 
-trigger: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA triggerBlock CLOSE_PARENTHESIS
+trigger: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA triggerBlock CLOSE_PARENTHESIS                           { $$ = TriggerSemanticAction($3, $6); }
     ;
 
 triggerBlock: OPEN_BRACKET stateList COMMA transitionList CLOSE_BRACKET
@@ -124,7 +124,8 @@ transitionList: transition
 state: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS
     ;
 
-transition: OPEN_PARENTHESIS APOSTROPHE NAME direction NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
+transition: OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_DIRECTION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
+    | OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_DIRECTION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
     ;
 
 style: OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS
@@ -140,10 +141,6 @@ property: NAME COLON APOSTROPHE VALUE APOSTROPHE
     ;
 
 animate: OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE CLOSE_PARENTHESIS
-    ;
-
-direction: FORWARD_DIRECTION
-    | BIDIRECTIONAL_DIRECTION
     ;
 
 
