@@ -52,11 +52,6 @@ EASING      "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-bezier"{WH
 "useAnimation"                                      { return KeywordLexemeAction(createLexicalContext(), USE_ANIMATION); }
 "animation"                                         { return KeywordLexemeAction(createLexicalContext(), ANIMATION); }
 
-"void"                                              { return StateAction(createLexicalContext(), VOID_STATE); }
-"*"                                                 { return StateAction(createLexicalContext(), WILDCARD_STATE); }
-":enter"                                            { return StateAction(createLexicalContext(), ENTER_QUERY); }
-":leave"                                            { return StateAction(createLexicalContext(), LEAVE_QUERY); }
-
 "=>"                                                { return PunctuationAction(createLexicalContext(), FORWARD_TRANSITION); }
 "<=>"                                               { return PunctuationAction(createLexicalContext(), BIDIRECTIONAL_TRANSITION); }
 
