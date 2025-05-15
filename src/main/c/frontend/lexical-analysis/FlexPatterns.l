@@ -30,7 +30,10 @@ ID          [a-zA-Z][a-zA-Z0-9_]*
 STRING      ['"][^'"]*['"]
 NUMBER      {DIGIT}+(\.{DIGIT}+)?
 TIME_UNIT   "ms"|"s"
+COLOR       #[0-9a-fA-F]{6}
 TIME        {NUMBER}{TIME_UNIT}
+VALUE_UNIT  "px"|"em"|"%"|"rem"|"vh"|"vw"
+VALUE       {NUMBER}{VALUE_UNIT}
 EASING      "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-bezier"{WHITESPACE}*\({WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*\)
 WHITESPACE  [ \t\r\n]
 
@@ -68,29 +71,45 @@ WHITESPACE  [ \t\r\n]
 "["                                                 { return DelimiterAction(createLexicalContext(), OPEN_BRACKET); }
 "]"                                                 { return DelimiterAction(createLexicalContext(), CLOSE_BRACKET); }
 
-"{"                                                 {
-                                                      BEGIN(STYLE_OBJECT);
-                                                      return DelimiterAction(createLexicalContext(), OPEN_BRACE);
+"{"                                                 { return DelimiterAction(createLexicalContext(), OPEN_BRACE); }
+"}"                                                 { return DelimiterAction(createLexicalContext(), CLOSE_BRACE); }
+
+"\'"                                                {
+                                                        BEGIN(APOSTROPHE_STRING);
+                                                        return StringLiteralAction(createLexicalContext(), APOSTROPHE);
                                                     }
 
-<STYLE_OBJECT>"}"                                   {
-                                                      BEGIN(INITIAL);
-                                                      return DelimiterAction(createLexicalContext(), CLOSE_BRACE);
+<APOSTROPHE_STRING>"\'"                             {
+                                                        BEGIN(INITIAL);
+                                                        return StringLiteralAction(createLexicalContext(), APOSTROPHE);
                                                     }
 
-<STYLE_OBJECT>{ID}                                  { return StylePropertyAction(createLexicalContext()); }
-<STYLE_OBJECT>":"                                   { return ColonAction(createLexicalContext()); }
-<STYLE_OBJECT>","                                   { return CommaAction(createLexicalContext()); }
-<STYLE_OBJECT>{STRING}                              { return StyleValueAction(createLexicalContext()); }
-<STYLE_OBJECT>{NUMBER}                              { return StyleNumberAction(createLexicalContext()); }
-<STYLE_OBJECT>"px"|"em"|"%"|"rem"|"vh"|"vw"         { return StyleUnitAction(createLexicalContext()); }
+<APOSTROPHE_STRING>{TIME}                           { return TimeValueAction(createLexicalContext()); }
+<APOSTROPHE_STRING>{EASING}                         { return EasingFunctionAction(createLexicalContext()); }
+<APOSTROPHE_STRING>"=>"                             { return TransitionArrowAction(createLexicalContext(), FORWARD_TRANSITION); }
+<APOSTROPHE_STRING>"<=>"                            { return TransitionArrowAction(createLexicalContext(), BIDIRECTIONAL_TRANSITION); }
+<APOSTROPHE_STRING>{ID}                             { return NameAction(createLexicalContext()); }
+<APOSTROPHE_STRING>{COLOR}                          { return ColorAction(createLexicalContext()); }
 
-{TIME}                                              { return TimeValueAction(createLexicalContext()); }
-{EASING}                                            { return EasingFunctionAction(createLexicalContext()); }
+"\""                                                {
+                                                        BEGIN(QUOTATION_MARK_STRING);
+                                                        return StringLiteralAction(createLexicalContext(), QUOTATION_MARK);
+                                                    }
 
-{STRING}                                            { return StringLiteralAction(createLexicalContext()); }
-{ID}                                                { return IdentifierAction(createLexicalContext()); }
-{NUMBER}                                            { return NumberAction(createLexicalContext()); }
+<APOSTROPHE_STRING>"\""                             {
+                                                        BEGIN(INITIAL);
+                                                        return StringLiteralAction(createLexicalContext(), QUOTATION_MARK);
+                                                    }
+
+<QUOTATION_MARK_STRING>{TIME}                       { return TimeValueAction(createLexicalContext()); }
+<QUOTATION_MARK_STRING>{EASING}                     { return EasingFunctionAction(createLexicalContext()); }
+<QUOTATION_MARK_STRING>"=>"                         { return TransitionArrowAction(createLexicalContext(), FORWARD_TRANSITION); }
+<QUOTATION_MARK_STRING>"<=>"                        { return TransitionArrowAction(createLexicalContext(), BIDIRECTIONAL_TRANSITION); }
+<QUOTATION_MARK_STRING>{ID}                         { return NameAction(createLexicalContext()); }
+<QUOTATION_MARK_STRING>{COLOR}                      { return ColorAction(createLexicalContext()); }
+
+{ID}                                                { return StylePropertyAction(createLexicalContext()); }
+{NUMBER}                                            { return ValueAction(createLexicalContext()); }
 
 ","                                                 { return CommaAction(createLexicalContext()); }
 ":"                                                 { return ColonAction(createLexicalContext()); }
