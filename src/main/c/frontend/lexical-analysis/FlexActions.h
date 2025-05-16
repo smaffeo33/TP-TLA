@@ -27,8 +27,8 @@ LexicalAnalyzerContext * createLexicalContext();
  */
 
 /* Comment handling */
-void BeginMultilineCommentAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-void EndMultilineCommentAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
+void BeginMultilineCommentLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
+void EndMultilineCommentLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 void IgnoredLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 /* Keywords */
