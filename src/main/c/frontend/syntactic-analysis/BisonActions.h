@@ -27,14 +27,11 @@ StateList * StateListSemanticAction(StateList * stateList, State * state);
 TransitionList * TransitionSemanticAction(Transition * transition);
 TransitionList * TransitionListSemanticAction(TransitionList * transitionList, Transition * transition);
 State * StateDefinitionSemanticAction(const char * name, Style * style);
-Transition * ForwardTransitionSemanticAction(const char * fromState, const char * toState, Animate * animate);
-Transition * BidirectionalTransitionSemanticAction(const char * fromState, const char * toState, Animate * animate);
+Transition * DirectionTransitionSemanticAction(const char * fromState,Direction  direction, const char * toState, Animate * animate);
 Style * StyleSemanticAction(PropertyList * propertyList);
 PropertyList * PropertySemanticAction(Property * property);
 PropertyList * PropertyListSemanticAction(PropertyList * propertyList, Property * property);
-Property * TextPropertySemanticAction(const char * name, const char * value);
-Property * ColorPropertySemanticAction(const char * name, const char * color_value);
-Property * NumericPropertySemanticAction(const char * name, const char * number);
+Property * ValuePropertySemanticAction(const char * name, const char * value);
 Animate * AnimateSemanticAction(const char * time, const char * easing);
 
 

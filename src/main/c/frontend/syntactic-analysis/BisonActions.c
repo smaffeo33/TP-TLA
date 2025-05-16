@@ -172,7 +172,7 @@ State * StateDefinitionSemanticAction(const char * name, Style * style) {
     return state;
 }
 
-Transition  * ForwardTransitionSemanticAction(const char * fromState, const char * toState, Animate * animate) {
+Transition  * DirectionalTransitionSemanticAction(const char * fromState, Direction direction, const char * toState, Animate * animate) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Transition * transition = calloc(1, sizeof(Transition));
     if (transition == NULL) {
@@ -181,24 +181,12 @@ Transition  * ForwardTransitionSemanticAction(const char * fromState, const char
     }
     transition->fromState = strdup(fromState);
     transition->toState = strdup(toState);
-    transition->direction = FORWARD;
+    transition->direction = direction;
     transition->animate = animate;
     return transition;
 }
 
-Transition  * BidirectionalTransitionSemanticAction(const char * fromState, const char * toState, Animate * animate) {
-    _logSyntacticAnalyzerAction(__FUNCTION__);
-    Transition * transition = calloc(1, sizeof(Transition));
-    if (transition == NULL) {
-        logError(_logger, "Memory allocation failed for Transition");
-        return NULL;
-    }
-    transition->fromState = strdup(fromState);
-    transition->toState = strdup(toState);
-    transition->direction = BIDIRECTIONAL;
-    transition->animate = animate;
-    return transition;
-}
+
 
 Style * StyleSemanticAction(PropertyList * propertyList) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
@@ -246,7 +234,7 @@ PropertyList * PropertyListSemanticAction(PropertyList * propertyList, Property 
     return propertyList;
 }
 
-Property * TextPropertySemanticAction(const char * name, const char * value) {
+Property * ValuePropertySemanticAction(const char * name, const char * value) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Property * property = calloc(1, sizeof(Property));
     if (property == NULL) {
@@ -255,30 +243,6 @@ Property * TextPropertySemanticAction(const char * name, const char * value) {
     }
     property->name = strdup(name);
     property->value = strdup(value);
-    return property;
-}
-
-Property * ColorPropertySemanticAction(const char * name, const char * color_value) {
-    _logSyntacticAnalyzerAction(__FUNCTION__);
-    Property * property = calloc(1, sizeof(Property));
-    if (property == NULL) {
-        logError(_logger, "Memory allocation failed for Property");
-        return NULL;
-    }
-    property->name = strdup(name);
-    property->value = strdup(color_value);
-    return property;
-}
-//no se si es un string
-Property * NumericPropertySemanticAction(const char * name, const char * number) {
-    _logSyntacticAnalyzerAction(__FUNCTION__);
-    Property * property = calloc(1, sizeof(Property));
-    if (property == NULL) {
-        logError(_logger, "Memory allocation failed for Property");
-        return NULL;
-    }
-    property->name = strdup(name);
-    property->value = strdup(number);
     return property;
 }
 
