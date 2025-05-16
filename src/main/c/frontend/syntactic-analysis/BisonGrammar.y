@@ -93,9 +93,7 @@
 %token <token> ENTER_QUERY
 %token <token> VOID_STATE
 %token <token> WILDCARD_STATE
-%token <token> VOID
-%token <token> STAR
-%token <token> RESERVED_STATE
+%token <string> RESERVED_STATE
 
 %token <token> UNKNOWN
 
@@ -157,11 +155,12 @@ transition: TRANSITION OPEN_PARENTHESIS APOSTROPHE transitionRule APOSTROPHE COM
 
 transitionRule: NAME FORWARD_TRANSITION NAME                                        { $$ = ForwardTransitionRuleSemanticAction($1, $3); }
     | NAME BIDIRECTIONAL_TRANSITION NAME                                            { $$ = BidirectionalTransitionRuleSemanticAction($1, $3); }
+    ;
 
 transitionBlock: animate                                                            { $$ = AnimateTransitionBlockSemanticAction($1); }
     | OPEN_BRACKET animate CLOSE_BRACKET                                            { $$ = AnimateTransitionBlockSemanticAction($2); }
     | OPEN_BRACKET style COMMA animate CLOSE_BRACKET                                { $$ = StyleAnimateTransitionBlockSemanticAction($2, $4); }
-
+    ;
 
 style: STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS      { $$ = StyleSemanticAction($4); }
     ;

@@ -49,7 +49,7 @@ Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token
 Token PunctuationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
 
-Token ReservedStateAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+Token ReservedStateAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 /* Unit handling */
 Token ValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);

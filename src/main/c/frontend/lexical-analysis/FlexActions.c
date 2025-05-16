@@ -99,11 +99,11 @@ Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token
     return token;
 }
 
-Token ReservedStateAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
+Token ReservedStateAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-    lexicalAnalyzerContext->semanticValue->token = token;
+    lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
-    return token;
+    return RESERVED_STATE;
 }
 
 Token IntegerAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {

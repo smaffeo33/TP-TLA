@@ -22,7 +22,7 @@ WHITESPACE  [ \t\r\n]
 DIGIT       [0-9]
 ALPHA       [a-zA-Z]
 ALPHANUM    [a-zA-Z0-9]
-ID          ([a-zA-Z][a-zA-Z0-9_]*|\*)
+ID          [a-zA-Z][a-zA-Z0-9_]*
 STRING      ['"][^'"]*['"]
 NUMBER      {DIGIT}+(\.{DIGIT}+)?
 INTEGER     {DIGIT}+
