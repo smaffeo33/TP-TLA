@@ -142,9 +142,14 @@ state: STATE OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PAREN
     ;
 
 transition: TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
-                                                                                    { $$ = DirectionTransitionSemanticAction($4, $5, $6, $9); }
+                                                                                    { $$ = ForwardTransitionSemanticAction($4, $6, $9); }
     | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_TRANSITION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
-                                                                                    { $$ = DirectionTransitionSemanticAction($4, $5, $6, $9); }
+                                                                                    { $$ = BidirectionalTransitionSemanticAction($4, $6, $9); }
+    | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA OPEN_BRACKET animate CLOSE_BRACKET CLOSE_PARENTHESIS
+                                                                                    { $$ = ForwardTransitionSemanticAction($4, $6, $10); }
+    | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_TRANSITION NAME APOSTROPHE COMMA OPEN_BRACKET animate CLOSE_BRACKET CLOSE_PARENTHESIS
+                                                                                    { $$ = BidirectionalTransitionSemanticAction($4, $6, $10); }
+
     ;
 
 style: STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS      { $$ = StyleSemanticAction($4); }

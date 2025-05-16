@@ -185,7 +185,7 @@ State * StateDefinitionSemanticAction( char * name, Style * style) {
     return state;
 }
 
-Transition * DirectionTransitionSemanticAction( char * fromState, Direction direction,  char * toState, Animate * animate) {
+Transition * ForwardTransitionSemanticAction( char * fromState, char * toState, Animate * animate) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Transition * transition = calloc(1, sizeof(Transition));
     if (transition == NULL) {
@@ -194,7 +194,20 @@ Transition * DirectionTransitionSemanticAction( char * fromState, Direction dire
     }
     transition->fromState = fromState;
     transition->toState = toState;
-    transition->direction = direction;
+    transition->direction = FORWARD;
+    transition->animate = animate;
+    return transition;
+}
+Transition * BidirectionalTransitionSemanticAction( char * fromState, char * toState, Animate * animate) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    Transition * transition = calloc(1, sizeof(Transition));
+    if (transition == NULL) {
+        logError(_logger, "Memory allocation failed for Transition");
+        return NULL;
+    }
+    transition->fromState = fromState;
+    transition->toState = toState;
+    transition->direction = BIDIRECTIONAL;
     transition->animate = animate;
     return transition;
 }
