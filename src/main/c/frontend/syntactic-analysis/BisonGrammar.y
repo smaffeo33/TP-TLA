@@ -138,7 +138,7 @@ transitionList: transition                                                      
     | transitionList COMMA transition                                               { $$ = TransitionListSemanticAction($1, $3); }
     ;
 
-state: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS    { $$ = StateDefinitionSemanticAction($3, $6); }
+state: STATE OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS    { $$ = StateDefinitionSemanticAction($3, $6); }
     ;
 
 transition: OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
@@ -147,7 +147,7 @@ transition: OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE 
                                                                                     { $$ = DirectionTransitionSemanticAction($3, $4, $5, $8); }
     ;
 
-style: OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS      { $$ = StyleSemanticAction($3); }
+style: STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS      { $$ = StyleSemanticAction($3); }
     ;
 
 propertyList: property                                                              { $$ = PropertyPropertyListSemanticAction($1); }
