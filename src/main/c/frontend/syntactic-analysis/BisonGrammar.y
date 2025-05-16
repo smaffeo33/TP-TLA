@@ -141,10 +141,10 @@ transitionList: transition                                                      
 state: STATE OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS    { $$ = StateDefinitionSemanticAction($4, $7); }
     ;
 
-transition: TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
-                                                                                    { $$ = ForwardTransitionSemanticAction($4, $6, $9); }
-    | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_TRANSITION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
-                                                                                    { $$ = BidirectionalTransitionSemanticAction($4, $6, $9); }
+transition: TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA OPEN_BRACKET animate CLOSE_BRACKET CLOSE_PARENTHESIS
+                                                                                    { $$ = ForwardTransitionSemanticAction($4, $6, $10); }
+    | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_TRANSITION NAME APOSTROPHE COMMA OPEN_BRACKET animate CLOSE_BRACKET CLOSE_PARENTHESIS
+                                                                                    { $$ = BidirectionalTransitionSemanticAction($4, $6, $10); }
     | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA OPEN_BRACKET animate CLOSE_BRACKET CLOSE_PARENTHESIS
                                                                                     { $$ = ForwardTransitionSemanticAction($4, $6, $10); }
     | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_TRANSITION NAME APOSTROPHE COMMA OPEN_BRACKET animate CLOSE_BRACKET CLOSE_PARENTHESIS
