@@ -212,6 +212,18 @@ Transition * BidirectionalTransitionSemanticAction( char * fromState, char * toS
     return transition;
 }
 
+TriggerBlock * StatelessTriggerBlockSemanticAction(TransitionList * transitionList) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TriggerBlock * triggerBlock = calloc(1, sizeof(TriggerBlock));
+    if (triggerBlock == NULL) {
+        logError(_logger, "Memory allocation failed for TriggerBlock");
+        return NULL;
+    }
+    triggerBlock->stateList = NULL;
+    triggerBlock->transitionList = transitionList;
+    return triggerBlock;
+}
+
 
 
 Style * StyleSemanticAction(PropertyList * propertyList) {

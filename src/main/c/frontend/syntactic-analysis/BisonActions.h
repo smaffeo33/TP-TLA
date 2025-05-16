@@ -27,6 +27,7 @@ TransitionList * TransitionTransitionListSemanticAction(Transition * transition)
 PropertyList * PropertyPropertyListSemanticAction(Property * property);
 
 TriggerBlock * TriggerBlockSemanticAction(StateList * stateList, TransitionList * transitionList);
+TriggerBlock * StatelessTriggerBlockSemanticAction(TransitionList * transitionList);
 TriggerList * TriggerListSemanticAction(TriggerList * triggerList, Trigger * trigger);
 StateList * StateListSemanticAction(StateList * stateList, State * state);
 TransitionList * TransitionListSemanticAction(TransitionList * transitionList, Transition * transition);

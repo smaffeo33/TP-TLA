@@ -89,6 +89,8 @@
 %token <token> ENTER_QUERY
 %token <token> VOID_STATE
 %token <token> WILDCARD_STATE
+%token <token> VOID
+%token <token> STAR
 
 %token <token> UNKNOWN
 
@@ -128,6 +130,7 @@ trigger: TRIGGER OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA triggerBlock 
     ;
 
 triggerBlock: OPEN_BRACKET stateList COMMA transitionList CLOSE_BRACKET             { $$ = TriggerBlockSemanticAction($2, $4); }
+    | OPEN_BRACKET transitionList CLOSE_BRACKET                                     { $$ = StatelessTriggerBlockSemanticAction($2); }
     ;
 
 stateList: state                                                                    { $$ = StateStateListSemanticAction($1); }

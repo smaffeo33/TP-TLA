@@ -94,7 +94,14 @@ Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
 
 Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-    lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
+    lexicalAnalyzerContext->semanticValue->token = token;
+    destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
+    return token;
+}
+
+Token ReservedStateAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
+    _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+    lexicalAnalyzerContext->semanticValue->token = token;
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
     return token;
 }

@@ -48,6 +48,9 @@ Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token
 /* Punctuation */
 Token PunctuationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
+
+Token ReservedStateAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+
 /* Unit handling */
 Token ValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 Token TimeValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
