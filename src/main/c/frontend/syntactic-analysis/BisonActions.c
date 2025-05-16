@@ -45,22 +45,16 @@ Program * TriggerListProgramSemanticAction(CompilerState * compilerState, Trigge
     return program;
 }
 
-TriggerList * TriggerSemanticAction(char *name, Trigger * trigger) {
+Trigger * TriggerSemanticAction(char *name, TriggerBlock * triggerBlock) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
-    TriggerList * triggerList = calloc(1, sizeof(TriggerList));
-    if(triggerList == NULL) {
-        logError(_logger, "Memory allocation failed for TriggerList");
-        return NULL;
-    }
-    triggerList->trigger = calloc(1, sizeof(Trigger *));
-    if(triggerList->trigger == NULL) {
+    Trigger * trigger = calloc(1, sizeof(Trigger));
+    if (trigger == NULL) {
         logError(_logger, "Memory allocation failed for Trigger");
-        free(triggerList);
         return NULL;
     }
-    triggerList->trigger[0] = trigger;
-    triggerList->triggerCount = 1;
-    return triggerList;
+    trigger->name = strdup(name);
+    trigger->block = triggerBlock;
+    return trigger;
 }
 
 TriggerList * TriggerListSemanticAction(TriggerList * triggerList, Trigger * trigger) {
@@ -91,7 +85,25 @@ TriggerBlock * TriggerBlockSemanticAction(StateList * stateList, TransitionList 
     return triggerBlock;
 }
 
-StateList * StateSemanticAction(State * state) {
+TriggerList * TriggerTriggerListSemanticAction(Trigger * trigger) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TriggerList * triggerList = calloc(1, sizeof(TriggerList));
+    if (triggerList == NULL) {
+        logError(_logger, "Memory allocation failed for TriggerList");
+        return NULL;
+    }
+    triggerList->trigger = calloc(1, sizeof(Trigger *));
+    if (triggerList->trigger == NULL) {
+        logError(_logger, "Memory allocation failed for Trigger");
+        free(triggerList);
+        return NULL;
+    }
+    triggerList->trigger[0] = trigger;
+    triggerList->triggerCount = 1;
+    return triggerList;
+}
+
+StateList * StateStateListSemanticAction(State * state) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     StateList * stateList = calloc(1, sizeof(StateList));
     if (stateList == NULL) {
@@ -108,6 +120,7 @@ StateList * StateSemanticAction(State * state) {
     stateList->stateCount = 1;
     return stateList;
 }
+
 StateList * StateListSemanticAction(StateList * stateList, State * state) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     if (stateList == NULL) {
@@ -125,7 +138,7 @@ StateList * StateListSemanticAction(StateList * stateList, State * state) {
     return stateList;
 }
 
-TransitionList * TransitionSemanticAction(Transition * transition) {
+TransitionList * TransitionTransitionListSemanticAction(Transition * transition) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     TransitionList * transitionList = calloc(1, sizeof(TransitionList));
     if (transitionList == NULL) {
@@ -172,7 +185,7 @@ State * StateDefinitionSemanticAction(const char * name, Style * style) {
     return state;
 }
 
-Transition  * DirectionalTransitionSemanticAction(const char * fromState, Direction direction, const char * toState, Animate * animate) {
+Transition * DirectionTransitionSemanticAction(const char * fromState, Direction direction, const char * toState, Animate * animate) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Transition * transition = calloc(1, sizeof(Transition));
     if (transition == NULL) {
@@ -199,7 +212,7 @@ Style * StyleSemanticAction(PropertyList * propertyList) {
     return style;
 }
 
-PropertyList * PropertySemanticAction(Property * property) {
+PropertyList * PropertyPropertyListSemanticAction(Property * property) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     PropertyList * propertyList = calloc(1, sizeof(PropertyList));
     if (propertyList == NULL) {
@@ -243,6 +256,18 @@ Property * ValuePropertySemanticAction(const char * name, const char * value) {
     }
     property->name = strdup(name);
     property->value = strdup(value);
+    return property;
+}
+
+Property * FloatValuePropertySemanticAction(const char * name, const float value) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    Property * property = calloc(1, sizeof(Property));
+    if (property == NULL) {
+        logError(_logger, "Memory allocation failed for Property");
+        return NULL;
+    }
+    property->name = strdup(name);
+    property->floatValue = value;
     return property;
 }
 

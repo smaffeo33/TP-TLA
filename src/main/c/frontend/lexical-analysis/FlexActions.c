@@ -71,11 +71,11 @@ Token StateAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) 
     return token;
 }
 
-Token AnimationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
+Token AnimationAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-    lexicalAnalyzerContext->semanticValue->token = token;
+    lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
-    return token;
+    return EASING;
 }
 
 Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
@@ -99,11 +99,32 @@ Token IntegerAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     return INTEGER;
 }
 
-Token ValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
+Token FloatAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
+    _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+    lexicalAnalyzerContext->semanticValue->number = atof(lexicalAnalyzerContext->lexeme);
+    destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
+    return NUMBER;
+}
+
+Token ValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-	lexicalAnalyzerContext->semanticValue->token = token;
+	lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
 	destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
-	return token;
+	return VALUE;
+}
+
+Token TimeValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
+    _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+    lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
+    destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
+    return TIME;
+}
+
+Token ColorValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
+    _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+    lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
+    destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
+    return COLOR;
 }
 
 Token PunctuationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {

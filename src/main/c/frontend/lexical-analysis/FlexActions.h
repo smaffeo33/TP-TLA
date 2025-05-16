@@ -38,7 +38,7 @@ Token KeywordLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token
 Token StateAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
 /* Animation handling */
-Token AnimationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+Token AnimationAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 /* Style properties */
 Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
@@ -49,10 +49,13 @@ Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token
 Token PunctuationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
 /* Unit handling */
-Token ValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+Token ValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
+Token TimeValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
+Token ColorValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 
 Token IntegerAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
+Token FloatAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 /* Error handling */
 Token UnknownLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);

@@ -19,19 +19,23 @@ void shutdownBisonActionsModule();
  */
 
 Program * TriggerListProgramSemanticAction(CompilerState * compilerState, TriggerList * triggerList);
-TriggerList * TriggerSemanticAction(char *name, Trigger * trigger);
+Trigger * TriggerSemanticAction(char *name, TriggerBlock * triggerBlock);
+
+TriggerList * TriggerTriggerListSemanticAction(Trigger * trigger);
+StateList * StateStateListSemanticAction(State * state);
+TransitionList * TransitionTransitionListSemanticAction(Transition * transition);
+PropertyList * PropertyPropertyListSemanticAction(Property * property);
+
 TriggerBlock * TriggerBlockSemanticAction(StateList * stateList, TransitionList * transitionList);
 TriggerList * TriggerListSemanticAction(TriggerList * triggerList, Trigger * trigger);
-StateList * StateSemanticAction(State * state);
 StateList * StateListSemanticAction(StateList * stateList, State * state);
-TransitionList * TransitionSemanticAction(Transition * transition);
 TransitionList * TransitionListSemanticAction(TransitionList * transitionList, Transition * transition);
 State * StateDefinitionSemanticAction(const char * name, Style * style);
 Transition * DirectionTransitionSemanticAction(const char * fromState,Direction  direction, const char * toState, Animate * animate);
 Style * StyleSemanticAction(PropertyList * propertyList);
-PropertyList * PropertySemanticAction(Property * property);
 PropertyList * PropertyListSemanticAction(PropertyList * propertyList, Property * property);
 Property * ValuePropertySemanticAction(const char * name, const char * value);
+Property * FloatValuePropertySemanticAction(const char * name, const float value);
 Animate * AnimateSemanticAction(const char * time, const char * easing);
 
 

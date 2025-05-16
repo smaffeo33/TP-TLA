@@ -13,6 +13,7 @@
 	int integer;
 	Token token;
 	char *string;
+	float number;
 
 	/** Non-terminals. */
 
@@ -54,10 +55,10 @@
 
 /** Terminals. */
 %token <integer> INTEGER
-%token <token> NUMBER
-%token <token> VALUE
-%token <token> TIME
-%token <token> COLOR_VALUE
+%token <number> NUMBER
+%token <string> VALUE
+%token <string> TIME
+%token <string> COLOR
 %token <token> CLOSE_PARENTHESIS
 %token <token> OPEN_PARENTHESIS
 %token <token> CLOSE_BRACE
@@ -83,7 +84,7 @@
 %token <token> COMMA
 %token <token> COLON
 %token <string> NAME
-%token <token> EASING
+%token <string> EASING
 %token <token> LEAVE_QUERY
 %token <token> ENTER_QUERY
 %token <token> VOID_STATE
@@ -118,7 +119,7 @@
 program: triggerList                                                                { $$ = TriggerListProgramSemanticAction(currentCompilerState(), $1); }
     ;
 
-triggerList: trigger                                                                { $$ = TriggerSemanticAction($1); }
+triggerList: trigger                                                                { $$ = TriggerTriggerListSemanticAction($1); }
     | triggerList COMMA trigger                                                     { $$ = TriggerListSemanticAction($1, $3); }
     ;
 
@@ -129,11 +130,11 @@ trigger: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA triggerBlock CLOSE_PA
 triggerBlock: OPEN_BRACKET stateList COMMA transitionList CLOSE_BRACKET             { $$ = TriggerBlockSemanticAction($2, $4); }
     ;
 
-stateList: state                                                                    { $$ = StateSemanticAction($1); }
+stateList: state                                                                    { $$ = StateStateListSemanticAction($1); }
     | stateList COMMA state                                                         { $$ = StateListSemanticAction($1, $3); }
     ;
 
-transitionList: transition                                                          { $$ = TransitionSemanticAction($1); }
+transitionList: transition                                                          { $$ = TransitionTransitionListSemanticAction($1); }
     | transitionList COMMA transition                                               { $$ = TransitionListSemanticAction($1, $3); }
     ;
 
@@ -149,13 +150,13 @@ transition: OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE 
 style: OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS      { $$ = StyleSemanticAction($3); }
     ;
 
-propertyList: property                                                              { $$ = PropertySemanticAction($1); }
+propertyList: property                                                              { $$ = PropertyPropertyListSemanticAction($1); }
     | propertyList COMMA property                                                   { $$ = PropertyListSemanticAction($1, $3); }
     ;
 
 property: NAME COLON APOSTROPHE VALUE APOSTROPHE                                    { $$ = ValuePropertySemanticAction($1, $4); }
-    | NAME COLON APOSTROPHE COLOR_VALUE APOSTROPHE                                  { $$ = ValuePropertySemanticAction($1, $4); }
-    | NAME COLON APOSTROPHE NUMBER APOSTROPHE                                       { $$ = ValuePropertySemanticAction($1, $4); }
+    | NAME COLON APOSTROPHE COLOR APOSTROPHE                                        { $$ = ValuePropertySemanticAction($1, $4); }
+    | NAME COLON APOSTROPHE NUMBER APOSTROPHE                                       { $$ = FloatValuePropertySemanticAction($1, $4); }
     ;
 
 animate: OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE CLOSE_PARENTHESIS      { $$ = AnimateSemanticAction($3, $4); }

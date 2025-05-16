@@ -70,17 +70,16 @@ EASING      "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-bezier"{WH
 "\'"                                                { return StringLiteralAction(createLexicalContext(), APOSTROPHE); }
 "\""                                                { return StringLiteralAction(createLexicalContext(), QUOTATION_MARK); }
 
-{EASING}                                            { return AnimationAction(createLexicalContext(), EASING); }
+{EASING}                                            { return AnimationAction(createLexicalContext()); }
 
-{NUMBER}{VALUE_UNIT}                                { return ValueAction(createLexicalContext(), VALUE); }
-{NUMBER}{TIME_UNIT}                                 { return ValueAction(createLexicalContext(), TIME); }
-
-{NUMBER}                                            { return ValueAction(createLexicalContext(), NUMBER); }
-{COLOR}                                             { return ValueAction(createLexicalContext(), COLOR_VALUE); }
+{NUMBER}{VALUE_UNIT}                                { return ValueAction(createLexicalContext()); }
+{NUMBER}{TIME_UNIT}                                 { return TimeValueAction(createLexicalContext()); }
+{COLOR}                                             { return ColorValueAction(createLexicalContext()); }
 
 {ID}                                                { return StylePropertyAction(createLexicalContext()); }
 
 {INTEGER}                                           { return IntegerAction(createLexicalContext()); }
+{NUMBER}                                            { return FloatAction(createLexicalContext()); }
 
 {WHITESPACE}+                                       { IgnoredLexemeAction(createLexicalContext()); }
 .                                                   { return UnknownLexemeAction(createLexicalContext()); }

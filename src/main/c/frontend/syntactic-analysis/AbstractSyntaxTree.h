@@ -15,6 +15,7 @@ void shutdownAbstractSyntaxTreeModule();
  */
 
 typedef enum Direction Direction;
+typedef enum PropertyType PropertyType;
 
 typedef struct Program Program;
 typedef struct Trigger Trigger;
@@ -33,6 +34,11 @@ typedef struct TransitionRule TransitionRule;
 enum Direction {
 	FORWARD,
 	BIDIRECTIONAL,
+};
+
+enum PropertyType {
+    STRING,
+    FLOAT,
 };
 
 struct Trigger {
@@ -89,7 +95,11 @@ struct Animate {
 
 struct Property {
 	char *name; // e.g., "height"
-	char *value; // e.g., "200px"
+	union {
+        char *value; // e.g., "200px"
+        float floatValue; // e.g., 200.0
+    };
+    PropertyType type; // Type of the property (string or float)
 };
 
 struct Program {

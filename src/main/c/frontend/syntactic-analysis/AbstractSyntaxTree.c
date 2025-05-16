@@ -108,7 +108,13 @@ void releaseProperty(Property * property) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (property != NULL) {
 		free(property->name);
-		free(property->value);
+        switch (property->type) {
+            case STRING:
+                free(property->value);
+                break;
+            case FLOAT:
+                break;
+        }
 		free(property);
 	}
 }
