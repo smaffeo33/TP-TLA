@@ -1,0 +1,10 @@
+trigger('listAnimation', [
+  transition('void => *', [
+    style({ opacity: 0, height: 500rem }),
+    animate('200ms ease-out')
+  ]),
+  transition('* => void', [
+     style({ opacity: 1, height: 200rem }),
+    animate('200ms ease-in')
+  ])
+])

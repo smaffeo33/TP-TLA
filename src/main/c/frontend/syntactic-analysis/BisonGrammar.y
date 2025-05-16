@@ -29,6 +29,8 @@
 	StateList * stateList;
 	PropertyList * propertyList;
 	TransitionList * transitionList;
+	TransitionBlock * transitionBlock;
+	TransitionRule * transitionRule;
 }
 
 /**
@@ -50,6 +52,8 @@
 %destructor { releaseAnimate($$); } <animate>
 %destructor { releaseProperty($$); } <property>
 %destructor { releasePropertyList($$); } <propertyList>
+%destructor { releaseTransitionBlock($$); } <transitionBlock>
+%destructor { releaseTransitionRule($$); } <transitionRule>
 
 
 
@@ -91,6 +95,7 @@
 %token <token> WILDCARD_STATE
 %token <token> VOID
 %token <token> STAR
+%token <token> RESERVED_STATE
 
 %token <token> UNKNOWN
 
@@ -107,6 +112,8 @@
 %type <transitionList> transitionList
 %type <propertyList> propertyList
 %type <program> program
+%type <transitionBlock> transitionBlock
+%type <transitionRule> transitionRule
 
 /**
  * Precedence and associativity.
@@ -144,16 +151,17 @@ transitionList: transition                                                      
 state: STATE OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS    { $$ = StateDefinitionSemanticAction($4, $7); }
     ;
 
-transition: TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA  animate  CLOSE_PARENTHESIS
-                                                                                    { $$ = ForwardTransitionSemanticAction($4, $6, $9); }
-    | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_TRANSITION NAME APOSTROPHE COMMA  animate  CLOSE_PARENTHESIS
-                                                                                    { $$ = BidirectionalTransitionSemanticAction($4, $6, $9); }
-    | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA OPEN_BRACKET animate CLOSE_BRACKET CLOSE_PARENTHESIS
-                                                                                    { $$ = ForwardTransitionSemanticAction($4, $6, $10); }
-    | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_TRANSITION NAME APOSTROPHE COMMA OPEN_BRACKET animate CLOSE_BRACKET CLOSE_PARENTHESIS
-                                                                                    { $$ = BidirectionalTransitionSemanticAction($4, $6, $10); }
-
+transition: TRANSITION OPEN_PARENTHESIS APOSTROPHE transitionRule APOSTROPHE COMMA  transitionBlock  CLOSE_PARENTHESIS
+                                                                                    { $$ = TransitionSemanticAction($4, $7); }
     ;
+
+transitionRule: NAME FORWARD_TRANSITION NAME                                        { $$ = ForwardTransitionRuleSemanticAction($1, $3); }
+    | NAME BIDIRECTIONAL_TRANSITION NAME                                            { $$ = BidirectionalTransitionRuleSemanticAction($1, $3); }
+
+transitionBlock: animate                                                            { $$ = AnimateTransitionBlockSemanticAction($1); }
+    | OPEN_BRACKET animate CLOSE_BRACKET                                            { $$ = AnimateTransitionBlockSemanticAction($2); }
+    | OPEN_BRACKET style COMMA animate CLOSE_BRACKET                                { $$ = StyleAnimateTransitionBlockSemanticAction($2, $4); }
+
 
 style: STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS      { $$ = StyleSemanticAction($4); }
     ;

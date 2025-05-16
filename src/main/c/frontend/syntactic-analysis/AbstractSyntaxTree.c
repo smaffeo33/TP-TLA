@@ -68,12 +68,28 @@ void releaseState(State * state) {
 void releaseTransition(Transition * transition) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (transition != NULL) {
-		free(transition->fromState);
-		free(transition->toState);
-		releaseAnimate(transition->animate);
-		releaseStyle(transition->style);
+        releaseTransitionRule(transition->transitionRule);
+        releaseTransitionBlock(transition->transitionBlock);
 		free(transition);
 	}
+}
+
+void releaseTransitionRule(TransitionRule * transitionRule) {
+    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+    if (transitionRule != NULL) {
+        free(transitionRule->fromState);
+        free(transitionRule->toState);
+        free(transitionRule);
+    }
+}
+
+void releaseTransitionBlock(TransitionBlock * transitionBlock) {
+    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+    if (transitionBlock != NULL) {
+        releaseAnimate(transitionBlock->animate);
+        releaseStyle(transitionBlock->style);
+        free(transitionBlock);
+    }
 }
 
 void releaseStyle(Style * style) {

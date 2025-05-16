@@ -21,6 +21,8 @@ typedef struct Program Program;
 typedef struct Trigger Trigger;
 typedef struct State State;
 typedef struct Transition Transition;
+typedef struct TransitionBlock TransitionBlock;
+typedef struct TransitionRule TransitionRule;
 typedef struct Style Style;
 typedef struct Animate Animate;
 typedef struct Property Property;
@@ -73,11 +75,19 @@ struct State {
 };
 
 struct Transition {
-	char *fromState; // e.g., "default"
-	char *toState; // e.g., "expanded"
-	Direction direction; // e.g., "=>"
-	Animate *animate; // Associated animation
-	Style *style;
+	TransitionRule * transitionRule;
+	TransitionBlock * transitionBlock; // Associated block
+};
+
+struct TransitionRule {
+    char *fromState; // e.g., "default"
+    char *toState; // e.g., "expanded"
+    Direction direction; // e.g., "FORWARD"
+};
+
+struct TransitionBlock {
+    Animate *animate; // Associated animation
+    Style *style;
 };
 
 struct Style {
@@ -118,7 +128,9 @@ void releaseTriggerList(TriggerList * triggerList);
 void releaseState(State * state);
 void releaseStateList(StateList * stateList);
 void releaseTransition(Transition * transition);
+void releaseTransitionBlock(TransitionBlock * transitionBlock);
 void releaseTransitionList(TransitionList * transitionList);
+void releaseTransitionRule(TransitionRule * transitionRule);
 void releaseStyle(Style * style);
 void releasePropertyList(PropertyList * propertyList);
 void releaseAnimate(Animate * animate);

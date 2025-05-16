@@ -32,14 +32,17 @@ TriggerList * TriggerListSemanticAction(TriggerList * triggerList, Trigger * tri
 StateList * StateListSemanticAction(StateList * stateList, State * state);
 TransitionList * TransitionListSemanticAction(TransitionList * transitionList, Transition * transition);
 State * StateDefinitionSemanticAction( char * name, Style * style);
-Transition * ForwardTransitionSemanticAction( char * fromState,  char * toState, Animate * animate);
-Transition * BidirectionalTransitionSemanticAction( char * fromState,  char * toState, Animate * animate);
+Transition * TransitionSemanticAction( TransitionRule * transitionRule, TransitionBlock * transitionBlock);
 Style * StyleSemanticAction(PropertyList * propertyList);
 PropertyList * PropertyListSemanticAction(PropertyList * propertyList, Property * property);
 Property * ValuePropertySemanticAction( char * name,  char * value);
 Property * FloatValuePropertySemanticAction( char * name,  float value);
 Property * IntegerValuePropertySemanticAction( char * name,  int value);
 Animate * AnimateSemanticAction( char * time,  char * easing);
+TransitionBlock * AnimateTransitionBlockSemanticAction(Animate * animate);
+TransitionBlock * StyleAnimateTransitionBlockSemanticAction(Style * style, Animate * animate);
+TransitionRule * ForwardTransitionRuleSemanticAction(char * fromState, char * toState);
+TransitionRule * BidirectionalTransitionRuleSemanticAction(char * fromState, char * toState);
 
 
 #endif

@@ -185,32 +185,19 @@ State * StateDefinitionSemanticAction( char * name, Style * style) {
     return state;
 }
 
-Transition * ForwardTransitionSemanticAction( char * fromState, char * toState, Animate * animate) {
+
+Transition * TransitionSemanticAction( TransitionRule * transitionRule, TransitionBlock * transitionBlock) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Transition * transition = calloc(1, sizeof(Transition));
     if (transition == NULL) {
         logError(_logger, "Memory allocation failed for Transition");
         return NULL;
     }
-    transition->fromState = fromState;
-    transition->toState = toState;
-    transition->direction = FORWARD;
-    transition->animate = animate;
+    transition->transitionRule = transitionRule;
+    transition->transitionBlock = transitionBlock;
     return transition;
 }
-Transition * BidirectionalTransitionSemanticAction( char * fromState, char * toState, Animate * animate) {
-    _logSyntacticAnalyzerAction(__FUNCTION__);
-    Transition * transition = calloc(1, sizeof(Transition));
-    if (transition == NULL) {
-        logError(_logger, "Memory allocation failed for Transition");
-        return NULL;
-    }
-    transition->fromState = fromState;
-    transition->toState = toState;
-    transition->direction = BIDIRECTIONAL;
-    transition->animate = animate;
-    return transition;
-}
+
 
 TriggerBlock * StatelessTriggerBlockSemanticAction(TransitionList * transitionList) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
@@ -321,5 +308,55 @@ Animate * AnimateSemanticAction( char * time,  char * easing) {
     animate->duration = time;
     animate->easing = easing;
     return animate;
+}
+
+TransitionBlock * AnimateTransitionBlockSemanticAction(Animate * animate) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TransitionBlock * transitionBlock = calloc(1, sizeof(TransitionBlock));
+    if (transitionBlock == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlock");
+        return NULL;
+    }
+    transitionBlock->animate = animate;
+    transitionBlock->style = NULL;
+    return transitionBlock;
+}
+
+TransitionBlock * StyleAnimateTransitionBlockSemanticAction(Style * style, Animate * animate) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TransitionBlock * transitionBlock = calloc(1, sizeof(TransitionBlock));
+    if (transitionBlock == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlock");
+        return NULL;
+    }
+    transitionBlock->animate = animate;
+    transitionBlock->style = style;
+    return transitionBlock;
+}
+
+TransitionRule * ForwardTransitionRuleSemanticAction(char * fromState, char * toState) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TransitionRule * transitionRule = calloc(1, sizeof(TransitionRule));
+    if (transitionRule == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionRule");
+        return NULL;
+    }
+    transitionRule->fromState = fromState;
+    transitionRule->toState = toState;
+    transitionRule->direction = FORWARD;
+    return transitionRule;
+}
+
+TransitionRule * BidirectionalTransitionRuleSemanticAction(char * fromState, char * toState) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TransitionRule * transitionRule = calloc(1, sizeof(TransitionRule));
+    if (transitionRule == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionRule");
+        return NULL;
+    }
+    transitionRule->fromState = fromState;
+    transitionRule->toState = toState;
+    transitionRule->direction = BIDIRECTIONAL;
+    return transitionRule;
 }
 
