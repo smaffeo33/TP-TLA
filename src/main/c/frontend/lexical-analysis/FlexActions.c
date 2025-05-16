@@ -64,6 +64,13 @@ Token KeywordLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token
     return token;
 }
 
+Token PunctuationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
+    _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+    lexicalAnalyzerContext->semanticValue->token = token;
+    destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
+    return token;
+}
+
 Token StateAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
     lexicalAnalyzerContext->semanticValue->token = token;
@@ -125,13 +132,6 @@ Token ColorValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
     return COLOR;
-}
-
-Token PunctuationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
-	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-	lexicalAnalyzerContext->semanticValue->token = token;
-	destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
-	return token;
 }
 
 Token UnknownLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {

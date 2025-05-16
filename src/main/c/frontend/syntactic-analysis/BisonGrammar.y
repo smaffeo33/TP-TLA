@@ -123,8 +123,8 @@ triggerList: trigger                                                            
     | triggerList COMMA trigger                                                     { $$ = TriggerListSemanticAction($1, $3); }
     ;
 
-trigger: OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA triggerBlock CLOSE_PARENTHESIS
-                                                                                    { $$ = TriggerSemanticAction($3, $6); }
+trigger: TRIGGER OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA triggerBlock CLOSE_PARENTHESIS
+                                                                                    { $$ = TriggerSemanticAction($4, $7); }
     ;
 
 triggerBlock: OPEN_BRACKET stateList COMMA transitionList CLOSE_BRACKET             { $$ = TriggerBlockSemanticAction($2, $4); }
