@@ -144,9 +144,9 @@ transitionList: transition                                                      
 state: STATE OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS    { $$ = StateDefinitionSemanticAction($4, $7); }
     ;
 
-transition: TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
+transition: TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA  animate  CLOSE_PARENTHESIS
                                                                                     { $$ = ForwardTransitionSemanticAction($4, $6, $9); }
-    | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_TRANSITION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
+    | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_TRANSITION NAME APOSTROPHE COMMA  animate  CLOSE_PARENTHESIS
                                                                                     { $$ = BidirectionalTransitionSemanticAction($4, $6, $9); }
     | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA OPEN_BRACKET animate CLOSE_BRACKET CLOSE_PARENTHESIS
                                                                                     { $$ = ForwardTransitionSemanticAction($4, $6, $10); }
@@ -167,6 +167,8 @@ property: NAME COLON VALUE                                                      
     | NAME COLON NUMBER                                                             { $$ = FloatValuePropertySemanticAction($1, $3); }
     | NAME COLON INTEGER                                                            { $$ = IntegerValuePropertySemanticAction($1, $3); }
     ;
+
+
 
 animate: ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE CLOSE_PARENTHESIS      { $$ = AnimateSemanticAction($4, $5); }
     ;
