@@ -19,7 +19,7 @@ void shutdownBisonActionsModule();
  */
 
 Program * TriggerListProgramSemanticAction(CompilerState * compilerState, TriggerList * triggerList);
-TriggerList * TriggerSemanticAction(Trigger * trigger);
+TriggerList * TriggerSemanticAction(char *name, Trigger * trigger);
 TriggerBlock * TriggerBlockSemanticAction(StateList * stateList, TransitionList * transitionList);
 TriggerList * TriggerListSemanticAction(TriggerList * triggerList, Trigger * trigger);
 StateList * StateSemanticAction(State * state);

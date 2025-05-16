@@ -45,7 +45,7 @@ Program * TriggerListProgramSemanticAction(CompilerState * compilerState, Trigge
     return program;
 }
 
-TriggerList * TriggerSemanticAction(Trigger * trigger) {
+TriggerList * TriggerSemanticAction(char *name, Trigger * trigger) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     TriggerList * triggerList = calloc(1, sizeof(TriggerList));
     if(triggerList == NULL) {

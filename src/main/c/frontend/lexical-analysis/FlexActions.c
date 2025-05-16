@@ -85,6 +85,13 @@ Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     return NAME;
 }
 
+Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
+    _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+    lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
+    destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
+    return token;
+}
+
 Token IntegerAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
     lexicalAnalyzerContext->semanticValue->integer = atoi(lexicalAnalyzerContext->lexeme);

@@ -49,22 +49,6 @@ cmake_ninja_workdir = /Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP
 
 build cmake_object_order_depends_target_Compiler: phony || /Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA/src/main/c/frontend/lexical-analysis/FlexScanner.c /Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA/src/main/c/frontend/syntactic-analysis/BisonParser.c /Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA/src/main/c/frontend/syntactic-analysis/BisonParser.h
 
-build CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.o: C_COMPILER__Compiler_unscanned_Debug /Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA/src/main/c/backend/code-generation/Generator.c || cmake_object_order_depends_target_Compiler
-  DEP_FILE = CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.o.d
-  FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics
-  OBJECT_DIR = CMakeFiles/Compiler.dir
-  OBJECT_FILE_DIR = CMakeFiles/Compiler.dir/src/main/c/backend/code-generation
-  TARGET_COMPILE_PDB = CMakeFiles/Compiler.dir/
-  TARGET_PDB = Compiler.pdb
-
-build CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.o: C_COMPILER__Compiler_unscanned_Debug /Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA/src/main/c/backend/domain-specific/Calculator.c || cmake_object_order_depends_target_Compiler
-  DEP_FILE = CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.o.d
-  FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics
-  OBJECT_DIR = CMakeFiles/Compiler.dir
-  OBJECT_FILE_DIR = CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific
-  TARGET_COMPILE_PDB = CMakeFiles/Compiler.dir/
-  TARGET_PDB = Compiler.pdb
-
 build CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.o: C_COMPILER__Compiler_unscanned_Debug /Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA/src/main/c/EntryPoint.c || cmake_object_order_depends_target_Compiler
   DEP_FILE = CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.o.d
   FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics
@@ -161,7 +145,7 @@ build CMakeFiles/Compiler.dir/src/main/c/shared/String.c.o: C_COMPILER__Compiler
 #############################################
 # Link the executable Compiler
 
-build Compiler: C_EXECUTABLE_LINKER__Compiler_Debug CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.o CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Calculator.c.o CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c.o CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.o CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.o CMakeFiles/Compiler.dir/src/main/c/shared/String.c.o
+build Compiler: C_EXECUTABLE_LINKER__Compiler_Debug CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.o CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c.o CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.o CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.o CMakeFiles/Compiler.dir/src/main/c/shared/String.c.o
   FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk
   OBJECT_DIR = CMakeFiles/Compiler.dir
   POST_BUILD = :

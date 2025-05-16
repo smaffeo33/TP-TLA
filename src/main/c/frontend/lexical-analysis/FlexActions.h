@@ -43,6 +43,8 @@ Token AnimationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token tok
 /* Style properties */
 Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
+Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+
 /* Punctuation */
 Token PunctuationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
