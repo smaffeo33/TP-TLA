@@ -114,6 +114,8 @@ void releaseProperty(Property * property) {
                 break;
             case FLOAT:
                 break;
+            case INT:
+                break;
         }
 		free(property);
 	}

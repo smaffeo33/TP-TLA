@@ -256,6 +256,7 @@ Property * ValuePropertySemanticAction(const char * name, const char * value) {
     }
     property->name = strdup(name);
     property->value = strdup(value);
+    property->type = STRING;
     return property;
 }
 
@@ -268,6 +269,20 @@ Property * FloatValuePropertySemanticAction(const char * name, const float value
     }
     property->name = strdup(name);
     property->floatValue = value;
+    property->type = FLOAT;
+    return property;
+}
+
+Property * IntegerValuePropertySemanticAction(const char * name, const int value) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    Property * property = calloc(1, sizeof(Property));
+    if (property == NULL) {
+        logError(_logger, "Memory allocation failed for Property");
+        return NULL;
+    }
+    property->name = strdup(name);
+    property->intValue = value;
+    property->type = INT;
     return property;
 }
 

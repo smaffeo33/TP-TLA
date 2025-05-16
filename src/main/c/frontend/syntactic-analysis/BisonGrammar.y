@@ -138,16 +138,16 @@ transitionList: transition                                                      
     | transitionList COMMA transition                                               { $$ = TransitionListSemanticAction($1, $3); }
     ;
 
-state: STATE OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS    { $$ = StateDefinitionSemanticAction($3, $6); }
+state: STATE OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS    { $$ = StateDefinitionSemanticAction($4, $7); }
     ;
 
-transition: OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
-                                                                                    { $$ = DirectionTransitionSemanticAction($3, $4, $5, $8); }
-    | OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_TRANSITION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
-                                                                                    { $$ = DirectionTransitionSemanticAction($3, $4, $5, $8); }
+transition: TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME FORWARD_TRANSITION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
+                                                                                    { $$ = DirectionTransitionSemanticAction($4, $5, $6, $9); }
+    | TRANSITION OPEN_PARENTHESIS APOSTROPHE NAME BIDIRECTIONAL_TRANSITION NAME APOSTROPHE COMMA animate CLOSE_PARENTHESIS
+                                                                                    { $$ = DirectionTransitionSemanticAction($4, $5, $6, $9); }
     ;
 
-style: STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS      { $$ = StyleSemanticAction($3); }
+style: STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS      { $$ = StyleSemanticAction($4); }
     ;
 
 propertyList: property                                                              { $$ = PropertyPropertyListSemanticAction($1); }
@@ -156,10 +156,11 @@ propertyList: property                                                          
 
 property: NAME COLON APOSTROPHE VALUE APOSTROPHE                                    { $$ = ValuePropertySemanticAction($1, $4); }
     | NAME COLON APOSTROPHE COLOR APOSTROPHE                                        { $$ = ValuePropertySemanticAction($1, $4); }
-    | NAME COLON APOSTROPHE NUMBER APOSTROPHE                                       { $$ = FloatValuePropertySemanticAction($1, $4); }
+    | NAME COLON NUMBER                                                             { $$ = FloatValuePropertySemanticAction($1, $3); }
+    | NAME COLON INTEGER                                                            { $$ = IntegerValuePropertySemanticAction($1, $3); }
     ;
 
-animate: OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE CLOSE_PARENTHESIS      { $$ = AnimateSemanticAction($3, $4); }
+animate: ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE CLOSE_PARENTHESIS      { $$ = AnimateSemanticAction($4, $5); }
     ;
 
 %%

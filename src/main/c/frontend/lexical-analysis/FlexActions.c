@@ -80,21 +80,21 @@ Token StateAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) 
 
 Token AnimationAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-    lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
+    lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
     return EASING;
 }
 
 Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-    lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
+    lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
     return NAME;
 }
 
 Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-    lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
+    lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
     return token;
 }
@@ -115,21 +115,21 @@ Token FloatAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
 
 Token ValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-	lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
+	lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
 	destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
 	return VALUE;
 }
 
 Token TimeValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-    lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
+    lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
     return TIME;
 }
 
 Token ColorValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-    lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
+    lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
     return COLOR;
 }

@@ -36,6 +36,7 @@ Style * StyleSemanticAction(PropertyList * propertyList);
 PropertyList * PropertyListSemanticAction(PropertyList * propertyList, Property * property);
 Property * ValuePropertySemanticAction(const char * name, const char * value);
 Property * FloatValuePropertySemanticAction(const char * name, const float value);
+Property * IntegerValuePropertySemanticAction(const char * name, const int value);
 Animate * AnimateSemanticAction(const char * time, const char * easing);
 
 

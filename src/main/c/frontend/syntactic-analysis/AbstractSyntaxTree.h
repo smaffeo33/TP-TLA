@@ -39,6 +39,7 @@ enum Direction {
 enum PropertyType {
     STRING,
     FLOAT,
+    INT,
 };
 
 struct Trigger {
@@ -98,6 +99,7 @@ struct Property {
 	union {
         char *value; // e.g., "200px"
         float floatValue; // e.g., 200.0
+        int intValue; // e.g., 1
     };
     PropertyType type; // Type of the property (string or float)
 };
