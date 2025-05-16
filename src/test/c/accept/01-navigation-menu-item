@@ -1,11 +1,9 @@
 trigger('menuAnimation', [
 state('collapsed', style({
 width: '60px',
-overflow: 'hidden'
 })),
 state('expanded', style({
 width: '250px',
-overflow: 'auto'
 })),
 transition('collapsed <=> expanded', [
 animate('300ms ease-in-out')
