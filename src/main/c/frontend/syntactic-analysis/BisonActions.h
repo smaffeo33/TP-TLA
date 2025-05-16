@@ -30,14 +30,14 @@ TriggerBlock * TriggerBlockSemanticAction(StateList * stateList, TransitionList 
 TriggerList * TriggerListSemanticAction(TriggerList * triggerList, Trigger * trigger);
 StateList * StateListSemanticAction(StateList * stateList, State * state);
 TransitionList * TransitionListSemanticAction(TransitionList * transitionList, Transition * transition);
-State * StateDefinitionSemanticAction(const char * name, Style * style);
-Transition * DirectionTransitionSemanticAction(const char * fromState,Direction  direction, const char * toState, Animate * animate);
+State * StateDefinitionSemanticAction( char * name, Style * style);
+Transition * DirectionTransitionSemanticAction( char * fromState,Direction  direction,  char * toState, Animate * animate);
 Style * StyleSemanticAction(PropertyList * propertyList);
 PropertyList * PropertyListSemanticAction(PropertyList * propertyList, Property * property);
-Property * ValuePropertySemanticAction(const char * name, const char * value);
-Property * FloatValuePropertySemanticAction(const char * name, const float value);
-Property * IntegerValuePropertySemanticAction(const char * name, const int value);
-Animate * AnimateSemanticAction(const char * time, const char * easing);
+Property * ValuePropertySemanticAction( char * name,  char * value);
+Property * FloatValuePropertySemanticAction( char * name,  float value);
+Property * IntegerValuePropertySemanticAction( char * name,  int value);
+Animate * AnimateSemanticAction( char * time,  char * easing);
 
 
 #endif

@@ -1,13 +1,13 @@
 trigger('cardAnimation', [
   state('default', style({
-    height: '200px',
+    height: 200px,
     opacity: 1,
-    backgroundColor: '#ffffff'
+    backgroundColor: #ffffff
   })),
   state('expanded', style({
-    height: '400px',
+    height: 400px,
     opacity: 1,
-    backgroundColor: '#f0f0f0'
+    backgroundColor: #f0f0f0
   })),
   transition('default <=> expanded', animate('300ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
 ])

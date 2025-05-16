@@ -52,7 +52,7 @@ Trigger * TriggerSemanticAction(char * name, TriggerBlock * triggerBlock) {
         logError(_logger, "Memory allocation failed for Trigger");
         return NULL;
     }
-    trigger->name = strdup(name);
+    trigger->name = name;
     trigger->block = triggerBlock;
     return trigger;
 }
@@ -173,27 +173,27 @@ TransitionList * TransitionListSemanticAction(TransitionList * transitionList, T
     return transitionList;
 }
 
-State * StateDefinitionSemanticAction(const char * name, Style * style) {
+State * StateDefinitionSemanticAction( char * name, Style * style) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     State * state = calloc(1, sizeof(State));
     if (state == NULL) {
         logError(_logger, "Memory allocation failed for State");
         return NULL;
     }
-    state->name = strdup(name);
+    state->name = name;
     state->style = style;
     return state;
 }
 
-Transition * DirectionTransitionSemanticAction(const char * fromState, Direction direction, const char * toState, Animate * animate) {
+Transition * DirectionTransitionSemanticAction( char * fromState, Direction direction,  char * toState, Animate * animate) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Transition * transition = calloc(1, sizeof(Transition));
     if (transition == NULL) {
         logError(_logger, "Memory allocation failed for Transition");
         return NULL;
     }
-    transition->fromState = strdup(fromState);
-    transition->toState = strdup(toState);
+    transition->fromState = fromState;
+    transition->toState = toState;
     transition->direction = direction;
     transition->animate = animate;
     return transition;
@@ -247,54 +247,54 @@ PropertyList * PropertyListSemanticAction(PropertyList * propertyList, Property 
     return propertyList;
 }
 
-Property * ValuePropertySemanticAction(const char * name, const char * value) {
+Property * ValuePropertySemanticAction( char * name,  char * value) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Property * property = calloc(1, sizeof(Property));
     if (property == NULL) {
         logError(_logger, "Memory allocation failed for Property");
         return NULL;
     }
-    property->name = strdup(name);
-    property->value = strdup(value);
+    property->name = name;
+    property->value = value;
     property->type = STRING;
     return property;
 }
 
-Property * FloatValuePropertySemanticAction(const char * name, const float value) {
+Property * FloatValuePropertySemanticAction( char * name,  float value) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Property * property = calloc(1, sizeof(Property));
     if (property == NULL) {
         logError(_logger, "Memory allocation failed for Property");
         return NULL;
     }
-    property->name = strdup(name);
+    property->name = name;
     property->floatValue = value;
     property->type = FLOAT;
     return property;
 }
 
-Property * IntegerValuePropertySemanticAction(const char * name, const int value) {
+Property * IntegerValuePropertySemanticAction( char * name,  int value) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Property * property = calloc(1, sizeof(Property));
     if (property == NULL) {
         logError(_logger, "Memory allocation failed for Property");
         return NULL;
     }
-    property->name = strdup(name);
+    property->name = name;
     property->intValue = value;
     property->type = INT;
     return property;
 }
 
-Animate * AnimateSemanticAction(const char * time, const char * easing) {
+Animate * AnimateSemanticAction( char * time,  char * easing) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Animate * animate = calloc(1, sizeof(Animate));
     if (animate == NULL) {
         logError(_logger, "Memory allocation failed for Animate");
         return NULL;
     }
-    animate->duration = strdup(time);
-    animate->easing = strdup(easing);
+    animate->duration = time;
+    animate->easing = easing;
     return animate;
 }
 

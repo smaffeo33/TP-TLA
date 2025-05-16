@@ -154,8 +154,8 @@ propertyList: property                                                          
     | propertyList COMMA property                                                   { $$ = PropertyListSemanticAction($1, $3); }
     ;
 
-property: NAME COLON APOSTROPHE VALUE APOSTROPHE                                    { $$ = ValuePropertySemanticAction($1, $4); }
-    | NAME COLON APOSTROPHE COLOR APOSTROPHE                                        { $$ = ValuePropertySemanticAction($1, $4); }
+property: NAME COLON VALUE                                                          { $$ = ValuePropertySemanticAction($1, $3); }
+    | NAME COLON COLOR                                                              { $$ = ValuePropertySemanticAction($1, $3); }
     | NAME COLON NUMBER                                                             { $$ = FloatValuePropertySemanticAction($1, $3); }
     | NAME COLON INTEGER                                                            { $$ = IntegerValuePropertySemanticAction($1, $3); }
     ;
