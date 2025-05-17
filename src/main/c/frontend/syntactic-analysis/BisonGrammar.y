@@ -22,6 +22,8 @@
 	Transition * transition;
 	State * state;
 	Style * style;
+	StyleList * styleList;
+	Keyframes * keyframes;
 	Animate * animate;
 	Property * property;
 	TriggerList * triggerList;
@@ -108,6 +110,8 @@
 %type <state> state
 %type <transition> transition
 %type <style> style
+%type <styleList> styleList
+%type <keyframes> keyframes
 %type <animate> animate
 %type <property> property
 %type <triggerList> triggerList
@@ -155,7 +159,8 @@ transitionList: transition                                                      
     | transitionList COMMA transition                                               { $$ = TransitionListSemanticAction($1, $3); }
     ;
 
-state: STATE OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS    { $$ = StateDefinitionSemanticAction($4, $7); }
+state: STATE OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA style CLOSE_PARENTHESIS
+                                                                                    { $$ = StateDefinitionSemanticAction($4, $7); }
     ;
 
 transition: TRANSITION OPEN_PARENTHESIS APOSTROPHE transitionRule APOSTROPHE COMMA  transitionBlock  CLOSE_PARENTHESIS
@@ -202,9 +207,19 @@ property: NAME COLON VALUE                                                      
 
 
 
-animate: ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE CLOSE_PARENTHESIS      { $$ = AnimateSemanticAction($4, $5); }
+animate: ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE CLOSE_PARENTHESIS   { $$ = AnimateSemanticAction($4, $5); }
     | ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE COMMA style CLOSE_PARENTHESIS
                                                                                         { $$ = AnimateWithStyleSemanticAction($4, $5, $8); }
+    | ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE COMMA keyframes CLOSE_PARENTHESIS
+                                                                                        { $$ = AnimateWithKeyframesSemanticAction($4, $5, $8); }
+    ;
+
+keyframes: KEYFRAMES OPEN_PARENTHESIS OPEN_BRACKET styleList CLOSE_BRACKET CLOSE_PARENTHESIS
+                                                                                        { $$ = KeyframesSemanticAction($4); }
+    ;
+
+styleList: style                                                                    { $$ = StyleStyleListSemanticAction($1); }
+    | styleList COMMA style                                                         { $$ = StyleListSemanticAction($1, $3); }
     ;
 
 %%

@@ -307,7 +307,7 @@ Animate * AnimateSemanticAction( char * time,  char * easing) {
     }
     animate->duration = time;
     animate->easing = easing;
-    animate->style = NULL;
+    animate->type = NONE;
     return animate;
 }
 
@@ -321,6 +321,21 @@ Animate * AnimateWithStyleSemanticAction( char * time,  char * easing, Style * s
     animate->duration = time;
     animate->easing = easing;
     animate->style = style;
+    animate->type = ANIMATE_WITH_STYLE;
+    return animate;
+}
+
+Animate * AnimateWithKeyframesSemanticAction( char * time,  char * easing, Keyframes * keyframes) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    Animate * animate = calloc(1, sizeof(Animate));
+    if (animate == NULL) {
+        logError(_logger, "Memory allocation failed for Animate");
+        return NULL;
+    }
+    animate->duration = time;
+    animate->easing = easing;
+    animate->keyframes = keyframes;
+    animate->type = ANIMATE_WITH_KEYFRAMES;
     return animate;
 }
 
@@ -369,7 +384,7 @@ TransitionBlock * TransitionBlockItemListTransitionBlockSemanticAction(Transitio
     return transitionBlock;
 }
 
-TransitionBlockItemList * TransitionBlockItemListSemanticAction(TransitionBlockItem * transitionBlockItem) { //TODO: CHECK EVERY SINGLE ONE OF THESE IM NOT VERY SURE OF THIS
+TransitionBlockItemList * TransitionBlockItemListSemanticAction(TransitionBlockItem * transitionBlockItem) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     TransitionBlockItemList * transitionBlockItemList = calloc(1, sizeof(TransitionBlockItemList));
     if (transitionBlockItemList == NULL) {
@@ -476,5 +491,51 @@ TransitionRule * AliasTypeSemanticAction(AliasType aliasType) {
 AliasType AliasSemanticAction(AliasType aliasType) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     return aliasType;
+}
+
+Keyframes * KeyframesSemanticAction(StyleList * styleList) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    Keyframes * keyframes = calloc(1, sizeof(Keyframes));
+    if (keyframes == NULL) {
+        logError(_logger, "Memory allocation failed for Keyframes");
+        return NULL;
+    }
+    keyframes->styleList = styleList;
+    return keyframes;
+}
+
+StyleList * StyleListSemanticAction(StyleList * styleList, Style * style) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    if (styleList == NULL) {
+        logError(_logger, "Memory allocation failed for StyleList");
+        return NULL;
+    }
+    styleList->styles = realloc(styleList->styles, (styleList->styleCount + 1) * sizeof(Style *));
+    if (styleList->styles == NULL) {
+        logError(_logger, "Memory allocation failed for Style");
+        free(styleList);
+        return NULL;
+    }
+    styleList->styles[styleList->styleCount] = style;
+    styleList->styleCount++;
+    return styleList;
+}
+
+StyleList * StyleStyleListSemanticAction(Style * style) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    StyleList * styleList = calloc(1, sizeof(StyleList));
+    if (styleList == NULL) {
+        logError(_logger, "Memory allocation failed for StyleList");
+        return NULL;
+    }
+    styleList->styles = calloc(1, sizeof(Style *));
+    if (styleList->styles == NULL) {
+        logError(_logger, "Memory allocation failed for Style");
+        free(styleList);
+        return NULL;
+    }
+    styleList->styles[0] = style;
+    styleList->styleCount = 1;
+    return styleList;
 }
 

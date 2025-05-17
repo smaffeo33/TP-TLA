@@ -142,12 +142,40 @@ void releasePropertyList(PropertyList * propertyList) {
 	}
 }
 
+void releaseKeyframes(Keyframes * keyframes) {
+    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+    if (keyframes != NULL) {
+        releaseStyleList(keyframes->styleList);
+        free(keyframes);
+    }
+}
+
+void releaseStyleList(StyleList * styleList) {
+    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+    if (styleList != NULL) {
+        for (size_t i = 0; i < styleList->styleCount; i++) {
+            releaseStyle(styleList->styles[i]);
+        }
+        free(styleList->styles);
+        free(styleList);
+    }
+}
+
 void releaseAnimate(Animate * animate) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (animate != NULL) {
 		free(animate->duration);
 		free(animate->easing);
-        releaseStyle(animate->style);
+        switch (animate->type) {
+            case ANIMATE_WITH_KEYFRAMES:
+                releaseKeyframes(animate->keyframes);
+                break;
+            case ANIMATE_WITH_STYLE:
+                releaseStyle(animate->style);
+                break;
+            case NONE:
+                break;
+        }
 		free(animate);
 	}
 }

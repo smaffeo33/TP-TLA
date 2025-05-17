@@ -19,6 +19,7 @@ typedef enum PropertyType PropertyType;
 typedef enum TransitionRuleType TransitionRuleType;
 typedef enum AliasType AliasType;
 typedef enum TransitionBlockItemType TransitionBlockItemType;
+typedef enum AnimateType AnimateType;
 
 typedef struct Program Program;
 typedef struct Trigger Trigger;
@@ -27,7 +28,9 @@ typedef struct Transition Transition;
 typedef struct TransitionBlock TransitionBlock;
 typedef struct TransitionRule TransitionRule;
 typedef struct Style Style;
+typedef struct StyleList StyleList;
 typedef struct Animate Animate;
+typedef struct Keyframes Keyframes;
 typedef struct Property Property;
 typedef struct TriggerList TriggerList;
 typedef struct StateList StateList;
@@ -64,6 +67,12 @@ enum AliasType {
 enum TransitionBlockItemType {
     ANIMATE_ITEM,
     STYLE_ITEM,
+};
+
+enum AnimateType {
+    NONE,
+    ANIMATE_WITH_STYLE,
+    ANIMATE_WITH_KEYFRAMES,
 };
 
 struct Trigger {
@@ -136,8 +145,21 @@ struct PropertyList {
 	size_t propertyCount;
 };
 
+struct StyleList {
+    Style **styles;
+    size_t styleCount;
+};
+
+struct Keyframes {
+    StyleList *styleList;
+};
+
 struct Animate {
-    Style * style;
+    union {
+        Style * style;
+        Keyframes * keyframes;
+    };
+    AnimateType type; // Type of animation (none, with style, with keyframe)
 	char *duration; // e.g., "300ms"
 	char *easing; // e.g., "cubic-bezier(0.4, 0.0, 0.2, 1)"
 };
@@ -172,6 +194,8 @@ void releaseTransitionBlockItem(TransitionBlockItem * transitionBlockItem);
 void releaseTransitionList(TransitionList * transitionList);
 void releaseTransitionRule(TransitionRule * transitionRule);
 void releaseStyle(Style * style);
+void releaseStyleList(StyleList * styleList);
+void releaseKeyframes(Keyframes * keyframes);
 void releasePropertyList(PropertyList * propertyList);
 void releaseAnimate(Animate * animate);
 void releaseProperty(Property * property);
