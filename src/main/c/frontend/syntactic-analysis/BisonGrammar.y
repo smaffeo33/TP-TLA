@@ -31,6 +31,7 @@
 	TransitionList * transitionList;
 	TransitionBlock * transitionBlock;
 	TransitionRule * transitionRule;
+	AliasType aliasType;
 }
 
 /**
@@ -93,7 +94,10 @@
 %token <token> ENTER_QUERY
 %token <token> VOID_STATE
 %token <token> WILDCARD_STATE
-%token <string> RESERVED_STATE
+%token <token> ENTER_ALIAS
+%token <token> LEAVE_ALIAS
+%token <token> INCREMENT_ALIAS
+%token <token> DECREMENT_ALIAS
 
 %token <token> UNKNOWN
 
@@ -103,6 +107,7 @@
 %type <transition> transition
 %type <style> style
 %type <animate> animate
+%type <animate> animateWithStyle
 %type <property> property
 %type <triggerList> triggerList
 %type <triggerBlock> triggerBlock
@@ -112,6 +117,7 @@
 %type <program> program
 %type <transitionBlock> transitionBlock
 %type <transitionRule> transitionRule
+%type <aliasType> aliasType
 
 /**
  * Precedence and associativity.
@@ -153,13 +159,24 @@ transition: TRANSITION OPEN_PARENTHESIS APOSTROPHE transitionRule APOSTROPHE COM
                                                                                     { $$ = TransitionSemanticAction($4, $7); }
     ;
 
-transitionRule: NAME FORWARD_TRANSITION NAME                                        { $$ = ForwardTransitionRuleSemanticAction($1, $3); }
-    | NAME BIDIRECTIONAL_TRANSITION NAME                                            { $$ = BidirectionalTransitionRuleSemanticAction($1, $3); }
+transitionRule: NAME FORWARD_TRANSITION NAME                                        { $$ = TransitionRuleSemanticAction($1, $3, FORWARD); }
+    | NAME BIDIRECTIONAL_TRANSITION NAME                                            { $$ = TransitionRuleSemanticAction($1, $3, BIDIRECTIONAL); }
+    | aliasType                                                                     { $$ = AliasTypeSemanticAction($1); }
+    ;
+
+aliasType: ENTER_ALIAS                                                              { $$ = AliasSemanticAction(ENTER); }
+    | LEAVE_ALIAS                                                                   { $$ = AliasSemanticAction(LEAVE); }
+    | INCREMENT_ALIAS                                                               { $$ = AliasSemanticAction(INCREMENT); }
+    | DECREMENT_ALIAS                                                               { $$ = AliasSemanticAction(DECREMENT); }
     ;
 
 transitionBlock: animate                                                            { $$ = AnimateTransitionBlockSemanticAction($1); }
-    | OPEN_BRACKET animate CLOSE_BRACKET                                            { $$ = AnimateTransitionBlockSemanticAction($2); }
+    | OPEN_BRACKET animateWithStyle CLOSE_BRACKET                                   { $$ = AnimateTransitionBlockSemanticAction($2); }
     | OPEN_BRACKET style COMMA animate CLOSE_BRACKET                                { $$ = StyleAnimateTransitionBlockSemanticAction($2, $4); }
+    ;
+
+animateWithStyle: ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE COMMA style CLOSE_PARENTHESIS
+                                                                                    { $$ = AnimateWithStyleSemanticAction($4, $5, $8); }
     ;
 
 style: STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS      { $$ = StyleSemanticAction($4); }

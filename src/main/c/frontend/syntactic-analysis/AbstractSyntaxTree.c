@@ -77,8 +77,14 @@ void releaseTransition(Transition * transition) {
 void releaseTransitionRule(TransitionRule * transitionRule) {
     logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
     if (transitionRule != NULL) {
-        free(transitionRule->fromState);
-        free(transitionRule->toState);
+        switch (transitionRule->ruleType) {
+            case FROM_TO:
+                free(transitionRule->fromState);
+                free(transitionRule->toState);
+                break;
+            case ALIAS:
+                break;
+        }
         free(transitionRule);
     }
 }
@@ -116,6 +122,7 @@ void releaseAnimate(Animate * animate) {
 	if (animate != NULL) {
 		free(animate->duration);
 		free(animate->easing);
+        releaseStyle(animate->style);
 		free(animate);
 	}
 }
@@ -128,9 +135,7 @@ void releaseProperty(Property * property) {
             case STRING:
                 free(property->value);
                 break;
-            case FLOAT:
-                break;
-            case INT:
+            default:
                 break;
         }
 		free(property);

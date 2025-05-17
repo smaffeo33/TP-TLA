@@ -45,11 +45,11 @@ Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
+
+Token AliasStateAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+
 /* Punctuation */
 Token PunctuationAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
-
-
-Token ReservedStateAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 /* Unit handling */
 Token ValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);

@@ -307,6 +307,20 @@ Animate * AnimateSemanticAction( char * time,  char * easing) {
     }
     animate->duration = time;
     animate->easing = easing;
+    animate->style = NULL;
+    return animate;
+}
+
+Animate * AnimateWithStyleSemanticAction( char * time,  char * easing, Style * style) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    Animate * animate = calloc(1, sizeof(Animate));
+    if (animate == NULL) {
+        logError(_logger, "Memory allocation failed for Animate");
+        return NULL;
+    }
+    animate->duration = time;
+    animate->easing = easing;
+    animate->style = style;
     return animate;
 }
 
@@ -334,7 +348,7 @@ TransitionBlock * StyleAnimateTransitionBlockSemanticAction(Style * style, Anima
     return transitionBlock;
 }
 
-TransitionRule * ForwardTransitionRuleSemanticAction(char * fromState, char * toState) {
+TransitionRule * TransitionRuleSemanticAction(char * fromState, char * toState, Direction direction) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     TransitionRule * transitionRule = calloc(1, sizeof(TransitionRule));
     if (transitionRule == NULL) {
@@ -343,20 +357,24 @@ TransitionRule * ForwardTransitionRuleSemanticAction(char * fromState, char * to
     }
     transitionRule->fromState = fromState;
     transitionRule->toState = toState;
-    transitionRule->direction = FORWARD;
+    transitionRule->direction = direction;
+    transitionRule->ruleType = FROM_TO;
     return transitionRule;
 }
 
-TransitionRule * BidirectionalTransitionRuleSemanticAction(char * fromState, char * toState) {
+TransitionRule * AliasTypeSemanticAction(AliasType aliasType) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     TransitionRule * transitionRule = calloc(1, sizeof(TransitionRule));
     if (transitionRule == NULL) {
         logError(_logger, "Memory allocation failed for TransitionRule");
         return NULL;
     }
-    transitionRule->fromState = fromState;
-    transitionRule->toState = toState;
-    transitionRule->direction = BIDIRECTIONAL;
+    transitionRule->alias = aliasType;
+    transitionRule->ruleType = ALIAS;
     return transitionRule;
+}
+AliasType AliasSemanticAction(AliasType aliasType) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    return aliasType;
 }
 

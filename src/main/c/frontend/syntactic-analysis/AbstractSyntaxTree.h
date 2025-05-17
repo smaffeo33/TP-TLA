@@ -16,6 +16,8 @@ void shutdownAbstractSyntaxTreeModule();
 
 typedef enum Direction Direction;
 typedef enum PropertyType PropertyType;
+typedef enum TransitionRuleType TransitionRuleType;
+typedef enum AliasType AliasType;
 
 typedef struct Program Program;
 typedef struct Trigger Trigger;
@@ -42,6 +44,18 @@ enum PropertyType {
     STRING,
     FLOAT,
     INT,
+};
+
+enum TransitionRuleType {
+    FROM_TO,
+    ALIAS,
+};
+
+enum AliasType {
+    ENTER,
+    LEAVE,
+    INCREMENT,
+    DECREMENT,
 };
 
 struct Trigger {
@@ -80,9 +94,15 @@ struct Transition {
 };
 
 struct TransitionRule {
-    char *fromState; // e.g., "default"
-    char *toState; // e.g., "expanded"
-    Direction direction; // e.g., "FORWARD"
+    union {
+        struct {
+            char *fromState; // e.g., "default"
+            char *toState; // e.g., "expanded"
+            Direction direction; // e.g., "FORWARD"
+        };
+        AliasType alias; // e.g., ":enter" //TODO check if it is better to use char * or enum for these reserved (i think enum)
+    };
+    TransitionRuleType ruleType;
 };
 
 struct TransitionBlock {
@@ -100,6 +120,7 @@ struct PropertyList {
 };
 
 struct Animate {
+    Style * style;
 	char *duration; // e.g., "300ms"
 	char *easing; // e.g., "cubic-bezier(0.4, 0.0, 0.2, 1)"
 };

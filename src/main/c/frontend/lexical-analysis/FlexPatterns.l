@@ -22,7 +22,7 @@ WHITESPACE  [ \t\r\n]
 DIGIT       [0-9]
 ALPHA       [a-zA-Z]
 ALPHANUM    [a-zA-Z0-9]
-ID          ([a-zA-Z][a-zA-Z0-9_]*\*)
+ID          ([a-zA-Z][a-zA-Z0-9_]*|\*)
 STRING      ['"][^'"]*['"]
 NUMBER      {DIGIT}+(\.{DIGIT}+)?
 INTEGER     {DIGIT}+
@@ -51,6 +51,11 @@ EASING      "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-bezier"{WH
 "keyframes"                                         { return KeywordLexemeAction(createLexicalAnalyzerContext(), KEYFRAMES); }
 "useAnimation"                                      { return KeywordLexemeAction(createLexicalAnalyzerContext(), USE_ANIMATION); }
 "animation"                                         { return KeywordLexemeAction(createLexicalAnalyzerContext(), ANIMATION); }
+
+":enter"                                            { return AliasStateAction(createLexicalAnalyzerContext(), ENTER_ALIAS); }
+":leave"                                            { return AliasStateAction(createLexicalAnalyzerContext(), LEAVE_ALIAS); }
+":increment"                                        { return AliasStateAction(createLexicalAnalyzerContext(), INCREMENT_ALIAS); }
+":decrement"                                        { return AliasStateAction(createLexicalAnalyzerContext(), DECREMENT_ALIAS); }
 
 "=>"                                                { return PunctuationAction(createLexicalAnalyzerContext(), FORWARD_TRANSITION); }
 "<=>"                                               { return PunctuationAction(createLexicalAnalyzerContext(), BIDIRECTIONAL_TRANSITION); }

@@ -39,10 +39,14 @@ Property * ValuePropertySemanticAction( char * name,  char * value);
 Property * FloatValuePropertySemanticAction( char * name,  float value);
 Property * IntegerValuePropertySemanticAction( char * name,  int value);
 Animate * AnimateSemanticAction( char * time,  char * easing);
+Animate * AnimateWithStyleSemanticAction( char * time,  char * easing, Style * style);
 TransitionBlock * AnimateTransitionBlockSemanticAction(Animate * animate);
 TransitionBlock * StyleAnimateTransitionBlockSemanticAction(Style * style, Animate * animate);
-TransitionRule * ForwardTransitionRuleSemanticAction(char * fromState, char * toState);
-TransitionRule * BidirectionalTransitionRuleSemanticAction(char * fromState, char * toState);
+TransitionRule * TransitionRuleSemanticAction(char * fromState, char * toState, Direction direction);
+
+TransitionRule * AliasTypeSemanticAction(AliasType aliasType);
+AliasType AliasSemanticAction(AliasType aliasType);
+
 
 
 #endif
