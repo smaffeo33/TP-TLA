@@ -92,9 +92,34 @@ void releaseTransitionRule(TransitionRule * transitionRule) {
 void releaseTransitionBlock(TransitionBlock * transitionBlock) {
     logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
     if (transitionBlock != NULL) {
-        releaseAnimate(transitionBlock->animate);
-        releaseStyle(transitionBlock->style);
+        releaseTransitionBlockItemList(transitionBlock->transitionBlockItemList);
         free(transitionBlock);
+    }
+}
+
+void releaseTransitionBlockItemList(TransitionBlockItemList * transitionBlockItemList) {
+    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+    if (transitionBlockItemList != NULL) {
+        for (size_t i = 0; i < transitionBlockItemList->itemCount; i++) {
+            releaseTransitionBlockItem(transitionBlockItemList->items[i]);
+        }
+        free(transitionBlockItemList->items);
+        free(transitionBlockItemList);
+    }
+}
+
+void releaseTransitionBlockItem(TransitionBlockItem * transitionBlockItem) {
+    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+    if (transitionBlockItem != NULL) {
+        switch (transitionBlockItem->type) {
+            case ANIMATE_ITEM:
+                releaseAnimate((Animate *) transitionBlockItem->item);
+                break;
+            case STYLE_ITEM:
+                releaseStyle((Style *) transitionBlockItem->item);
+                break;
+        }
+        free(transitionBlockItem);
     }
 }
 

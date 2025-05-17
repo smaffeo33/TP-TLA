@@ -324,28 +324,128 @@ Animate * AnimateWithStyleSemanticAction( char * time,  char * easing, Style * s
     return animate;
 }
 
-TransitionBlock * AnimateTransitionBlockSemanticAction(Animate * animate) {
+TransitionBlock * AnimateTransitionBlockSemanticAction(Animate * animate) { //TODO check and or simplify
     _logSyntacticAnalyzerAction(__FUNCTION__);
     TransitionBlock * transitionBlock = calloc(1, sizeof(TransitionBlock));
     if (transitionBlock == NULL) {
         logError(_logger, "Memory allocation failed for TransitionBlock");
         return NULL;
     }
-    transitionBlock->animate = animate;
-    transitionBlock->style = NULL;
+    transitionBlock->transitionBlockItemList = calloc(1, sizeof(TransitionBlockItemList));
+    if (transitionBlock->transitionBlockItemList == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItemList");
+        free(transitionBlock);
+        return NULL;
+    }
+    transitionBlock->transitionBlockItemList->items = calloc(1, sizeof(TransitionBlockItem *));
+    if (transitionBlock->transitionBlockItemList->items == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+        free(transitionBlock->transitionBlockItemList);
+        free(transitionBlock);
+        return NULL;
+    }
+    transitionBlock->transitionBlockItemList->items[0] = calloc(1, sizeof(TransitionBlockItem));
+    if (transitionBlock->transitionBlockItemList->items[0] == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+        free(transitionBlock->transitionBlockItemList->items);
+        free(transitionBlock->transitionBlockItemList);
+        free(transitionBlock);
+        return NULL;
+    }
+    transitionBlock->transitionBlockItemList->items[0]->type = ANIMATE_ITEM;
+    transitionBlock->transitionBlockItemList->items[0]->item = animate;
+    transitionBlock->transitionBlockItemList->itemCount = 1;
     return transitionBlock;
 }
 
-TransitionBlock * StyleAnimateTransitionBlockSemanticAction(Style * style, Animate * animate) {
+TransitionBlock * TransitionBlockItemListTransitionBlockSemanticAction(TransitionBlockItemList * transitionBlockItemList) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     TransitionBlock * transitionBlock = calloc(1, sizeof(TransitionBlock));
     if (transitionBlock == NULL) {
         logError(_logger, "Memory allocation failed for TransitionBlock");
         return NULL;
     }
-    transitionBlock->animate = animate;
-    transitionBlock->style = style;
+    transitionBlock->transitionBlockItemList = transitionBlockItemList;
     return transitionBlock;
+}
+
+TransitionBlockItemList * TransitionBlockItemListSemanticAction(TransitionBlockItem * transitionBlockItem) { //TODO: CHECK EVERY SINGLE ONE OF THESE IM NOT VERY SURE OF THIS
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TransitionBlockItemList * transitionBlockItemList = calloc(1, sizeof(TransitionBlockItemList));
+    if (transitionBlockItemList == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItemList");
+        return NULL;
+    }
+    transitionBlockItemList->items = calloc(1, sizeof(TransitionBlockItem *));
+    if (transitionBlockItemList->items == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+        free(transitionBlockItemList);
+        return NULL;
+    }
+    transitionBlockItemList->items[0] = transitionBlockItem;
+    transitionBlockItemList->itemCount = 1;
+    return transitionBlockItemList;
+}
+TransitionBlockItemList * AnimateTransitionBlockItemListSemanticAction(TransitionBlockItemList * transitionBlockItemList, Animate * animate) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
+    if (transitionBlockItem == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+        return NULL;
+    }
+    transitionBlockItem->type = ANIMATE_ITEM;
+    transitionBlockItem->item = animate;
+    transitionBlockItemList->items = realloc(transitionBlockItemList->items, (transitionBlockItemList->itemCount + 1) * sizeof(TransitionBlockItem *));
+    if (transitionBlockItemList->items == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+        free(transitionBlockItem);
+        return NULL;
+    }
+    transitionBlockItemList->items[transitionBlockItemList->itemCount] = transitionBlockItem;
+    transitionBlockItemList->itemCount++;
+    return transitionBlockItemList;
+}
+TransitionBlockItemList * StyleTransitionBlockItemListSemanticAction(TransitionBlockItemList * transitionBlockItemList, Style * style) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
+    if (transitionBlockItem == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+        return NULL;
+    }
+    transitionBlockItem->type = STYLE_ITEM;
+    transitionBlockItem->item = style;
+    transitionBlockItemList->items = realloc(transitionBlockItemList->items, (transitionBlockItemList->itemCount + 1) * sizeof(TransitionBlockItem *));
+    if (transitionBlockItemList->items == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+        free(transitionBlockItem);
+        return NULL;
+    }
+    transitionBlockItemList->items[transitionBlockItemList->itemCount] = transitionBlockItem;
+    transitionBlockItemList->itemCount++;
+    return transitionBlockItemList;
+}
+
+TransitionBlockItem * AnimateTransitionBlockItemSemanticAction(Animate * animate) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
+    if (transitionBlockItem == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+        return NULL;
+    }
+    transitionBlockItem->type = ANIMATE_ITEM;
+    transitionBlockItem->item = animate;
+    return transitionBlockItem;
+}
+TransitionBlockItem * StyleTransitionBlockItemSemanticAction(Style * style) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
+    if (transitionBlockItem == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+        return NULL;
+    }
+    transitionBlockItem->type = STYLE_ITEM;
+    transitionBlockItem->item = style;
+    return transitionBlockItem;
 }
 
 TransitionRule * TransitionRuleSemanticAction(char * fromState, char * toState, Direction direction) {

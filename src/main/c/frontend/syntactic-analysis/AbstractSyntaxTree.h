@@ -18,6 +18,7 @@ typedef enum Direction Direction;
 typedef enum PropertyType PropertyType;
 typedef enum TransitionRuleType TransitionRuleType;
 typedef enum AliasType AliasType;
+typedef enum TransitionBlockItemType TransitionBlockItemType;
 
 typedef struct Program Program;
 typedef struct Trigger Trigger;
@@ -34,6 +35,8 @@ typedef struct TransitionList TransitionList;
 typedef struct PropertyList PropertyList;
 typedef struct TriggerBlock TriggerBlock;
 typedef struct TransitionRule TransitionRule;
+typedef struct TransitionBlockItem TransitionBlockItem;
+typedef struct TransitionBlockItemList TransitionBlockItemList;
 
 enum Direction {
 	FORWARD,
@@ -56,6 +59,11 @@ enum AliasType {
     LEAVE,
     INCREMENT,
     DECREMENT,
+};
+
+enum TransitionBlockItemType {
+    ANIMATE_ITEM,
+    STYLE_ITEM,
 };
 
 struct Trigger {
@@ -105,10 +113,19 @@ struct TransitionRule {
     TransitionRuleType ruleType;
 };
 
-struct TransitionBlock {
-    Animate *animate; // Associated animation
-    Style *style;
+struct TransitionBlock { //TODO: this might need simplifying, it only calls the list, might this be the list instead?
+    TransitionBlockItemList * transitionBlockItemList; // List of transition block items
 };
+
+struct TransitionBlockItemList {
+    TransitionBlockItem **items; // Array of items (Animate, Style, etc.)
+    size_t itemCount;
+};
+
+typedef struct TransitionBlockItem {
+    TransitionBlockItemType type;
+    void *item; // Pointer to either Animate or Style
+} TransitionBlockItem;
 
 struct Style {
 	PropertyList *properties;
@@ -150,6 +167,8 @@ void releaseState(State * state);
 void releaseStateList(StateList * stateList);
 void releaseTransition(Transition * transition);
 void releaseTransitionBlock(TransitionBlock * transitionBlock);
+void releaseTransitionBlockItemList(TransitionBlockItemList * transitionBlockItemList);
+void releaseTransitionBlockItem(TransitionBlockItem * transitionBlockItem);
 void releaseTransitionList(TransitionList * transitionList);
 void releaseTransitionRule(TransitionRule * transitionRule);
 void releaseStyle(Style * style);

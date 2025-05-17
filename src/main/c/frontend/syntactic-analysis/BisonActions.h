@@ -41,8 +41,16 @@ Property * IntegerValuePropertySemanticAction( char * name,  int value);
 Animate * AnimateSemanticAction( char * time,  char * easing);
 Animate * AnimateWithStyleSemanticAction( char * time,  char * easing, Style * style);
 TransitionBlock * AnimateTransitionBlockSemanticAction(Animate * animate);
-TransitionBlock * StyleAnimateTransitionBlockSemanticAction(Style * style, Animate * animate);
 TransitionRule * TransitionRuleSemanticAction(char * fromState, char * toState, Direction direction);
+
+TransitionBlock * TransitionBlockItemListTransitionBlockSemanticAction(TransitionBlockItemList * transitionBlockItemList);
+
+TransitionBlockItemList * TransitionBlockItemListSemanticAction(TransitionBlockItem * transitionBlockItem);
+TransitionBlockItemList * AnimateTransitionBlockItemListSemanticAction(TransitionBlockItemList * transitionBlockItemList, Animate * animate);
+TransitionBlockItemList * StyleTransitionBlockItemListSemanticAction(TransitionBlockItemList * transitionBlockItemList, Style * style);
+
+TransitionBlockItem * AnimateTransitionBlockItemSemanticAction(Animate * animate);
+TransitionBlockItem * StyleTransitionBlockItemSemanticAction(Style * style);
 
 TransitionRule * AliasTypeSemanticAction(AliasType aliasType);
 AliasType AliasSemanticAction(AliasType aliasType);

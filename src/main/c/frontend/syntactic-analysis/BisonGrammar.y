@@ -30,6 +30,8 @@
 	PropertyList * propertyList;
 	TransitionList * transitionList;
 	TransitionBlock * transitionBlock;
+	TransitionBlockItem * transitionBlockItem;
+	TransitionBlockItemList * transitionBlockItemList;
 	TransitionRule * transitionRule;
 	AliasType aliasType;
 }
@@ -107,7 +109,6 @@
 %type <transition> transition
 %type <style> style
 %type <animate> animate
-%type <animate> animateWithStyle
 %type <property> property
 %type <triggerList> triggerList
 %type <triggerBlock> triggerBlock
@@ -116,6 +117,8 @@
 %type <propertyList> propertyList
 %type <program> program
 %type <transitionBlock> transitionBlock
+%type <transitionBlockItem> transitionBlockItem
+%type <transitionBlockItemList> transitionBlockItemList
 %type <transitionRule> transitionRule
 %type <aliasType> aliasType
 
@@ -171,13 +174,18 @@ aliasType: ENTER_ALIAS                                                          
     ;
 
 transitionBlock: animate                                                            { $$ = AnimateTransitionBlockSemanticAction($1); }
-    | OPEN_BRACKET animateWithStyle CLOSE_BRACKET                                   { $$ = AnimateTransitionBlockSemanticAction($2); }
-    | OPEN_BRACKET style COMMA animate CLOSE_BRACKET                                { $$ = StyleAnimateTransitionBlockSemanticAction($2, $4); }
+    | OPEN_BRACKET transitionBlockItemList CLOSE_BRACKET                            { $$ = TransitionBlockItemListTransitionBlockSemanticAction($2); }
     ;
 
-animateWithStyle: ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE COMMA style CLOSE_PARENTHESIS
-                                                                                    { $$ = AnimateWithStyleSemanticAction($4, $5, $8); }
+transitionBlockItemList: transitionBlockItem                                        { $$ = TransitionBlockItemListSemanticAction($1); }
+    | transitionBlockItemList COMMA animate                                         { $$ = AnimateTransitionBlockItemListSemanticAction($1, $3); }
+    | transitionBlockItemList COMMA style                                           { $$ = StyleTransitionBlockItemListSemanticAction($1, $3); }
     ;
+
+transitionBlockItem: animate                                                        { $$ = AnimateTransitionBlockItemSemanticAction($1); }
+    | style                                                                         { $$ = StyleTransitionBlockItemSemanticAction($1); }
+    ;
+
 
 style: STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS      { $$ = StyleSemanticAction($4); }
     ;
@@ -195,6 +203,8 @@ property: NAME COLON VALUE                                                      
 
 
 animate: ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE CLOSE_PARENTHESIS      { $$ = AnimateSemanticAction($4, $5); }
+    | ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE COMMA style CLOSE_PARENTHESIS
+                                                                                        { $$ = AnimateWithStyleSemanticAction($4, $5, $8); }
     ;
 
 %%
