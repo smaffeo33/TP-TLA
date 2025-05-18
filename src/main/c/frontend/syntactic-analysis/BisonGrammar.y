@@ -36,8 +36,8 @@
 	PropertyList * propertyList;
 	TransitionList * transitionList;
 	TransitionBlock * transitionBlock;
-	TransitionBlockItem * transitionBlockItem;
-	TransitionBlockItemList * transitionBlockItemList;
+	StepItem * transitionBlockItem;
+	StepItemList * stepItemList;
 	TransitionRule * transitionRule;
 	AliasType aliasType;
 }
@@ -131,7 +131,7 @@
 %type <program> program
 %type <transitionBlock> transitionBlock
 %type <transitionBlockItem> transitionBlockItem
-%type <transitionBlockItemList> transitionBlockItemList
+%type <stepItemList> stepItemList
 %type <transitionRule> transitionRule
 %type <aliasType> aliasType
 
@@ -188,28 +188,28 @@ aliasType: ENTER_ALIAS                                                          
     ;
 
 transitionBlock: animate                                                            { $$ = AnimateTransitionBlockSemanticAction($1); }
-    | OPEN_BRACKET transitionBlockItemList CLOSE_BRACKET                            { $$ = TransitionBlockItemListTransitionBlockSemanticAction($2); }
+    | OPEN_BRACKET stepItemList CLOSE_BRACKET                            { $$ = StepItemListTransitionBlockSemanticAction($2); }
     ;
 
-transitionBlockItemList: transitionBlockItem                                        { $$ = TransitionBlockItemListSemanticAction($1); }
-    | transitionBlockItemList COMMA transitionBlockItem                             { $$ = TransitionBlockItemTransitionBlockItemListSemanticAction($1, $3); }
+stepItemList: transitionBlockItem                                        { $$ = StepItemListSemanticAction($1); }
+    | stepItemList COMMA transitionBlockItem                             { $$ = StepItemStepItemListSemanticAction($1, $3); }
     ;
 
-transitionBlockItem: animate                                                        { $$ = AnimateTransitionBlockItemSemanticAction($1); }
-    | style                                                                         { $$ = StyleTransitionBlockItemSemanticAction($1); }
-    | group                                                                         { $$ = GroupTransitionBlockItemSemanticAction($1); }
-    | sequence                                                                      { $$ = SequenceTransitionBlockItemSemanticAction($1); }
-    | stagger                                                                       { $$ = StaggerTransitionBlockItemSemanticAction($1); }
+transitionBlockItem: animate                                                        { $$ = AnimateStepItemSemanticAction($1); }
+    | style                                                                         { $$ = StyleStepItemSemanticAction($1); }
+    | group                                                                         { $$ = GroupStepItemSemanticAction($1); }
+    | sequence                                                                      { $$ = SequenceStepItemSemanticAction($1); }
+    | stagger                                                                       { $$ = StaggerStepItemSemanticAction($1); }
     ;
 
-stagger: STAGGER OPEN_PARENTHESIS APOSTROPHE TIME APOSTROPHE COMMA OPEN_BRACKET transitionBlockItemList CLOSE_BRACKET CLOSE_PARENTHESIS
+stagger: STAGGER OPEN_PARENTHESIS APOSTROPHE TIME APOSTROPHE COMMA OPEN_BRACKET stepItemList CLOSE_BRACKET CLOSE_PARENTHESIS
                                                                                     { $$ = StaggerSemanticAction($4, $8); }
     ;
 
-sequence: SEQUENCE OPEN_PARENTHESIS OPEN_BRACKET transitionBlockItemList CLOSE_BRACKET CLOSE_PARENTHESIS
+sequence: SEQUENCE OPEN_PARENTHESIS OPEN_BRACKET stepItemList CLOSE_BRACKET CLOSE_PARENTHESIS
                                                                                     { $$ = SequenceSemanticAction($4); }
 
-group: GROUP OPEN_PARENTHESIS OPEN_BRACKET transitionBlockItemList CLOSE_BRACKET CLOSE_PARENTHESIS
+group: GROUP OPEN_PARENTHESIS OPEN_BRACKET stepItemList CLOSE_BRACKET CLOSE_PARENTHESIS
                                                                                     { $$ = GroupSemanticAction($4); }
     ;
 

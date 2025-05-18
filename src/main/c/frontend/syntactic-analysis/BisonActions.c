@@ -346,101 +346,101 @@ TransitionBlock * AnimateTransitionBlockSemanticAction(Animate * animate) { //TO
         logError(_logger, "Memory allocation failed for TransitionBlock");
         return NULL;
     }
-    transitionBlock->transitionBlockItemList = calloc(1, sizeof(TransitionBlockItemList));
-    if (transitionBlock->transitionBlockItemList == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItemList");
+    transitionBlock->stepItemList = calloc(1, sizeof(StepItemList));
+    if (transitionBlock->stepItemList == NULL) {
+        logError(_logger, "Memory allocation failed for StepItemList");
         free(transitionBlock);
         return NULL;
     }
-    transitionBlock->transitionBlockItemList->items = calloc(1, sizeof(TransitionBlockItem *));
-    if (transitionBlock->transitionBlockItemList->items == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItem");
-        free(transitionBlock->transitionBlockItemList);
+    transitionBlock->stepItemList->items = calloc(1, sizeof(StepItem *));
+    if (transitionBlock->stepItemList->items == NULL) {
+        logError(_logger, "Memory allocation failed for StepItem");
+        free(transitionBlock->stepItemList);
         free(transitionBlock);
         return NULL;
     }
-    transitionBlock->transitionBlockItemList->items[0] = calloc(1, sizeof(TransitionBlockItem));
-    if (transitionBlock->transitionBlockItemList->items[0] == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItem");
-        free(transitionBlock->transitionBlockItemList->items);
-        free(transitionBlock->transitionBlockItemList);
+    transitionBlock->stepItemList->items[0] = calloc(1, sizeof(StepItem));
+    if (transitionBlock->stepItemList->items[0] == NULL) {
+        logError(_logger, "Memory allocation failed for StepItem");
+        free(transitionBlock->stepItemList->items);
+        free(transitionBlock->stepItemList);
         free(transitionBlock);
         return NULL;
     }
-    transitionBlock->transitionBlockItemList->items[0]->type = ANIMATE_ITEM;
-    transitionBlock->transitionBlockItemList->items[0]->item = animate;
-    transitionBlock->transitionBlockItemList->itemCount = 1;
+    transitionBlock->stepItemList->items[0]->type = ANIMATE_ITEM;
+    transitionBlock->stepItemList->items[0]->item = animate;
+    transitionBlock->stepItemList->itemCount = 1;
     return transitionBlock;
 }
 
-TransitionBlock * TransitionBlockItemListTransitionBlockSemanticAction(TransitionBlockItemList * transitionBlockItemList) {
+TransitionBlock * StepItemListTransitionBlockSemanticAction(StepItemList * stepItemList) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     TransitionBlock * transitionBlock = calloc(1, sizeof(TransitionBlock));
     if (transitionBlock == NULL) {
         logError(_logger, "Memory allocation failed for TransitionBlock");
         return NULL;
     }
-    transitionBlock->transitionBlockItemList = transitionBlockItemList;
+    transitionBlock->stepItemList = stepItemList;
     return transitionBlock;
 }
 
-TransitionBlockItemList * TransitionBlockItemListSemanticAction(TransitionBlockItem * transitionBlockItem) {
+StepItemList * StepItemListSemanticAction(StepItem * stepItem) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
-    TransitionBlockItemList * transitionBlockItemList = calloc(1, sizeof(TransitionBlockItemList));
-    if (transitionBlockItemList == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItemList");
+    StepItemList * stepItemList = calloc(1, sizeof(StepItemList));
+    if (stepItemList == NULL) {
+        logError(_logger, "Memory allocation failed for StepItemList");
         return NULL;
     }
-    transitionBlockItemList->items = calloc(1, sizeof(TransitionBlockItem *));
-    if (transitionBlockItemList->items == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItem");
-        free(transitionBlockItemList);
+    stepItemList->items = calloc(1, sizeof(StepItem *));
+    if (stepItemList->items == NULL) {
+        logError(_logger, "Memory allocation failed for StepItem");
+        free(stepItemList);
         return NULL;
     }
-    transitionBlockItemList->items[0] = transitionBlockItem;
-    transitionBlockItemList->itemCount = 1;
-    return transitionBlockItemList;
+    stepItemList->items[0] = stepItem;
+    stepItemList->itemCount = 1;
+    return stepItemList;
 }
 
 
-TransitionBlockItemList * TransitionBlockItemTransitionBlockItemListSemanticAction(TransitionBlockItemList * transitionBlockItemList, TransitionBlockItem * transitionBlockItem) {
+StepItemList * StepItemStepItemListSemanticAction(StepItemList * stepItemList, StepItem * stepItem) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
-    if (transitionBlockItemList == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItemList");
+    if (stepItemList == NULL) {
+        logError(_logger, "Memory allocation failed for StepItemList");
         return NULL;
     }
-    transitionBlockItemList->items = realloc(transitionBlockItemList->items, (transitionBlockItemList->itemCount + 1) * sizeof(TransitionBlockItem *));
-    if (transitionBlockItemList->items == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItem");
-        free(transitionBlockItemList);
+    stepItemList->items = realloc(stepItemList->items, (stepItemList->itemCount + 1) * sizeof(StepItem *));
+    if (stepItemList->items == NULL) {
+        logError(_logger, "Memory allocation failed for StepItem");
+        free(stepItemList);
         return NULL;
     }
-    transitionBlockItemList->items[transitionBlockItemList->itemCount] = transitionBlockItem;
-    transitionBlockItemList->itemCount++;
-    return transitionBlockItemList;
+    stepItemList->items[stepItemList->itemCount] = stepItem;
+    stepItemList->itemCount++;
+    return stepItemList;
 }
 
-TransitionBlockItem * AnimateTransitionBlockItemSemanticAction(Animate * animate) {
+StepItem * AnimateStepItemSemanticAction(Animate * animate) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
-    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
-    if (transitionBlockItem == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+    StepItem * stepItem = calloc(1, sizeof(StepItem));
+    if (stepItem == NULL) {
+        logError(_logger, "Memory allocation failed for StepItem");
         return NULL;
     }
-    transitionBlockItem->type = ANIMATE_ITEM;
-    transitionBlockItem->item = animate;
-    return transitionBlockItem;
+    stepItem->type = ANIMATE_ITEM;
+    stepItem->item = animate;
+    return stepItem;
 }
-TransitionBlockItem * StyleTransitionBlockItemSemanticAction(Style * style) {
+StepItem * StyleStepItemSemanticAction(Style * style) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
-    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
-    if (transitionBlockItem == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+    StepItem * stepItem = calloc(1, sizeof(StepItem));
+    if (stepItem == NULL) {
+        logError(_logger, "Memory allocation failed for StepItem");
         return NULL;
     }
-    transitionBlockItem->type = STYLE_ITEM;
-    transitionBlockItem->item = style;
-    return transitionBlockItem;
+    stepItem->type = STYLE_ITEM;
+    stepItem->item = style;
+    return stepItem;
 }
 
 TransitionRule * TransitionRuleSemanticAction(char * fromState, char * toState, Direction direction) {
@@ -473,16 +473,16 @@ AliasType AliasSemanticAction(AliasType aliasType) {
     return aliasType;
 }
 
-TransitionBlockItem * GroupTransitionBlockItemSemanticAction(Group * group) {
+StepItem * GroupStepItemSemanticAction(Group * group) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
-    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
-    if (transitionBlockItem == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+    StepItem * stepItem = calloc(1, sizeof(StepItem));
+    if (stepItem == NULL) {
+        logError(_logger, "Memory allocation failed for StepItem");
         return NULL;
     }
-    transitionBlockItem->type = GROUP_ITEM;
-    transitionBlockItem->item = group;
-    return transitionBlockItem;
+    stepItem->type = GROUP_ITEM;
+    stepItem->item = group;
+    return stepItem;
 }
 
 Keyframes * KeyframesSemanticAction(KeyframeStyleList * keyframeStyleList) {
@@ -543,7 +543,7 @@ KeyframeStyle * keframeStyleSemanticAction(PropertyList * propertyList, float of
     return keyframeStyle;
 }
 
-Group * GroupSemanticAction(TransitionBlockItemList * transitionBlockItemList) {
+Group * GroupSemanticAction(StepItemList * stepItemList) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Group * group = calloc(1, sizeof(Group));
 
@@ -551,45 +551,45 @@ Group * GroupSemanticAction(TransitionBlockItemList * transitionBlockItemList) {
         logError(_logger, "Memory allocation failed for Group");
         return NULL;
     }
-    group->transitionBlockItemList = transitionBlockItemList;
+    group->stepItemList = stepItemList;
     return group;
 }
 
-TransitionBlockItem * SequenceTransitionBlockItemSemanticAction(Sequence * sequence) {
+StepItem * SequenceStepItemSemanticAction(Sequence * sequence) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
-    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
-    if (transitionBlockItem == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+    StepItem * stepItem = calloc(1, sizeof(StepItem));
+    if (stepItem == NULL) {
+        logError(_logger, "Memory allocation failed for StepItem");
         return NULL;
     }
-    transitionBlockItem->type = SEQUENCE_ITEM;
-    transitionBlockItem->item = sequence;
-    return transitionBlockItem;
+    stepItem->type = SEQUENCE_ITEM;
+    stepItem->item = sequence;
+    return stepItem;
 }
 
-Sequence * SequenceSemanticAction(TransitionBlockItemList * transitionBlockItemList) {
+Sequence * SequenceSemanticAction(StepItemList * stepItemList) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Sequence * sequence = calloc(1, sizeof(Sequence));
     if (sequence == NULL) {
         logError(_logger, "Memory allocation failed for Sequence");
         return NULL;
     }
-    sequence->transitionBlockItemList = transitionBlockItemList;
+    sequence->stepItemList = stepItemList;
     return sequence;
 }
 
-TransitionBlockItem * StaggerTransitionBlockItemSemanticAction(Stagger * stagger) {
+StepItem * StaggerStepItemSemanticAction(Stagger * stagger) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
-    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
-    if (transitionBlockItem == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+    StepItem * stepItem = calloc(1, sizeof(StepItem));
+    if (stepItem == NULL) {
+        logError(_logger, "Memory allocation failed for StepItem");
         return NULL;
     }
-    transitionBlockItem->type = STAGGER_ITEM;
-    transitionBlockItem->item = stagger;
-    return transitionBlockItem;
+    stepItem->type = STAGGER_ITEM;
+    stepItem->item = stagger;
+    return stepItem;
 }
-Stagger * StaggerSemanticAction(char * time, TransitionBlockItemList * transitionBlockItemList) {
+Stagger * StaggerSemanticAction(char * time, StepItemList * stepItemList) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Stagger * stagger = calloc(1, sizeof(Stagger));
     if (stagger == NULL) {
@@ -597,7 +597,7 @@ Stagger * StaggerSemanticAction(char * time, TransitionBlockItemList * transitio
         return NULL;
     }
     stagger->time = time;
-    stagger->transitionBlockItemList = transitionBlockItemList;
+    stagger->stepItemList = stepItemList;
     return stagger;
 }
 

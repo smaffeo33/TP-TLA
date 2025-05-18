@@ -18,7 +18,7 @@ typedef enum Direction Direction;
 typedef enum PropertyType PropertyType;
 typedef enum TransitionRuleType TransitionRuleType;
 typedef enum AliasType AliasType;
-typedef enum TransitionBlockItemType TransitionBlockItemType;
+typedef enum StepItemType StepItemType;
 typedef enum AnimateType AnimateType;
 
 typedef struct Program Program;
@@ -42,8 +42,8 @@ typedef struct TransitionList TransitionList;
 typedef struct PropertyList PropertyList;
 typedef struct TriggerBlock TriggerBlock;
 typedef struct TransitionRule TransitionRule;
-typedef struct TransitionBlockItem TransitionBlockItem;
-typedef struct TransitionBlockItemList TransitionBlockItemList;
+typedef struct StepItem StepItem;
+typedef struct StepItemList StepItemList;
 
 enum Direction {
 	FORWARD,
@@ -68,7 +68,7 @@ enum AliasType {
     DECREMENT,
 };
 
-enum TransitionBlockItemType {
+enum StepItemType {
     ANIMATE_ITEM,
     STYLE_ITEM,
     GROUP_ITEM,
@@ -130,16 +130,16 @@ struct TransitionRule {
 };
 
 struct TransitionBlock { //TODO: this might need simplifying, it only calls the list, might this be the list instead? applies for everything that is a list
-    TransitionBlockItemList * transitionBlockItemList; // List of transition block items
+    StepItemList * stepItemList; // List of transition block items
 };
 
-struct TransitionBlockItemList {
-    TransitionBlockItem **items; // Array of items (Animate, Style, etc.)
+struct StepItemList {
+    StepItem **items; // Array of items (Animate, Style, etc.)
     size_t itemCount;
 };
 
-typedef struct TransitionBlockItem { //TODO: if i am right this might need a rename
-    TransitionBlockItemType type; // TODO: same as above
+typedef struct StepItem {
+    StepItemType type;
     void *item; // Pointer to either Animate or Style
 } TransitionBlockItem;
 
@@ -177,16 +177,16 @@ struct Animate {
 };
 
 struct Group { //TODO: this, along with sequence and stagger (which i hope exists by the time you read this) accept the same things... look into that IV0 and SantIAgo
-    TransitionBlockItemList * transitionBlockItemList; // List of transition block items
+    StepItemList * stepItemList; // List of transition block items
 };
 
 struct Sequence {
-    TransitionBlockItemList * transitionBlockItemList; // List of transition block items
+    StepItemList * stepItemList; // List of transition block items
 };
 
 struct Stagger {
     char *time; // e.g., "100ms"
-    TransitionBlockItemList * transitionBlockItemList; // List of transition block items
+    StepItemList * stepItemList; // List of transition block items
 };
 
 struct Property {
@@ -214,8 +214,8 @@ void releaseState(State * state);
 void releaseStateList(StateList * stateList);
 void releaseTransition(Transition * transition);
 void releaseTransitionBlock(TransitionBlock * transitionBlock);
-void releaseTransitionBlockItemList(TransitionBlockItemList * transitionBlockItemList);
-void releaseTransitionBlockItem(TransitionBlockItem * transitionBlockItem);
+void releaseStepItemList(StepItemList * stepItemList);
+void releaseStepItem(StepItem * stepItem);
 void releaseTransitionList(TransitionList * transitionList);
 void releaseTransitionRule(TransitionRule * transitionRule);
 void releaseStyle(Style * style);

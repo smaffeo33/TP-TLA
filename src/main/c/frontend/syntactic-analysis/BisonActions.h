@@ -44,28 +44,28 @@ Animate * AnimateWithKeyframesSemanticAction( char * time,  char * easing, Keyfr
 TransitionBlock * AnimateTransitionBlockSemanticAction(Animate * animate);
 TransitionRule * TransitionRuleSemanticAction(char * fromState, char * toState, Direction direction);
 
-TransitionBlock * TransitionBlockItemListTransitionBlockSemanticAction(TransitionBlockItemList * transitionBlockItemList);
+TransitionBlock * StepItemListTransitionBlockSemanticAction(StepItemList * stepItemList);
 
-TransitionBlockItemList * TransitionBlockItemListSemanticAction(TransitionBlockItem * transitionBlockItem);
-TransitionBlockItemList * TransitionBlockItemTransitionBlockItemListSemanticAction(TransitionBlockItemList * transitionBlockItemList, TransitionBlockItem * transitionBlockItem);
+StepItemList * StepItemListSemanticAction(StepItem * stepItem);
+StepItemList * StepItemStepItemListSemanticAction(StepItemList * stepItemList, StepItem * stepItem);
 
-TransitionBlockItem * AnimateTransitionBlockItemSemanticAction(Animate * animate);
-TransitionBlockItem * StyleTransitionBlockItemSemanticAction(Style * style);
+StepItem * AnimateStepItemSemanticAction(Animate * animate);
+StepItem * StyleStepItemSemanticAction(Style * style);
 
 Keyframes * KeyframesSemanticAction(KeyframeStyleList * keyframeStyleList);
 
 TransitionRule * AliasTypeSemanticAction(AliasType aliasType);
 AliasType AliasSemanticAction(AliasType aliasType);
 
-TransitionBlockItem * GroupTransitionBlockItemSemanticAction(Group * group);
+StepItem * GroupStepItemSemanticAction(Group * group);
 
-Group * GroupSemanticAction(TransitionBlockItemList * transitionBlockItemList);
+Group * GroupSemanticAction(StepItemList * stepItemList);
 
-TransitionBlockItem * SequenceTransitionBlockItemSemanticAction(Sequence * sequence);
-Sequence * SequenceSemanticAction(TransitionBlockItemList * transitionBlockItemList);
+StepItem * SequenceStepItemSemanticAction(Sequence * sequence);
+Sequence * SequenceSemanticAction(StepItemList * stepItemList);
 
-TransitionBlockItem * StaggerTransitionBlockItemSemanticAction(Stagger * stagger);
-Stagger * StaggerSemanticAction(char * time, TransitionBlockItemList * transitionBlockItemList);
+StepItem * StaggerStepItemSemanticAction(Stagger * stagger);
+Stagger * StaggerSemanticAction(char * time, StepItemList * stepItemList);
 
 KeyframeStyleList * KeyframStyleKeyframeStyleListOffsetSemanticAction(KeyframeStyle * keyframeStyle);
 KeyframeStyleList * KeyframeStyleListSemanticAction(KeyframeStyleList * keyframeStyleList, KeyframeStyle * keyframeStyle);

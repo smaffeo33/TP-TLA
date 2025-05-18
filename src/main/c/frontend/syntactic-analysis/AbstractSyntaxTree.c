@@ -68,7 +68,7 @@ void releaseState(State * state) {
 void releaseGroup(Group * group) {
     logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
     if (group != NULL) {
-        releaseTransitionBlockItemList(group->transitionBlockItemList);
+        releaseStepItemList(group->stepItemList);
         free(group);
     }
 }
@@ -100,34 +100,34 @@ void releaseTransitionRule(TransitionRule * transitionRule) {
 void releaseTransitionBlock(TransitionBlock * transitionBlock) {
     logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
     if (transitionBlock != NULL) {
-        releaseTransitionBlockItemList(transitionBlock->transitionBlockItemList);
+        releaseStepItemList(transitionBlock->stepItemList);
         free(transitionBlock);
     }
 }
 
-void releaseTransitionBlockItemList(TransitionBlockItemList * transitionBlockItemList) {
+void releaseStepItemList(StepItemList * stepItemList) {
     logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
-    if (transitionBlockItemList != NULL) {
-        for (size_t i = 0; i < transitionBlockItemList->itemCount; i++) {
-            releaseTransitionBlockItem(transitionBlockItemList->items[i]);
+    if (stepItemList != NULL) {
+        for (size_t i = 0; i < stepItemList->itemCount; i++) {
+            releaseStepItem(stepItemList->items[i]);
         }
-        free(transitionBlockItemList->items);
-        free(transitionBlockItemList);
+        free(stepItemList->items);
+        free(stepItemList);
     }
 }
 
-void releaseTransitionBlockItem(TransitionBlockItem * transitionBlockItem) {
+void releaseStepItem(StepItem * stepItem) {
     logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
-    if (transitionBlockItem != NULL) {
-        switch (transitionBlockItem->type) {
+    if (stepItem != NULL) {
+        switch (stepItem->type) {
             case ANIMATE_ITEM:
-                releaseAnimate((Animate *) transitionBlockItem->item);
+                releaseAnimate((Animate *) stepItem->item);
                 break;
             case STYLE_ITEM:
-                releaseStyle((Style *) transitionBlockItem->item);
+                releaseStyle((Style *) stepItem->item);
                 break;
         }
-        free(transitionBlockItem);
+        free(stepItem);
     }
 }
 
@@ -214,7 +214,7 @@ void releaseProperty(Property * property) {
 void releaseSequence(Sequence * sequence) {
     logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
     if (sequence != NULL) {
-        releaseTransitionBlockItemList(sequence->transitionBlockItemList);
+        releaseStepItemList(sequence->stepItemList);
         free(sequence);
     }
 }
@@ -242,7 +242,7 @@ void releaseStagger(Stagger * stagger) {
     logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
     if (stagger != NULL) {
         free(stagger->time);
-        releaseTransitionBlockItemList(stagger->transitionBlockItemList);
+        releaseStepItemList(stagger->stepItemList);
         free(stagger);
     }
 }
