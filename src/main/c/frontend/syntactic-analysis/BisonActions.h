@@ -61,6 +61,9 @@ StyleList * StyleStyleListSemanticAction(Style * style);
 TransitionRule * AliasTypeSemanticAction(AliasType aliasType);
 AliasType AliasSemanticAction(AliasType aliasType);
 
+TransitionBlockItem * GroupTransitionBlockItemSemanticAction(Group * group);
+
+Group * GroupSemanticAction(TransitionBlockItemList * transitionBlockItemList);
 
 
 #endif

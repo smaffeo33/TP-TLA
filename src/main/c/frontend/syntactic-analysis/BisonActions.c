@@ -493,6 +493,18 @@ AliasType AliasSemanticAction(AliasType aliasType) {
     return aliasType;
 }
 
+TransitionBlockItem * GroupTransitionBlockItemSemanticAction(Group * group) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
+    if (transitionBlockItem == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+        return NULL;
+    }
+    transitionBlockItem->type = GROUP_ITEM;
+    transitionBlockItem->item = group;
+    return transitionBlockItem;
+}
+
 Keyframes * KeyframesSemanticAction(StyleList * styleList) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Keyframes * keyframes = calloc(1, sizeof(Keyframes));
@@ -537,5 +549,17 @@ StyleList * StyleStyleListSemanticAction(Style * style) {
     styleList->styles[0] = style;
     styleList->styleCount = 1;
     return styleList;
+}
+
+Group * GroupSemanticAction(TransitionBlockItemList * transitionBlockItemList) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    Group * group = calloc(1, sizeof(Group));
+
+    if (group == NULL) {
+        logError(_logger, "Memory allocation failed for Group");
+        return NULL;
+    }
+    group->transitionBlockItemList = transitionBlockItemList;
+    return group;
 }
 

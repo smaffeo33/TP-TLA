@@ -26,6 +26,7 @@
 	Keyframes * keyframes;
 	Animate * animate;
 	Property * property;
+	Group * group;
 	TriggerList * triggerList;
 	TriggerBlock * triggerBlock;
 	StateList * stateList;
@@ -114,6 +115,7 @@
 %type <keyframes> keyframes
 %type <animate> animate
 %type <property> property
+%type <group> group
 %type <triggerList> triggerList
 %type <triggerBlock> triggerBlock
 %type <stateList> stateList
@@ -189,8 +191,12 @@ transitionBlockItemList: transitionBlockItem                                    
 
 transitionBlockItem: animate                                                        { $$ = AnimateTransitionBlockItemSemanticAction($1); }
     | style                                                                         { $$ = StyleTransitionBlockItemSemanticAction($1); }
+    | group                                                                         { $$ = GroupTransitionBlockItemSemanticAction($1); }
     ;
 
+group: GROUP OPEN_PARENTHESIS OPEN_BRACKET transitionBlockItemList CLOSE_BRACKET CLOSE_PARENTHESIS
+                                                                                    { $$ = GroupSemanticAction($4); }
+    ;
 
 style: STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList CLOSE_BRACE CLOSE_PARENTHESIS      { $$ = StyleSemanticAction($4); }
     ;

@@ -65,6 +65,14 @@ void releaseState(State * state) {
 	}
 }
 
+void releaseGroup(Group * group) {
+    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+    if (group != NULL) {
+        releaseTransitionBlockItemList(group->transitionBlockItemList);
+        free(group);
+    }
+}
+
 void releaseTransition(Transition * transition) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (transition != NULL) {

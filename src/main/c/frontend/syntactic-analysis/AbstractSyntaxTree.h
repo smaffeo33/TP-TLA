@@ -32,6 +32,7 @@ typedef struct StyleList StyleList;
 typedef struct Animate Animate;
 typedef struct Keyframes Keyframes;
 typedef struct Property Property;
+typedef struct Group * Group;
 typedef struct TriggerList TriggerList;
 typedef struct StateList StateList;
 typedef struct TransitionList TransitionList;
@@ -67,6 +68,7 @@ enum AliasType {
 enum TransitionBlockItemType {
     ANIMATE_ITEM,
     STYLE_ITEM,
+    GROUP_ITEM,
 };
 
 enum AnimateType {
@@ -122,7 +124,7 @@ struct TransitionRule {
     TransitionRuleType ruleType;
 };
 
-struct TransitionBlock { //TODO: this might need simplifying, it only calls the list, might this be the list instead?
+struct TransitionBlock { //TODO: this might need simplifying, it only calls the list, might this be the list instead? applies for everything that is a list
     TransitionBlockItemList * transitionBlockItemList; // List of transition block items
 };
 
@@ -131,8 +133,8 @@ struct TransitionBlockItemList {
     size_t itemCount;
 };
 
-typedef struct TransitionBlockItem {
-    TransitionBlockItemType type;
+typedef struct TransitionBlockItem { //TODO: if i am right this might need a rename
+    TransitionBlockItemType type; // TODO: same as above
     void *item; // Pointer to either Animate or Style
 } TransitionBlockItem;
 
@@ -162,6 +164,10 @@ struct Animate {
     AnimateType type; // Type of animation (none, with style, with keyframe)
 	char *duration; // e.g., "300ms"
 	char *easing; // e.g., "cubic-bezier(0.4, 0.0, 0.2, 1)"
+};
+
+struct Group {
+    TransitionBlockItemList * transitionBlockItemList; // List of transition block items
 };
 
 struct Property {
@@ -199,5 +205,6 @@ void releaseKeyframes(Keyframes * keyframes);
 void releasePropertyList(PropertyList * propertyList);
 void releaseAnimate(Animate * animate);
 void releaseProperty(Property * property);
+void releaseGroup(Group * group);
 
 #endif
