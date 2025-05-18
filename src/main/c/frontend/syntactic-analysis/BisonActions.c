@@ -298,45 +298,56 @@ Property * IntegerValuePropertySemanticAction( char * name,  int value) {
     return property;
 }
 
-Animate * AnimateSemanticAction( char * time,  char * easing) {
+Animate * AnimateSemanticAction(AnimateInfo * animateInfo) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Animate * animate = calloc(1, sizeof(Animate));
     if (animate == NULL) {
         logError(_logger, "Memory allocation failed for Animate");
         return NULL;
     }
-    animate->duration = time;
-    animate->easing = easing;
+    animate->animateInfo = animateInfo;
     animate->type = NONE;
     return animate;
 }
 
-Animate * AnimateWithStyleSemanticAction( char * time,  char * easing, Style * style) {
+Animate * AnimateWithStyleSemanticAction( AnimateInfo * animateInfo, Style * style) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Animate * animate = calloc(1, sizeof(Animate));
     if (animate == NULL) {
         logError(_logger, "Memory allocation failed for Animate");
         return NULL;
     }
-    animate->duration = time;
-    animate->easing = easing;
+    animate->animateInfo = animateInfo;
     animate->style = style;
     animate->type = ANIMATE_WITH_STYLE;
     return animate;
 }
 
-Animate * AnimateWithKeyframesSemanticAction( char * time,  char * easing, Keyframes * keyframes) {
+Animate * AnimateWithKeyframesSemanticAction( AnimateInfo * animateInfo, Keyframes * keyframes) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Animate * animate = calloc(1, sizeof(Animate));
     if (animate == NULL) {
         logError(_logger, "Memory allocation failed for Animate");
         return NULL;
     }
-    animate->duration = time;
-    animate->easing = easing;
+    animate->animateInfo = animateInfo;
     animate->keyframes = keyframes;
     animate->type = ANIMATE_WITH_KEYFRAMES;
     return animate;
+}
+
+AnimateInfo * AnimateInfoSemanticAction(char * duration, char * delay, char * easing, AnimateInfoType type) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    AnimateInfo * animateInfo = calloc(1, sizeof(AnimateInfo));
+    if (animateInfo == NULL) {
+        logError(_logger, "Memory allocation failed for AnimateInfo");
+        return NULL;
+    }
+    animateInfo->duration = duration;
+    animateInfo->delay = delay;
+    animateInfo->easing = easing;
+    animateInfo->type = type;
+    return animateInfo;
 }
 
 TransitionBlock * AnimateTransitionBlockSemanticAction(Animate * animate) { //TODO check and or simplify

@@ -20,6 +20,7 @@ typedef enum TransitionRuleType TransitionRuleType;
 typedef enum AliasType AliasType;
 typedef enum StepItemType StepItemType;
 typedef enum AnimateType AnimateType;
+typedef enum AnimateInfoType AnimateInfoType;
 
 typedef struct Program Program;
 typedef struct Trigger Trigger;
@@ -31,6 +32,7 @@ typedef struct Style Style;
 typedef struct KeyframeStyle KeyframeStyle;
 typedef struct KeyframeStyleList KeyframeStyleList;
 typedef struct Animate Animate;
+typedef struct AnimateInfo AnimateInfo;
 typedef struct Keyframes Keyframes;
 typedef struct Property Property;
 typedef struct Group Group;
@@ -80,6 +82,13 @@ enum AnimateType {
     NONE,
     ANIMATE_WITH_STYLE,
     ANIMATE_WITH_KEYFRAMES,
+};
+
+enum AnimateInfoType {
+    DURATION_DELAY,
+    DURATION_EASING,
+    DURATION_DELAY_EASING,
+    DURATION,
 };
 
 struct Trigger {
@@ -172,8 +181,15 @@ struct Animate {
         Keyframes * keyframes;
     };
     AnimateType type; // Type of animation (none, with style, with keyframe)
-	char *duration; // e.g., "300ms"
-	char *easing; // e.g., "cubic-bezier(0.4, 0.0, 0.2, 1)"
+	AnimateInfo * animateInfo; // Animation information (duration, easing)
+};
+
+struct AnimateInfo {
+    char *duration; // e.g., "300ms"
+    char *easing; // e.g., "cubic-bezier(0.4, 0.0, 0.2, 1)"
+    char *delay; // e.g., "100ms"
+    AnimateInfoType type; // Type of animation information (delay, easing, delay + easing)
+
 };
 
 struct Group { //TODO: this, along with sequence and stagger (which i hope exists by the time you read this) accept the same things... look into that IV0 and SantIAgo
@@ -224,6 +240,7 @@ void releaseKeyframeStyleList(KeyframeStyleList * keyframeStyleList);
 void releaseKeyframes(Keyframes * keyframes);
 void releasePropertyList(PropertyList * propertyList);
 void releaseAnimate(Animate * animate);
+void releaseAnimateInfo(AnimateInfo * animateInfo);
 void releaseProperty(Property * property);
 void releaseGroup(Group * group);
 void releaseSequence(Sequence * sequence);

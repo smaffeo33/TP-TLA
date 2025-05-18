@@ -26,6 +26,7 @@
 	KeyframeStyleList * keyframeStyleList;
 	Keyframes * keyframes;
 	Animate * animate;
+	AnimateInfo * animateInfo;
 	Property * property;
 	Group * group;
 	Sequence * sequence;
@@ -36,7 +37,7 @@
 	PropertyList * propertyList;
 	TransitionList * transitionList;
 	TransitionBlock * transitionBlock;
-	StepItem * transitionBlockItem;
+	StepItem * stepItem;
 	StepItemList * stepItemList;
 	TransitionRule * transitionRule;
 	AliasType aliasType;
@@ -63,6 +64,15 @@
 %destructor { releasePropertyList($$); } <propertyList>
 %destructor { releaseTransitionBlock($$); } <transitionBlock>
 %destructor { releaseTransitionRule($$); } <transitionRule>
+%destructor { releaseStepItem($$); } <stepItem>
+%destructor { releaseStepItemList($$); } <stepItemList>
+%destructor { releaseKeyframeStyle($$); } <keyframeStyle>
+%destructor { releaseKeyframeStyleList($$); } <keyframeStyleList>
+%destructor { releaseKeyframes($$); } <keyframes>
+%destructor { releaseAnimateInfo($$); } <animateInfo>
+%destructor { releaseGroup($$); } <group>
+%destructor { releaseSequence($$); } <sequence>
+%destructor { releaseStagger($$); } <stagger>
 
 
 
@@ -119,6 +129,7 @@
 %type <keyframes> keyframes
 %type <keyframeStyleList> keyframeStyleList
 %type <animate> animate
+%type <animateInfo> animateInfo
 %type <property> property
 %type <group> group
 %type <sequence> sequence
@@ -130,7 +141,7 @@
 %type <propertyList> propertyList
 %type <program> program
 %type <transitionBlock> transitionBlock
-%type <transitionBlockItem> transitionBlockItem
+%type <stepItem> stepItem
 %type <stepItemList> stepItemList
 %type <transitionRule> transitionRule
 %type <aliasType> aliasType
@@ -191,11 +202,11 @@ transitionBlock: animate                                                        
     | OPEN_BRACKET stepItemList CLOSE_BRACKET                            { $$ = StepItemListTransitionBlockSemanticAction($2); }
     ;
 
-stepItemList: transitionBlockItem                                        { $$ = StepItemListSemanticAction($1); }
-    | stepItemList COMMA transitionBlockItem                             { $$ = StepItemStepItemListSemanticAction($1, $3); }
+stepItemList: stepItem                                                              { $$ = StepItemListSemanticAction($1); }
+    | stepItemList COMMA stepItem                                                   { $$ = StepItemStepItemListSemanticAction($1, $3); }
     ;
 
-transitionBlockItem: animate                                                        { $$ = AnimateStepItemSemanticAction($1); }
+stepItem: animate                                                                   { $$ = AnimateStepItemSemanticAction($1); }
     | style                                                                         { $$ = StyleStepItemSemanticAction($1); }
     | group                                                                         { $$ = GroupStepItemSemanticAction($1); }
     | sequence                                                                      { $$ = SequenceStepItemSemanticAction($1); }
@@ -228,12 +239,17 @@ property: NAME COLON VALUE                                                      
 
 
 
-animate: ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE CLOSE_PARENTHESIS   { $$ = AnimateSemanticAction($4, $5); }
-    | ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE COMMA style CLOSE_PARENTHESIS
-                                                                                        { $$ = AnimateWithStyleSemanticAction($4, $5, $8); }
-    | ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE COMMA keyframes CLOSE_PARENTHESIS
-                                                                                        { $$ = AnimateWithKeyframesSemanticAction($4, $5, $8); }
+animate: ANIMATE OPEN_PARENTHESIS APOSTROPHE animateInfo APOSTROPHE CLOSE_PARENTHESIS   { $$ = AnimateSemanticAction($4); }
+    | ANIMATE OPEN_PARENTHESIS APOSTROPHE animateInfo APOSTROPHE COMMA style CLOSE_PARENTHESIS
+                                                                                        { $$ = AnimateWithStyleSemanticAction($4, $7); }
+    | ANIMATE OPEN_PARENTHESIS APOSTROPHE animateInfo APOSTROPHE COMMA keyframes CLOSE_PARENTHESIS
+                                                                                        { $$ = AnimateWithKeyframesSemanticAction($4, $7); }
     ;
+
+animateInfo: TIME TIME EASING                                                           { $$ = AnimateInfoSemanticAction($1, $2, $3, DURATION_DELAY_EASING); }
+    | TIME EASING                                                                       { $$ = AnimateInfoSemanticAction($1, NULL, $2, DURATION_EASING); }
+    | TIME TIME                                                                         { $$ = AnimateInfoSemanticAction($1, $2, NULL, DURATION_DELAY); }
+    | TIME                                                                              { $$ = AnimateInfoSemanticAction($1, NULL, NULL, DURATION); }
 
 keyframes: KEYFRAMES OPEN_PARENTHESIS OPEN_BRACKET keyframeStyleList CLOSE_BRACKET CLOSE_PARENTHESIS
                                                                                         { $$ = KeyframesSemanticAction($4); }
@@ -247,6 +263,8 @@ keyframeStyleList: keyframeStyle
 
 keyframeStyle: STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList COMMA OFFSET COLON NUMBER CLOSE_BRACE CLOSE_PARENTHESIS
                                                                                         { $$ = keframeStyleSemanticAction($4, $8); }
+    | STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList COMMA OFFSET COLON INTEGER CLOSE_BRACE CLOSE_PARENTHESIS
+                                                                                              { $$ = keframeStyleSemanticAction($4, $8); }
     ;
 
 %%

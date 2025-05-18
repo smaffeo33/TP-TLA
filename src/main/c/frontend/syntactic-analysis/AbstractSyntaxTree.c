@@ -126,6 +126,15 @@ void releaseStepItem(StepItem * stepItem) {
             case STYLE_ITEM:
                 releaseStyle((Style *) stepItem->item);
                 break;
+            case GROUP_ITEM:
+                releaseGroup((Group *) stepItem->item);
+                break;
+            case SEQUENCE_ITEM:
+                releaseSequence((Sequence *) stepItem->item);
+                break;
+            case STAGGER_ITEM:
+                releaseStagger((Stagger *) stepItem->item);
+                break;
         }
         free(stepItem);
     }
@@ -180,8 +189,7 @@ void releaseKeyframes(Keyframes * keyframes) {
 void releaseAnimate(Animate * animate) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (animate != NULL) {
-		free(animate->duration);
-		free(animate->easing);
+        releaseAnimateInfo(animate->animateInfo);
         switch (animate->type) {
             case ANIMATE_WITH_KEYFRAMES:
                 releaseKeyframes(animate->keyframes);
@@ -194,6 +202,26 @@ void releaseAnimate(Animate * animate) {
         }
 		free(animate);
 	}
+}
+
+void releaseAnimateInfo(AnimateInfo * animateInfo) {
+    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+    if (animateInfo != NULL) {
+        switch (animateInfo->type) {
+            case DURATION_DELAY:
+                free(animateInfo->delay);
+                break;
+            case DURATION_EASING:
+                free(animateInfo->easing);
+                break;
+            case DURATION_DELAY_EASING:
+                free(animateInfo->delay);
+                free(animateInfo->easing);
+                break;
+        }
+        free(animateInfo->duration);
+        free(animateInfo);
+    }
 }
 
 void releaseProperty(Property * property) {

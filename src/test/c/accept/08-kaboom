@@ -1,0 +1,16 @@
+trigger('parallelExample', [
+  transition(':enter', [
+    group([
+      style({ opacity: 0 }),
+      animate('200ms', style({ opacity: 1 })),
+      animate('300ms ease-out', keyframes([
+        style({ height: 20px, offset: 0 }),
+        style({ height: 30px,       offset: 1 })
+      ])),
+      sequence([
+        animate('100ms', style({ scale: 1.1 })),
+        animate('100ms', style({ scale: 1   }))
+      ])
+    ])
+  ])
+])

@@ -38,9 +38,13 @@ PropertyList * PropertyListSemanticAction(PropertyList * propertyList, Property 
 Property * ValuePropertySemanticAction( char * name,  char * value);
 Property * FloatValuePropertySemanticAction( char * name,  float value);
 Property * IntegerValuePropertySemanticAction( char * name,  int value);
-Animate * AnimateSemanticAction( char * time,  char * easing);
-Animate * AnimateWithStyleSemanticAction( char * time,  char * easing, Style * style);
-Animate * AnimateWithKeyframesSemanticAction( char * time,  char * easing, Keyframes * keyframes);
+
+Animate * AnimateSemanticAction(AnimateInfo * animateInfo);
+Animate * AnimateWithStyleSemanticAction( AnimateInfo * animateInfo, Style * style);
+Animate * AnimateWithKeyframesSemanticAction( AnimateInfo * animateInfo, Keyframes * keyframes);
+
+AnimateInfo * AnimateInfoSemanticAction(char * duration, char * delay, char * easing, AnimateInfoType type);
+
 TransitionBlock * AnimateTransitionBlockSemanticAction(Animate * animate);
 TransitionRule * TransitionRuleSemanticAction(char * fromState, char * toState, Direction direction);
 
