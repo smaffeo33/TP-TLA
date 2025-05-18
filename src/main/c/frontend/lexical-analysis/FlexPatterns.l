@@ -18,18 +18,18 @@
 /**
  * Reusable patterns for Angular transitions
  */
-WHITESPACE  [ \t\r\n]
-DIGIT       [0-9]
-ALPHA       [a-zA-Z]
-ALPHANUM    [a-zA-Z0-9]
-ID          ([a-zA-Z][a-zA-Z0-9_]*|\*)
-STRING      ['"][^'"]*['"]
-NUMBER      {DIGIT}+(\.{DIGIT}+)?
-INTEGER     {DIGIT}+
-TIME_UNIT   "ms"|"s"
-COLOR       (#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3}|rgba\([ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*\)|rgb\([ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*\))
-VALUE_UNIT  "px"|"em"|"%"|"rem"|"vh"|"vw"
-EASING      "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-bezier"{WHITESPACE}*\({WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*\)
+WHITESPACE          [ \t\r\n]
+DIGIT               [0-9]
+ALPHA               [a-zA-Z]
+ALPHANUM            [a-zA-Z0-9]
+ID                  ([a-zA-Z][a-zA-Z0-9_]*|\*)
+STRING              ['"][^'"]*['"]
+NUMBER              {DIGIT}+(\.{DIGIT}+)?
+INTEGER             {DIGIT}+
+TIME_UNIT           "ms"|"s"
+COLOR               (#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3}|rgba\([ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*\)|rgb\([ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*\))
+VALUE_UNIT          "px"|"em"|"%"|"rem"|"vh"|"vw"
+EASING              "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-bezier"{WHITESPACE}*\({WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*\)
 
 
 %%
@@ -51,6 +51,8 @@ EASING      "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-bezier"{WH
 "keyframes"                                         { return KeywordLexemeAction(createLexicalAnalyzerContext(), KEYFRAMES); }
 "useAnimation"                                      { return KeywordLexemeAction(createLexicalAnalyzerContext(), USE_ANIMATION); }
 "animation"                                         { return KeywordLexemeAction(createLexicalAnalyzerContext(), ANIMATION); }
+
+"offset"                                            { return KeywordLexemeAction(createLexicalAnalyzerContext(), OFFSET); }
 
 ":enter"                                            { return AliasStateAction(createLexicalAnalyzerContext(), ENTER_ALIAS); }
 ":leave"                                            { return AliasStateAction(createLexicalAnalyzerContext(), LEAVE_ALIAS); }

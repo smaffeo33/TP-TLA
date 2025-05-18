@@ -401,38 +401,18 @@ TransitionBlockItemList * TransitionBlockItemListSemanticAction(TransitionBlockI
     transitionBlockItemList->itemCount = 1;
     return transitionBlockItemList;
 }
-TransitionBlockItemList * AnimateTransitionBlockItemListSemanticAction(TransitionBlockItemList * transitionBlockItemList, Animate * animate) {
+
+
+TransitionBlockItemList * TransitionBlockItemTransitionBlockItemListSemanticAction(TransitionBlockItemList * transitionBlockItemList, TransitionBlockItem * transitionBlockItem) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
-    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
-    if (transitionBlockItem == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+    if (transitionBlockItemList == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItemList");
         return NULL;
     }
-    transitionBlockItem->type = ANIMATE_ITEM;
-    transitionBlockItem->item = animate;
     transitionBlockItemList->items = realloc(transitionBlockItemList->items, (transitionBlockItemList->itemCount + 1) * sizeof(TransitionBlockItem *));
     if (transitionBlockItemList->items == NULL) {
         logError(_logger, "Memory allocation failed for TransitionBlockItem");
-        free(transitionBlockItem);
-        return NULL;
-    }
-    transitionBlockItemList->items[transitionBlockItemList->itemCount] = transitionBlockItem;
-    transitionBlockItemList->itemCount++;
-    return transitionBlockItemList;
-}
-TransitionBlockItemList * StyleTransitionBlockItemListSemanticAction(TransitionBlockItemList * transitionBlockItemList, Style * style) {
-    _logSyntacticAnalyzerAction(__FUNCTION__);
-    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
-    if (transitionBlockItem == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItem");
-        return NULL;
-    }
-    transitionBlockItem->type = STYLE_ITEM;
-    transitionBlockItem->item = style;
-    transitionBlockItemList->items = realloc(transitionBlockItemList->items, (transitionBlockItemList->itemCount + 1) * sizeof(TransitionBlockItem *));
-    if (transitionBlockItemList->items == NULL) {
-        logError(_logger, "Memory allocation failed for TransitionBlockItem");
-        free(transitionBlockItem);
+        free(transitionBlockItemList);
         return NULL;
     }
     transitionBlockItemList->items[transitionBlockItemList->itemCount] = transitionBlockItem;
@@ -505,50 +485,62 @@ TransitionBlockItem * GroupTransitionBlockItemSemanticAction(Group * group) {
     return transitionBlockItem;
 }
 
-Keyframes * KeyframesSemanticAction(StyleList * styleList) {
+Keyframes * KeyframesSemanticAction(KeyframeStyleList * keyframeStyleList) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Keyframes * keyframes = calloc(1, sizeof(Keyframes));
     if (keyframes == NULL) {
         logError(_logger, "Memory allocation failed for Keyframes");
         return NULL;
     }
-    keyframes->styleList = styleList;
+    keyframes->keyframeStyleList = keyframeStyleList;
     return keyframes;
 }
 
-StyleList * StyleListSemanticAction(StyleList * styleList, Style * style) {
+KeyframeStyleList * KeyframStyleKeyframeStyleListOffsetSemanticAction(KeyframeStyle * keyframeStyle) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
-    if (styleList == NULL) {
-        logError(_logger, "Memory allocation failed for StyleList");
+    KeyframeStyleList * keyframeStyleList = calloc(1, sizeof(KeyframeStyleList));
+    if (keyframeStyleList == NULL) {
+        logError(_logger, "Memory allocation failed for KeyframeStyleList");
         return NULL;
     }
-    styleList->styles = realloc(styleList->styles, (styleList->styleCount + 1) * sizeof(Style *));
-    if (styleList->styles == NULL) {
-        logError(_logger, "Memory allocation failed for Style");
-        free(styleList);
+    keyframeStyleList->keyframeStyles = calloc(1, sizeof(KeyframeStyle *));
+    if (keyframeStyleList->keyframeStyles == NULL) {
+        logError(_logger, "Memory allocation failed for KeyframeStyle");
+        free(keyframeStyleList);
         return NULL;
     }
-    styleList->styles[styleList->styleCount] = style;
-    styleList->styleCount++;
-    return styleList;
+    keyframeStyleList->keyframeStyles[0] = keyframeStyle;
+    keyframeStyleList->keyframeCount = 1;
+    return keyframeStyleList;
 }
 
-StyleList * StyleStyleListSemanticAction(Style * style) {
+KeyframeStyleList * KeyframeStyleListSemanticAction(KeyframeStyleList * keyframeStyleList, KeyframeStyle * keyframeStyle) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
-    StyleList * styleList = calloc(1, sizeof(StyleList));
-    if (styleList == NULL) {
-        logError(_logger, "Memory allocation failed for StyleList");
+    if (keyframeStyleList == NULL) {
+        logError(_logger, "Memory allocation failed for KeyframeStyleList");
         return NULL;
     }
-    styleList->styles = calloc(1, sizeof(Style *));
-    if (styleList->styles == NULL) {
-        logError(_logger, "Memory allocation failed for Style");
-        free(styleList);
+    keyframeStyleList->keyframeStyles = realloc(keyframeStyleList->keyframeStyles, (keyframeStyleList->keyframeCount + 1) * sizeof(KeyframeStyle *));
+    if (keyframeStyleList->keyframeStyles == NULL) {
+        logError(_logger, "Memory allocation failed for KeyframeStyle");
+        free(keyframeStyleList);
         return NULL;
     }
-    styleList->styles[0] = style;
-    styleList->styleCount = 1;
-    return styleList;
+    keyframeStyleList->keyframeStyles[keyframeStyleList->keyframeCount] = keyframeStyle;
+    keyframeStyleList->keyframeCount++;
+    return keyframeStyleList;
+}
+
+KeyframeStyle * keframeStyleSemanticAction(PropertyList * propertyList, float offset) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    KeyframeStyle * keyframeStyle = calloc(1, sizeof(KeyframeStyle));
+    if (keyframeStyle == NULL) {
+        logError(_logger, "Memory allocation failed for KeyframeStyle");
+        return NULL;
+    }
+    keyframeStyle->properties = propertyList;
+    keyframeStyle->offset = offset;
+    return keyframeStyle;
 }
 
 Group * GroupSemanticAction(TransitionBlockItemList * transitionBlockItemList) {
@@ -561,5 +553,51 @@ Group * GroupSemanticAction(TransitionBlockItemList * transitionBlockItemList) {
     }
     group->transitionBlockItemList = transitionBlockItemList;
     return group;
+}
+
+TransitionBlockItem * SequenceTransitionBlockItemSemanticAction(Sequence * sequence) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
+    if (transitionBlockItem == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+        return NULL;
+    }
+    transitionBlockItem->type = SEQUENCE_ITEM;
+    transitionBlockItem->item = sequence;
+    return transitionBlockItem;
+}
+
+Sequence * SequenceSemanticAction(TransitionBlockItemList * transitionBlockItemList) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    Sequence * sequence = calloc(1, sizeof(Sequence));
+    if (sequence == NULL) {
+        logError(_logger, "Memory allocation failed for Sequence");
+        return NULL;
+    }
+    sequence->transitionBlockItemList = transitionBlockItemList;
+    return sequence;
+}
+
+TransitionBlockItem * StaggerTransitionBlockItemSemanticAction(Stagger * stagger) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    TransitionBlockItem * transitionBlockItem = calloc(1, sizeof(TransitionBlockItem));
+    if (transitionBlockItem == NULL) {
+        logError(_logger, "Memory allocation failed for TransitionBlockItem");
+        return NULL;
+    }
+    transitionBlockItem->type = STAGGER_ITEM;
+    transitionBlockItem->item = stagger;
+    return transitionBlockItem;
+}
+Stagger * StaggerSemanticAction(char * time, TransitionBlockItemList * transitionBlockItemList) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    Stagger * stagger = calloc(1, sizeof(Stagger));
+    if (stagger == NULL) {
+        logError(_logger, "Memory allocation failed for Stagger");
+        return NULL;
+    }
+    stagger->time = time;
+    stagger->transitionBlockItemList = transitionBlockItemList;
+    return stagger;
 }
 

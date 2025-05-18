@@ -139,6 +139,25 @@ void releaseStyle(Style * style) {
 	}
 }
 
+void releaseKeyframeStyle(KeyframeStyle * keyframeStyle) {
+    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+    if (keyframeStyle != NULL) {
+        releasePropertyList(keyframeStyle->properties);
+        free(keyframeStyle);
+    }
+}
+
+void releaseKeyframeStyleList(KeyframeStyleList * keyframeStyleList) {
+    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+    if (keyframeStyleList != NULL) {
+        for (size_t i = 0; i < keyframeStyleList->keyframeCount; i++) {
+            releaseKeyframeStyle(keyframeStyleList->keyframeStyles[i]);
+        }
+        free(keyframeStyleList->keyframeStyles);
+        free(keyframeStyleList);
+    }
+}
+
 void releasePropertyList(PropertyList * propertyList) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (propertyList != NULL) {
@@ -153,19 +172,8 @@ void releasePropertyList(PropertyList * propertyList) {
 void releaseKeyframes(Keyframes * keyframes) {
     logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
     if (keyframes != NULL) {
-        releaseStyleList(keyframes->styleList);
+        releaseKeyframeStyleList(keyframes->keyframeStyleList);
         free(keyframes);
-    }
-}
-
-void releaseStyleList(StyleList * styleList) {
-    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
-    if (styleList != NULL) {
-        for (size_t i = 0; i < styleList->styleCount; i++) {
-            releaseStyle(styleList->styles[i]);
-        }
-        free(styleList->styles);
-        free(styleList);
     }
 }
 
@@ -203,6 +211,14 @@ void releaseProperty(Property * property) {
 	}
 }
 
+void releaseSequence(Sequence * sequence) {
+    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+    if (sequence != NULL) {
+        releaseTransitionBlockItemList(sequence->transitionBlockItemList);
+        free(sequence);
+    }
+}
+
 void releaseTriggerList(TriggerList * triggerList) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (triggerList != NULL) {
@@ -220,4 +236,13 @@ void releaseProgram(Program * program) {
 		releaseTriggerList(program->triggerList);
 		free(program);
 	}
+}
+
+void releaseStagger(Stagger * stagger) {
+    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+    if (stagger != NULL) {
+        free(stagger->time);
+        releaseTransitionBlockItemList(stagger->transitionBlockItemList);
+        free(stagger);
+    }
 }

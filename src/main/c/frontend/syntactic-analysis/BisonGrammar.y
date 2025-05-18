@@ -22,11 +22,14 @@
 	Transition * transition;
 	State * state;
 	Style * style;
-	StyleList * styleList;
+	KeyframeStyle * keyframeStyle;
+	KeyframeStyleList * keyframeStyleList;
 	Keyframes * keyframes;
 	Animate * animate;
 	Property * property;
 	Group * group;
+	Sequence * sequence;
+	Stagger * stagger;
 	TriggerList * triggerList;
 	TriggerBlock * triggerBlock;
 	StateList * stateList;
@@ -91,6 +94,7 @@
 %token <token> KEYFRAMES
 %token <token> USE_ANIMATION
 %token <token> ANIMATION
+%token <token> OFFSET
 %token <token> COMMA
 %token <token> COLON
 %token <string> NAME
@@ -111,11 +115,14 @@
 %type <state> state
 %type <transition> transition
 %type <style> style
-%type <styleList> styleList
+%type <keyframeStyle> keyframeStyle
 %type <keyframes> keyframes
+%type <keyframeStyleList> keyframeStyleList
 %type <animate> animate
 %type <property> property
 %type <group> group
+%type <sequence> sequence
+%type <stagger> stagger
 %type <triggerList> triggerList
 %type <triggerBlock> triggerBlock
 %type <stateList> stateList
@@ -185,14 +192,22 @@ transitionBlock: animate                                                        
     ;
 
 transitionBlockItemList: transitionBlockItem                                        { $$ = TransitionBlockItemListSemanticAction($1); }
-    | transitionBlockItemList COMMA animate                                         { $$ = AnimateTransitionBlockItemListSemanticAction($1, $3); }
-    | transitionBlockItemList COMMA style                                           { $$ = StyleTransitionBlockItemListSemanticAction($1, $3); }
+    | transitionBlockItemList COMMA transitionBlockItem                             { $$ = TransitionBlockItemTransitionBlockItemListSemanticAction($1, $3); }
     ;
 
 transitionBlockItem: animate                                                        { $$ = AnimateTransitionBlockItemSemanticAction($1); }
     | style                                                                         { $$ = StyleTransitionBlockItemSemanticAction($1); }
     | group                                                                         { $$ = GroupTransitionBlockItemSemanticAction($1); }
+    | sequence                                                                      { $$ = SequenceTransitionBlockItemSemanticAction($1); }
+    | stagger                                                                       { $$ = StaggerTransitionBlockItemSemanticAction($1); }
     ;
+
+stagger: STAGGER OPEN_PARENTHESIS APOSTROPHE TIME APOSTROPHE COMMA OPEN_BRACKET transitionBlockItemList CLOSE_BRACKET CLOSE_PARENTHESIS
+                                                                                    { $$ = StaggerSemanticAction($4, $8); }
+    ;
+
+sequence: SEQUENCE OPEN_PARENTHESIS OPEN_BRACKET transitionBlockItemList CLOSE_BRACKET CLOSE_PARENTHESIS
+                                                                                    { $$ = SequenceSemanticAction($4); }
 
 group: GROUP OPEN_PARENTHESIS OPEN_BRACKET transitionBlockItemList CLOSE_BRACKET CLOSE_PARENTHESIS
                                                                                     { $$ = GroupSemanticAction($4); }
@@ -220,12 +235,18 @@ animate: ANIMATE OPEN_PARENTHESIS APOSTROPHE TIME EASING APOSTROPHE CLOSE_PARENT
                                                                                         { $$ = AnimateWithKeyframesSemanticAction($4, $5, $8); }
     ;
 
-keyframes: KEYFRAMES OPEN_PARENTHESIS OPEN_BRACKET styleList CLOSE_BRACKET CLOSE_PARENTHESIS
+keyframes: KEYFRAMES OPEN_PARENTHESIS OPEN_BRACKET keyframeStyleList CLOSE_BRACKET CLOSE_PARENTHESIS
                                                                                         { $$ = KeyframesSemanticAction($4); }
     ;
 
-styleList: style                                                                    { $$ = StyleStyleListSemanticAction($1); }
-    | styleList COMMA style                                                         { $$ = StyleListSemanticAction($1, $3); }
+keyframeStyleList: keyframeStyle
+                                                                                        { $$ = KeyframStyleKeyframeStyleListOffsetSemanticAction($1); }
+    | keyframeStyleList COMMA keyframeStyle
+                                                                                        { $$ = KeyframeStyleListSemanticAction($1, $3); }
+    ;
+
+keyframeStyle: STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList COMMA OFFSET COLON NUMBER CLOSE_BRACE CLOSE_PARENTHESIS
+                                                                                        { $$ = keframeStyleSemanticAction($4, $8); }
     ;
 
 %%

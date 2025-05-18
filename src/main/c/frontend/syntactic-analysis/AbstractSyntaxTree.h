@@ -28,11 +28,14 @@ typedef struct Transition Transition;
 typedef struct TransitionBlock TransitionBlock;
 typedef struct TransitionRule TransitionRule;
 typedef struct Style Style;
-typedef struct StyleList StyleList;
+typedef struct KeyframeStyle KeyframeStyle;
+typedef struct KeyframeStyleList KeyframeStyleList;
 typedef struct Animate Animate;
 typedef struct Keyframes Keyframes;
 typedef struct Property Property;
 typedef struct Group Group;
+typedef struct Stagger Stagger;
+typedef struct Sequence Sequence;
 typedef struct TriggerList TriggerList;
 typedef struct StateList StateList;
 typedef struct TransitionList TransitionList;
@@ -69,6 +72,8 @@ enum TransitionBlockItemType {
     ANIMATE_ITEM,
     STYLE_ITEM,
     GROUP_ITEM,
+    SEQUENCE_ITEM,
+    STAGGER_ITEM,
 };
 
 enum AnimateType {
@@ -142,18 +147,23 @@ struct Style {
 	PropertyList *properties;
 };
 
+struct KeyframeStyle {
+    PropertyList *properties; // Reuse the existing Style struct
+    float offset;    // Offset for the keyframe (e.g., 0.0 to 1.0)
+};
+
+struct KeyframeStyleList {
+    KeyframeStyle **keyframeStyles; // Array of keyframe styles
+    size_t keyframeCount;
+};
+
 struct PropertyList {
 	Property **properties; // Array of properties
 	size_t propertyCount;
 };
 
-struct StyleList {
-    Style **styles;
-    size_t styleCount;
-};
-
 struct Keyframes {
-    StyleList *styleList;
+    KeyframeStyleList *keyframeStyleList;
 };
 
 struct Animate {
@@ -166,7 +176,16 @@ struct Animate {
 	char *easing; // e.g., "cubic-bezier(0.4, 0.0, 0.2, 1)"
 };
 
-struct Group {
+struct Group { //TODO: this, along with sequence and stagger (which i hope exists by the time you read this) accept the same things... look into that IV0 and SantIAgo
+    TransitionBlockItemList * transitionBlockItemList; // List of transition block items
+};
+
+struct Sequence {
+    TransitionBlockItemList * transitionBlockItemList; // List of transition block items
+};
+
+struct Stagger {
+    char *time; // e.g., "100ms"
     TransitionBlockItemList * transitionBlockItemList; // List of transition block items
 };
 
@@ -200,11 +219,14 @@ void releaseTransitionBlockItem(TransitionBlockItem * transitionBlockItem);
 void releaseTransitionList(TransitionList * transitionList);
 void releaseTransitionRule(TransitionRule * transitionRule);
 void releaseStyle(Style * style);
-void releaseStyleList(StyleList * styleList);
+void releaseKeyframeStyle(KeyframeStyle * keyframeStyle);
+void releaseKeyframeStyleList(KeyframeStyleList * keyframeStyleList);
 void releaseKeyframes(Keyframes * keyframes);
 void releasePropertyList(PropertyList * propertyList);
 void releaseAnimate(Animate * animate);
 void releaseProperty(Property * property);
 void releaseGroup(Group * group);
+void releaseSequence(Sequence * sequence);
+void releaseStagger(Stagger * stagger);
 
 #endif

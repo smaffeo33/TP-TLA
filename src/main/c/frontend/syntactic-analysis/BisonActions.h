@@ -47,16 +47,12 @@ TransitionRule * TransitionRuleSemanticAction(char * fromState, char * toState, 
 TransitionBlock * TransitionBlockItemListTransitionBlockSemanticAction(TransitionBlockItemList * transitionBlockItemList);
 
 TransitionBlockItemList * TransitionBlockItemListSemanticAction(TransitionBlockItem * transitionBlockItem);
-TransitionBlockItemList * AnimateTransitionBlockItemListSemanticAction(TransitionBlockItemList * transitionBlockItemList, Animate * animate);
-TransitionBlockItemList * StyleTransitionBlockItemListSemanticAction(TransitionBlockItemList * transitionBlockItemList, Style * style);
+TransitionBlockItemList * TransitionBlockItemTransitionBlockItemListSemanticAction(TransitionBlockItemList * transitionBlockItemList, TransitionBlockItem * transitionBlockItem);
 
 TransitionBlockItem * AnimateTransitionBlockItemSemanticAction(Animate * animate);
 TransitionBlockItem * StyleTransitionBlockItemSemanticAction(Style * style);
 
-Keyframes * KeyframesSemanticAction(StyleList * styleList);
-
-StyleList * StyleListSemanticAction(StyleList * styleList, Style * style);
-StyleList * StyleStyleListSemanticAction(Style * style);
+Keyframes * KeyframesSemanticAction(KeyframeStyleList * keyframeStyleList);
 
 TransitionRule * AliasTypeSemanticAction(AliasType aliasType);
 AliasType AliasSemanticAction(AliasType aliasType);
@@ -64,6 +60,17 @@ AliasType AliasSemanticAction(AliasType aliasType);
 TransitionBlockItem * GroupTransitionBlockItemSemanticAction(Group * group);
 
 Group * GroupSemanticAction(TransitionBlockItemList * transitionBlockItemList);
+
+TransitionBlockItem * SequenceTransitionBlockItemSemanticAction(Sequence * sequence);
+Sequence * SequenceSemanticAction(TransitionBlockItemList * transitionBlockItemList);
+
+TransitionBlockItem * StaggerTransitionBlockItemSemanticAction(Stagger * stagger);
+Stagger * StaggerSemanticAction(char * time, TransitionBlockItemList * transitionBlockItemList);
+
+KeyframeStyleList * KeyframStyleKeyframeStyleListOffsetSemanticAction(KeyframeStyle * keyframeStyle);
+KeyframeStyleList * KeyframeStyleListSemanticAction(KeyframeStyleList * keyframeStyleList, KeyframeStyle * keyframeStyle);
+
+KeyframeStyle * keframeStyleSemanticAction(PropertyList * propertyList, float offset);
 
 
 #endif
