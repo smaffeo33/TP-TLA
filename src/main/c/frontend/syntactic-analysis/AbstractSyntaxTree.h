@@ -32,7 +32,7 @@ typedef struct StyleList StyleList;
 typedef struct Animate Animate;
 typedef struct Keyframes Keyframes;
 typedef struct Property Property;
-typedef struct Group * Group;
+typedef struct Group Group;
 typedef struct TriggerList TriggerList;
 typedef struct StateList StateList;
 typedef struct TransitionList TransitionList;

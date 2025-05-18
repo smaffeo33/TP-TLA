@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA/cmake-build-debug",
-		"source" : "/Users/josebenegaslynch/Documents/ITBA/CARRERA/3Y2C/TLA/TP-TLA"
+		"build" : "/Users/josebenegaslynch/CLionProjects/TP-TLA/cmake-build-debug",
+		"source" : "/Users/josebenegaslynch/CLionProjects/TP-TLA"
 	},
 	"version" : 
 	{
