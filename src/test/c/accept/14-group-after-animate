@@ -3,7 +3,7 @@ trigger('groupAfterAnimate', [
     animate('200ms', style({ opacity: 0.5 })),
     group([
       animate('300ms', style({ transform: 'translateX(100px)' })),
-      animate('300ms', style({ height: '50px' }))
+      animate('300ms', style({ height: 50px }))
     ])
   ])
 ])
