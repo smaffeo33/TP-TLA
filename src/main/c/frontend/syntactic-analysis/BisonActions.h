@@ -75,6 +75,8 @@ Sequence * SequenceSemanticAction(StepItemList * stepItemList);
 StepItem * StaggerStepItemSemanticAction(Stagger * stagger);
 Stagger * StaggerSemanticAction(char * time, StepItemList * stepItemList);
 
+StepItem * AnimateChildStepItemSemanticAction();
+
 KeyframeStyleList * KeyframeStyleKeyframeStyleListOffsetSemanticAction(KeyframeStyle * keyframeStyle);
 KeyframeStyleList * KeyframeStyleListSemanticAction(KeyframeStyleList * keyframeStyleList, KeyframeStyle * keyframeStyle);
 

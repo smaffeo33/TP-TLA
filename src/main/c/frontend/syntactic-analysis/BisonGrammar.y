@@ -105,6 +105,7 @@
 %token <token> KEYFRAMES
 %token <token> USE_ANIMATION
 %token <token> ANIMATION
+%token <token> ANIMATE_CHILD
 %token <token> OFFSET
 %token <token> COMMA
 %token <token> COLON
@@ -218,17 +219,14 @@ stepItem: animate                                                               
     | group                                                                         { $$ = GroupStepItemSemanticAction($1); }
     | sequence                                                                      { $$ = SequenceStepItemSemanticAction($1); }
     | query                                                                         { $$ = QueryStepItemSemanticAction($1); }
+    | ANIMATE_CHILD OPEN_PARENTHESIS CLOSE_PARENTHESIS                              { $$ = AnimateChildStepItemSemanticAction(); }
     ;
 
 queryStepItemList: queryStepItem                                                    { $$ = StepItemListSemanticAction($1); }
     | queryStepItemList COMMA queryStepItem                                         { $$ = StepItemStepItemListSemanticAction($1, $3); }
     ;
 
-queryStepItem: animate                                                              { $$ = AnimateStepItemSemanticAction($1); }
-    | style                                                                         { $$ = StyleStepItemSemanticAction($1); }
-    | group                                                                         { $$ = GroupStepItemSemanticAction($1); }
-    | sequence                                                                      { $$ = SequenceStepItemSemanticAction($1); }
-    | query                                                                         { $$ = QueryStepItemSemanticAction($1); }
+queryStepItem: stepItem                                                             { $$ = $1; }
     | stagger                                                                       { $$ = StaggerStepItemSemanticAction($1); }
     ;
 

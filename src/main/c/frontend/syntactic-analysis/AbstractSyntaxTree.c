@@ -138,6 +138,8 @@ void releaseStepItem(StepItem * stepItem) {
             case STAGGER_ITEM:
                 releaseStagger((Stagger *) stepItem->item);
                 break;
+            default:
+                break;
         }
         free(stepItem);
     }

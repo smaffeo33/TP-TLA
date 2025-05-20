@@ -78,6 +78,7 @@ enum StepItemType {
     SEQUENCE_ITEM,
     QUERY_ITEM,
     STAGGER_ITEM,
+    ANIMATE_CHILD_ITEM,
 };
 
 enum AnimateType {

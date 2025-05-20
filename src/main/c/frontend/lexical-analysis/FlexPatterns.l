@@ -56,7 +56,6 @@ SELECTOR_TAG        {ALPHA}+
 <STRING_CONTEXT>"=>"                                { return PunctuationAction(createLexicalAnalyzerContext(), FORWARD_TRANSITION); }
 <STRING_CONTEXT>"<=>"                               { return PunctuationAction(createLexicalAnalyzerContext(), BIDIRECTIONAL_TRANSITION); }
 <STRING_CONTEXT>[^' \t\r\n]+                        { return StringValueAction(createLexicalAnalyzerContext()); }
-<STRING_CONTEXT>.                                   { return UnknownLexemeAction(createLexicalAnalyzerContext()); }
 
 "trigger"                                           { return KeywordLexemeAction(createLexicalAnalyzerContext(), TRIGGER); }
 "state"                                             { return KeywordLexemeAction(createLexicalAnalyzerContext(), STATE); }
@@ -70,6 +69,7 @@ SELECTOR_TAG        {ALPHA}+
 "keyframes"                                         { return KeywordLexemeAction(createLexicalAnalyzerContext(), KEYFRAMES); }
 "useAnimation"                                      { return KeywordLexemeAction(createLexicalAnalyzerContext(), USE_ANIMATION); }
 "animation"                                         { return KeywordLexemeAction(createLexicalAnalyzerContext(), ANIMATION); }
+"animateChild"                                      { return KeywordLexemeAction(createLexicalAnalyzerContext(), ANIMATE_CHILD); }
 
 "offset"                                            { return KeywordLexemeAction(createLexicalAnalyzerContext(), OFFSET); }
 

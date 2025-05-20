@@ -651,3 +651,15 @@ StepItem * StaggerStepItemSemanticAction(Stagger * stagger) {
     return stepItem;
 }
 
+StepItem * AnimateChildStepItemSemanticAction() {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    StepItem * stepItem = calloc(1, sizeof(StepItem));
+    if (stepItem == NULL) {
+        logError(_logger, "Memory allocation failed for StepItem");
+        return NULL;
+    }
+    stepItem->type = ANIMATE_CHILD_ITEM;
+    stepItem->item = NULL;
+    return stepItem;
+}
+
