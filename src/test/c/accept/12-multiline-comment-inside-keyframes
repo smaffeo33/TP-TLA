@@ -1,0 +1,12 @@
+trigger('frameFun', [
+  transition(':enter', [
+    animate('300ms', keyframes([
+      style({ transform: 'translateX(0px)', offset: 0 }),
+      /*
+        punto medio de la animación
+      */
+      style({ transform: 'translateX(50px)', offset: 0.5 }),
+      style({ transform: 'translateX(100px)', offset: 1 })
+    ]))
+  ])
+])

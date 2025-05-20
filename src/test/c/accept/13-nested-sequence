@@ -1,0 +1,11 @@
+trigger('nestedSequence', [
+  transition(':enter', [
+    group([
+      sequence([
+        animate('100ms', style({ opacity: 0 })),
+        animate('100ms', style({ opacity: 1 }))
+      ]),
+      animate('200ms', style({ transform: 'scale(1.2)' }))
+    ])
+  ])
+])

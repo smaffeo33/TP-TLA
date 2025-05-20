@@ -8,22 +8,22 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/josebenegaslynch/CLionProjects/TP-TLA/src/main/c/EntryPoint.c" "CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.o" "gcc" "CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.o.d"
-  "/Users/josebenegaslynch/CLionProjects/TP-TLA/src/main/c/frontend/lexical-analysis/FlexActions.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.o" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.o.d"
-  "/Users/josebenegaslynch/CLionProjects/TP-TLA/src/main/c/frontend/lexical-analysis/FlexScanner.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.o" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.o.d"
-  "/Users/josebenegaslynch/CLionProjects/TP-TLA/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.o" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.o.d"
-  "/Users/josebenegaslynch/CLionProjects/TP-TLA/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c.o" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c.o.d"
-  "/Users/josebenegaslynch/CLionProjects/TP-TLA/src/main/c/frontend/syntactic-analysis/BisonActions.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.o" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.o.d"
-  "/Users/josebenegaslynch/CLionProjects/TP-TLA/src/main/c/frontend/syntactic-analysis/BisonParser.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.o" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.o.d"
-  "/Users/josebenegaslynch/CLionProjects/TP-TLA/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c.o" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c.o.d"
-  "/Users/josebenegaslynch/CLionProjects/TP-TLA/src/main/c/shared/Environment.c" "CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.o" "gcc" "CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.o.d"
-  "/Users/josebenegaslynch/CLionProjects/TP-TLA/src/main/c/shared/Logger.c" "CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.o" "gcc" "CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.o.d"
-  "/Users/josebenegaslynch/CLionProjects/TP-TLA/src/main/c/shared/String.c" "CMakeFiles/Compiler.dir/src/main/c/shared/String.c.o" "gcc" "CMakeFiles/Compiler.dir/src/main/c/shared/String.c.o.d"
+  "C:/Users/santi/ITBA/TLA/TP-TLA/src/main/c/EntryPoint.c" "CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.obj.d"
+  "C:/Users/santi/ITBA/TLA/TP-TLA/src/main/c/frontend/lexical-analysis/FlexActions.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexActions.c.obj.d"
+  "C:/Users/santi/ITBA/TLA/TP-TLA/src/main/c/frontend/lexical-analysis/FlexScanner.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/FlexScanner.c.obj.d"
+  "C:/Users/santi/ITBA/TLA/TP-TLA/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/lexical-analysis/LexicalAnalyzerContext.c.obj.d"
+  "C:/Users/santi/ITBA/TLA/TP-TLA/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/AbstractSyntaxTree.c.obj.d"
+  "C:/Users/santi/ITBA/TLA/TP-TLA/src/main/c/frontend/syntactic-analysis/BisonActions.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonActions.c.obj.d"
+  "C:/Users/santi/ITBA/TLA/TP-TLA/src/main/c/frontend/syntactic-analysis/BisonParser.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/BisonParser.c.obj.d"
+  "C:/Users/santi/ITBA/TLA/TP-TLA/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/frontend/syntactic-analysis/SyntacticAnalyzer.c.obj.d"
+  "C:/Users/santi/ITBA/TLA/TP-TLA/src/main/c/shared/Environment.c" "CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/shared/Environment.c.obj.d"
+  "C:/Users/santi/ITBA/TLA/TP-TLA/src/main/c/shared/Logger.c" "CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.obj.d"
+  "C:/Users/santi/ITBA/TLA/TP-TLA/src/main/c/shared/String.c" "CMakeFiles/Compiler.dir/src/main/c/shared/String.c.obj" "gcc" "CMakeFiles/Compiler.dir/src/main/c/shared/String.c.obj.d"
   )
 
 # Pairs of files generated by the same build rule.
 set(CMAKE_MULTIPLE_OUTPUT_PAIRS
-  "/Users/josebenegaslynch/CLionProjects/TP-TLA/src/main/c/frontend/syntactic-analysis/BisonParser.h" "/Users/josebenegaslynch/CLionProjects/TP-TLA/src/main/c/frontend/syntactic-analysis/BisonParser.c"
+  "C:/Users/santi/ITBA/TLA/TP-TLA/src/main/c/frontend/syntactic-analysis/BisonParser.h" "C:/Users/santi/ITBA/TLA/TP-TLA/src/main/c/frontend/syntactic-analysis/BisonParser.c"
   )
 
 

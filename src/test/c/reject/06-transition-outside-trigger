@@ -1,0 +1,6 @@
+/*
+esto no debería ser válido
+*/
+transition(':enter', [
+  animate('1s', style({ opacity: 1 }))
+])

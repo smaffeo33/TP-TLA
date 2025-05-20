@@ -1,0 +1,11 @@
+trigger('lotsOfComments', [
+  /*
+    Esto es un comentario larguísimo
+    que describe toda la transición de forma
+    poco útil, pero no debería romper nada.
+  */
+  transition(':leave', [
+    style({ opacity: 1 }),
+    animate('500ms ease-out', style({ opacity: 0 }))
+  ])
+])

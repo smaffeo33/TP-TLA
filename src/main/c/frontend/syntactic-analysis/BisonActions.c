@@ -555,7 +555,7 @@ KeyframeStyleList * KeyframeStyleListSemanticAction(KeyframeStyleList * keyframe
     return keyframeStyleList;
 }
 
-KeyframeStyle * keframeStyleSemanticAction(PropertyList * propertyList, float offset) {
+KeyframeStyle * keyframeStyleSemanticAction(PropertyList * propertyList, float offset) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     KeyframeStyle * keyframeStyle = calloc(1, sizeof(KeyframeStyle));
     if (keyframeStyle == NULL) {

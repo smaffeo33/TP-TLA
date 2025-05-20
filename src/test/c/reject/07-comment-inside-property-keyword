@@ -1,0 +1,7 @@
+trigger('brokenProperty', [
+  transition(':enter', [
+    animate('300ms', style({
+      op/*interrupción*/acity: 1
+    }))
+  ])
+])

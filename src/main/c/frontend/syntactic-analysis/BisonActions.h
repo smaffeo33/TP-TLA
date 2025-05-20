@@ -76,7 +76,7 @@ KeyframeStyleList * KeyframeStyleListSemanticAction(KeyframeStyleList * keyframe
 
 Property * TextValuePropertySemanticAction(char * name, char * value);
 
-KeyframeStyle * keframeStyleSemanticAction(PropertyList * propertyList, float offset);
+KeyframeStyle * keyframeStyleSemanticAction(PropertyList * propertyList, float offset);
 
 
 #endif

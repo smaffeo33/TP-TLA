@@ -265,9 +265,9 @@ keyframeStyleList: keyframeStyle
     ;
 
 keyframeStyle: STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList COMMA OFFSET COLON NUMBER CLOSE_BRACE CLOSE_PARENTHESIS
-                                                                                        { $$ = keframeStyleSemanticAction($4, $8); }
+                                                                                        { $$ = keyframeStyleSemanticAction($4, $8); }
     | STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList COMMA OFFSET COLON INTEGER CLOSE_BRACE CLOSE_PARENTHESIS
-                                                                                              { $$ = keframeStyleSemanticAction($4, $8); }
+                                                                                              { $$ = keyframeStyleSemanticAction($4, $8); }
     ;
 
 %%

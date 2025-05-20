@@ -1,0 +1,9 @@
+trigger('fadeComplex', [
+  transition(':enter', [
+    /* paso 1 */
+    style({ opacity: 0 }),
+
+    /* paso 2 */
+    animate('300ms', style({ opacity: 1 }))
+  ])
+])
