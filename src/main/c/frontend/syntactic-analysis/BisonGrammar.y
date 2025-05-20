@@ -81,7 +81,8 @@
 %token <number> NUMBER
 %token <string> VALUE
 %token <string> TIME
-%token <string> COLOR
+%token <string> STRING_VALUE
+%token <string> COLOR_VALUE
 %token <token> CLOSE_PARENTHESIS
 %token <token> OPEN_PARENTHESIS
 %token <token> CLOSE_BRACE
@@ -117,6 +118,7 @@
 %token <token> LEAVE_ALIAS
 %token <token> INCREMENT_ALIAS
 %token <token> DECREMENT_ALIAS
+
 
 %token <token> UNKNOWN
 
@@ -232,9 +234,10 @@ propertyList: property                                                          
     ;
 
 property: NAME COLON VALUE                                                          { $$ = ValuePropertySemanticAction($1, $3); }
-    | NAME COLON COLOR                                                              { $$ = ValuePropertySemanticAction($1, $3); }
+    | NAME COLON COLOR_VALUE                                                        { $$ = ValuePropertySemanticAction($1, $3); }
     | NAME COLON NUMBER                                                             { $$ = FloatValuePropertySemanticAction($1, $3); }
     | NAME COLON INTEGER                                                            { $$ = IntegerValuePropertySemanticAction($1, $3); }
+    | NAME COLON APOSTROPHE STRING_VALUE APOSTROPHE                                 { $$ = TextValuePropertySemanticAction($1, $4); }
     ;
 
 

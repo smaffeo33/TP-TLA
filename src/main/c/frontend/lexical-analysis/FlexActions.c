@@ -85,11 +85,18 @@ Token AnimationAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     return EASING;
 }
 
-Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
+Token NameAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
     lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
     return NAME;
+}
+
+Token StylePropertySemanticAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
+	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+	lexicalAnalyzerContext->semanticValue->token = token;
+	destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
+	return token;
 }
 
 Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
@@ -138,11 +145,18 @@ Token ColorValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
     lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
     destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
-    return COLOR;
+    return COLOR_VALUE;
 }
 
 Token UnknownLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
 	destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
 	return UNKNOWN;
+}
+
+Token StringValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
+	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+	lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
+	destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
+	return STRING_VALUE;
 }

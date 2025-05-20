@@ -41,10 +41,13 @@ Token StateAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 Token AnimationAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 /* Style properties */
-Token StylePropertyAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
+Token NameAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
+
+Token StylePropertySemanticAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
 Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
+Token StringValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 Token AliasStateAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 

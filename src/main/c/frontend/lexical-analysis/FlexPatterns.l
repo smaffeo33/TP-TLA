@@ -14,6 +14,7 @@
  */
 
 %x MULTILINE_COMMENT
+%x STRING_CONTEXT
 
 /**
  * Reusable patterns for Angular transitions
@@ -23,7 +24,7 @@ DIGIT               [0-9]
 ALPHA               [a-zA-Z]
 ALPHANUM            [a-zA-Z0-9]
 ID                  ([a-zA-Z][a-zA-Z0-9_]*|\*)
-STRING              ['"][^'"]*['"]
+STRING_VALUE        [a-zA-Z0-9\(\)]+
 NUMBER              {DIGIT}+(\.{DIGIT}+)?
 INTEGER             {DIGIT}+
 TIME_UNIT           "ms"|"s"
@@ -38,6 +39,20 @@ EASING              "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-be
 <MULTILINE_COMMENT>"*/"                             { EndMultilineCommentLexemeAction(createLexicalAnalyzerContext()); BEGIN(INITIAL); }
 <MULTILINE_COMMENT>[^*]+                            { IgnoredLexemeAction(createLexicalAnalyzerContext()); }
 <MULTILINE_COMMENT>.                                { IgnoredLexemeAction(createLexicalAnalyzerContext()); }
+
+"\'"                                                { BEGIN(STRING_CONTEXT); return StringLiteralAction(createLexicalAnalyzerContext(), APOSTROPHE); }
+<STRING_CONTEXT>"\'"                                {  BEGIN(INITIAL); return StringLiteralAction(createLexicalAnalyzerContext(), APOSTROPHE); }
+<STRING_CONTEXT>{NUMBER}{TIME_UNIT}                 { return TimeValueAction(createLexicalAnalyzerContext()); }
+<STRING_CONTEXT>{EASING}                            { return AnimationAction(createLexicalAnalyzerContext()); }
+<STRING_CONTEXT>":enter"                            { return AliasStateAction(createLexicalAnalyzerContext(), ENTER_ALIAS); }
+<STRING_CONTEXT>":leave"                            { return AliasStateAction(createLexicalAnalyzerContext(), LEAVE_ALIAS); }
+<STRING_CONTEXT>":increment"                        { return AliasStateAction(createLexicalAnalyzerContext(), INCREMENT_ALIAS); }
+<STRING_CONTEXT>":decrement"                        { return AliasStateAction(createLexicalAnalyzerContext(), DECREMENT_ALIAS); }
+<STRING_CONTEXT>{ID}                                { return NameAction(createLexicalAnalyzerContext()); }
+<STRING_CONTEXT>"=>"                                { return PunctuationAction(createLexicalAnalyzerContext(), FORWARD_TRANSITION); }
+<STRING_CONTEXT>"<=>"                               { return PunctuationAction(createLexicalAnalyzerContext(), BIDIRECTIONAL_TRANSITION); }
+<STRING_CONTEXT>[^' \t\r\n]+                        { return StringValueAction(createLexicalAnalyzerContext()); }
+<STRING_CONTEXT>.                                   { IgnoredLexemeAction(createLexicalAnalyzerContext()); }
 
 "trigger"                                           { return KeywordLexemeAction(createLexicalAnalyzerContext(), TRIGGER); }
 "state"                                             { return KeywordLexemeAction(createLexicalAnalyzerContext(), STATE); }
@@ -54,13 +69,7 @@ EASING              "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-be
 
 "offset"                                            { return KeywordLexemeAction(createLexicalAnalyzerContext(), OFFSET); }
 
-":enter"                                            { return AliasStateAction(createLexicalAnalyzerContext(), ENTER_ALIAS); }
-":leave"                                            { return AliasStateAction(createLexicalAnalyzerContext(), LEAVE_ALIAS); }
-":increment"                                        { return AliasStateAction(createLexicalAnalyzerContext(), INCREMENT_ALIAS); }
-":decrement"                                        { return AliasStateAction(createLexicalAnalyzerContext(), DECREMENT_ALIAS); }
 
-"=>"                                                { return PunctuationAction(createLexicalAnalyzerContext(), FORWARD_TRANSITION); }
-"<=>"                                               { return PunctuationAction(createLexicalAnalyzerContext(), BIDIRECTIONAL_TRANSITION); }
 
 "("                                                 { return PunctuationAction(createLexicalAnalyzerContext(), OPEN_PARENTHESIS); }
 ")"                                                 { return PunctuationAction(createLexicalAnalyzerContext(), CLOSE_PARENTHESIS); }
@@ -74,21 +83,16 @@ EASING              "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-be
 ","                                                 { return PunctuationAction(createLexicalAnalyzerContext(), COMMA); }
 ":"                                                 { return PunctuationAction(createLexicalAnalyzerContext(), COLON); }
 
-"\'"                                                { return StringLiteralAction(createLexicalAnalyzerContext(), APOSTROPHE); }
-"\""                                                { return StringLiteralAction(createLexicalAnalyzerContext(), QUOTATION_MARK); }
-
-{EASING}                                            { return AnimationAction(createLexicalAnalyzerContext()); }
-
 {NUMBER}{VALUE_UNIT}                                { return ValueAction(createLexicalAnalyzerContext()); }
-{NUMBER}{TIME_UNIT}                                 { return TimeValueAction(createLexicalAnalyzerContext()); }
 {COLOR}                                             { return ColorValueAction(createLexicalAnalyzerContext()); }
 
-{ID}                                                { return StylePropertyAction(createLexicalAnalyzerContext()); }
+{ID}                                                { return NameAction(createLexicalAnalyzerContext()); }
 
 {INTEGER}                                           { return IntegerAction(createLexicalAnalyzerContext()); }
 {NUMBER}                                            { return FloatAction(createLexicalAnalyzerContext()); }
 
 {WHITESPACE}+                                       { IgnoredLexemeAction(createLexicalAnalyzerContext()); }
+
 .                                                   { return UnknownLexemeAction(createLexicalAnalyzerContext()); }
 
 %%

@@ -74,6 +74,8 @@ Stagger * StaggerSemanticAction(char * time, StepItemList * stepItemList);
 KeyframeStyleList * KeyframStyleKeyframeStyleListOffsetSemanticAction(KeyframeStyle * keyframeStyle);
 KeyframeStyleList * KeyframeStyleListSemanticAction(KeyframeStyleList * keyframeStyleList, KeyframeStyle * keyframeStyle);
 
+Property * TextValuePropertySemanticAction(char * name, char * value);
+
 KeyframeStyle * keframeStyleSemanticAction(PropertyList * propertyList, float offset);
 
 

@@ -298,6 +298,19 @@ Property * IntegerValuePropertySemanticAction( char * name,  int value) {
     return property;
 }
 
+Property * TextValuePropertySemanticAction(char * name, char * value) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    Property * property = calloc(1, sizeof(Property));
+    if (property == NULL) {
+        logError(_logger, "Memory allocation failed for Property");
+        return NULL;
+    }
+    property->name = name;
+    property->value = value;
+    property->type = STRING;
+    return property;
+}
+
 Animate * AnimateSemanticAction(AnimateInfo * animateInfo) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Animate * animate = calloc(1, sizeof(Animate));
