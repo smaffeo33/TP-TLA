@@ -10,7 +10,6 @@
 %union {
 	/** Terminals. */
 
-	int integer;
 	Token token;
 	char *string;
 	float number;
@@ -77,7 +76,6 @@
 
 
 /** Terminals. */
-%token <integer> INTEGER
 %token <number> NUMBER
 %token <string> VALUE
 %token <string> TIME
@@ -236,7 +234,6 @@ propertyList: property                                                          
 property: NAME COLON VALUE                                                          { $$ = ValuePropertySemanticAction($1, $3); }
     | NAME COLON COLOR_VALUE                                                        { $$ = ValuePropertySemanticAction($1, $3); }
     | NAME COLON NUMBER                                                             { $$ = FloatValuePropertySemanticAction($1, $3); }
-    | NAME COLON INTEGER                                                            { $$ = IntegerValuePropertySemanticAction($1, $3); }
     | NAME COLON APOSTROPHE STRING_VALUE APOSTROPHE                                 { $$ = TextValuePropertySemanticAction($1, $4); }
     ;
 
@@ -259,15 +256,13 @@ keyframes: KEYFRAMES OPEN_PARENTHESIS OPEN_BRACKET keyframeStyleList CLOSE_BRACK
     ;
 
 keyframeStyleList: keyframeStyle
-                                                                                        { $$ = KeyframStyleKeyframeStyleListOffsetSemanticAction($1); }
+                                                                                        { $$ = KeyframeStyleKeyframeStyleListOffsetSemanticAction($1); }
     | keyframeStyleList COMMA keyframeStyle
                                                                                         { $$ = KeyframeStyleListSemanticAction($1, $3); }
     ;
 
 keyframeStyle: STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList COMMA OFFSET COLON NUMBER CLOSE_BRACE CLOSE_PARENTHESIS
                                                                                         { $$ = keyframeStyleSemanticAction($4, $8); }
-    | STYLE OPEN_PARENTHESIS OPEN_BRACE propertyList COMMA OFFSET COLON INTEGER CLOSE_BRACE CLOSE_PARENTHESIS
-                                                                                              { $$ = keyframeStyleSemanticAction($4, $8); }
     ;
 
 %%

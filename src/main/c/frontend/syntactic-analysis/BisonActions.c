@@ -285,19 +285,6 @@ Property * FloatValuePropertySemanticAction( char * name,  float value) {
     return property;
 }
 
-Property * IntegerValuePropertySemanticAction( char * name,  int value) {
-    _logSyntacticAnalyzerAction(__FUNCTION__);
-    Property * property = calloc(1, sizeof(Property));
-    if (property == NULL) {
-        logError(_logger, "Memory allocation failed for Property");
-        return NULL;
-    }
-    property->name = name;
-    property->intValue = value;
-    property->type = INT;
-    return property;
-}
-
 Property * TextValuePropertySemanticAction(char * name, char * value) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Property * property = calloc(1, sizeof(Property));
@@ -520,7 +507,7 @@ Keyframes * KeyframesSemanticAction(KeyframeStyleList * keyframeStyleList) {
     return keyframes;
 }
 
-KeyframeStyleList * KeyframStyleKeyframeStyleListOffsetSemanticAction(KeyframeStyle * keyframeStyle) {
+KeyframeStyleList * KeyframeStyleKeyframeStyleListOffsetSemanticAction(KeyframeStyle * keyframeStyle) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     KeyframeStyleList * keyframeStyleList = calloc(1, sizeof(KeyframeStyleList));
     if (keyframeStyleList == NULL) {

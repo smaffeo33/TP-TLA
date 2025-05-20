@@ -26,7 +26,6 @@ ALPHANUM            [a-zA-Z0-9]
 ID                  ([a-zA-Z][a-zA-Z0-9_]*|\*)
 STRING_VALUE        [a-zA-Z0-9\(\)]+
 NUMBER              {DIGIT}+(\.{DIGIT}+)?
-INTEGER             {DIGIT}+
 TIME_UNIT           "ms"|"s"
 COLOR               (#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3}|rgba\([ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*\)|rgb\([ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*\))
 VALUE_UNIT          "px"|"em"|"%"|"rem"|"vh"|"vw"
@@ -88,7 +87,6 @@ EASING              "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-be
 
 {ID}                                                { return NameAction(createLexicalAnalyzerContext()); }
 
-{INTEGER}                                           { return IntegerAction(createLexicalAnalyzerContext()); }
 {NUMBER}                                            { return FloatAction(createLexicalAnalyzerContext()); }
 
 {WHITESPACE}+                                       { IgnoredLexemeAction(createLexicalAnalyzerContext()); }

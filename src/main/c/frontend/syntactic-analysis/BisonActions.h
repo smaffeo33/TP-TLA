@@ -37,7 +37,6 @@ Style * StyleSemanticAction(PropertyList * propertyList);
 PropertyList * PropertyListSemanticAction(PropertyList * propertyList, Property * property);
 Property * ValuePropertySemanticAction( char * name,  char * value);
 Property * FloatValuePropertySemanticAction( char * name,  float value);
-Property * IntegerValuePropertySemanticAction( char * name,  int value);
 
 Animate * AnimateSemanticAction(AnimateInfo * animateInfo);
 Animate * AnimateWithStyleSemanticAction( AnimateInfo * animateInfo, Style * style);
@@ -71,7 +70,7 @@ Sequence * SequenceSemanticAction(StepItemList * stepItemList);
 StepItem * StaggerStepItemSemanticAction(Stagger * stagger);
 Stagger * StaggerSemanticAction(char * time, StepItemList * stepItemList);
 
-KeyframeStyleList * KeyframStyleKeyframeStyleListOffsetSemanticAction(KeyframeStyle * keyframeStyle);
+KeyframeStyleList * KeyframeStyleKeyframeStyleListOffsetSemanticAction(KeyframeStyle * keyframeStyle);
 KeyframeStyleList * KeyframeStyleListSemanticAction(KeyframeStyleList * keyframeStyleList, KeyframeStyle * keyframeStyle);
 
 Property * TextValuePropertySemanticAction(char * name, char * value);
