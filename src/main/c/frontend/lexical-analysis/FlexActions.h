@@ -60,6 +60,8 @@ Token TimeValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 Token ColorValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 
+Token SelectorAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+
 Token FloatAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 /* Error handling */

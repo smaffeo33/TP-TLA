@@ -30,7 +30,9 @@ TIME_UNIT           "ms"|"s"
 COLOR               (#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3}|rgba\([ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*\)|rgb\([ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*\))
 VALUE_UNIT          "px"|"em"|"%"|"rem"|"vh"|"vw"
 EASING              "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-bezier"{WHITESPACE}*\({WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*\)
-
+SELECTOR_ID         #{ALPHANUM}+
+SELECTOR_CLASS     \.{ALPHANUM}+
+SELECTOR_TAG        {ALPHA}+
 
 %%
 
@@ -41,17 +43,20 @@ EASING              "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-be
 
 "\'"                                                { BEGIN(STRING_CONTEXT); return StringLiteralAction(createLexicalAnalyzerContext(), APOSTROPHE); }
 <STRING_CONTEXT>"\'"                                {  BEGIN(INITIAL); return StringLiteralAction(createLexicalAnalyzerContext(), APOSTROPHE); }
+<STRING_CONTEXT>{WHITESPACE}+                       { IgnoredLexemeAction(createLexicalAnalyzerContext()); }
 <STRING_CONTEXT>{NUMBER}{TIME_UNIT}                 { return TimeValueAction(createLexicalAnalyzerContext()); }
 <STRING_CONTEXT>{EASING}                            { return AnimationAction(createLexicalAnalyzerContext()); }
 <STRING_CONTEXT>":enter"                            { return AliasStateAction(createLexicalAnalyzerContext(), ENTER_ALIAS); }
 <STRING_CONTEXT>":leave"                            { return AliasStateAction(createLexicalAnalyzerContext(), LEAVE_ALIAS); }
 <STRING_CONTEXT>":increment"                        { return AliasStateAction(createLexicalAnalyzerContext(), INCREMENT_ALIAS); }
 <STRING_CONTEXT>":decrement"                        { return AliasStateAction(createLexicalAnalyzerContext(), DECREMENT_ALIAS); }
+<STRING_CONTEXT>{SELECTOR_ID}                       { return SelectorAction(createLexicalAnalyzerContext(), SELECTOR_ID); }
+<STRING_CONTEXT>{SELECTOR_CLASS}                    { return SelectorAction(createLexicalAnalyzerContext(), SELECTOR_CLASS); }
 <STRING_CONTEXT>{ID}                                { return NameAction(createLexicalAnalyzerContext()); }
 <STRING_CONTEXT>"=>"                                { return PunctuationAction(createLexicalAnalyzerContext(), FORWARD_TRANSITION); }
 <STRING_CONTEXT>"<=>"                               { return PunctuationAction(createLexicalAnalyzerContext(), BIDIRECTIONAL_TRANSITION); }
 <STRING_CONTEXT>[^' \t\r\n]+                        { return StringValueAction(createLexicalAnalyzerContext()); }
-<STRING_CONTEXT>.                                   { IgnoredLexemeAction(createLexicalAnalyzerContext()); }
+<STRING_CONTEXT>.                                   { return UnknownLexemeAction(createLexicalAnalyzerContext()); }
 
 "trigger"                                           { return KeywordLexemeAction(createLexicalAnalyzerContext(), TRIGGER); }
 "state"                                             { return KeywordLexemeAction(createLexicalAnalyzerContext(), STATE); }

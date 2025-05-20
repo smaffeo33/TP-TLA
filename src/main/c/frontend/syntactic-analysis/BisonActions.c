@@ -454,6 +454,44 @@ StepItem * StyleStepItemSemanticAction(Style * style) {
     return stepItem;
 }
 
+StepItem * QueryStepItemSemanticAction(Query * query) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    StepItem * stepItem = calloc(1, sizeof(StepItem));
+    if (stepItem == NULL) {
+        logError(_logger, "Memory allocation failed for StepItem");
+        return NULL;
+    }
+    stepItem->type = QUERY_ITEM;
+    stepItem->item = query;
+    return stepItem;
+}
+
+Query * QuerySemanticAction(char * selector, StepItemList * stepItemList, SelectorType type) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    Query * query = calloc(1, sizeof(Query));
+    if (query == NULL) {
+        logError(_logger, "Memory allocation failed for Query");
+        return NULL;
+    }
+    query->selectorType = type;
+    query->selector = selector;
+    query->stepItemList = stepItemList;
+    return query;
+}
+
+Query * QueryAliasSemanticAction(AliasType aliasType, StepItemList * stepItemList) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    Query * query = calloc(1, sizeof(Query));
+    if (query == NULL) {
+        logError(_logger, "Memory allocation failed for Query");
+        return NULL;
+    }
+    query->selectorType = ALIAS_SELECTOR;
+    query->alias = aliasType;
+    query->stepItemList = stepItemList;
+    return query;
+}
+
 TransitionRule * TransitionRuleSemanticAction(char * fromState, char * toState, Direction direction) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     TransitionRule * transitionRule = calloc(1, sizeof(TransitionRule));
@@ -589,17 +627,6 @@ Sequence * SequenceSemanticAction(StepItemList * stepItemList) {
     return sequence;
 }
 
-StepItem * StaggerStepItemSemanticAction(Stagger * stagger) {
-    _logSyntacticAnalyzerAction(__FUNCTION__);
-    StepItem * stepItem = calloc(1, sizeof(StepItem));
-    if (stepItem == NULL) {
-        logError(_logger, "Memory allocation failed for StepItem");
-        return NULL;
-    }
-    stepItem->type = STAGGER_ITEM;
-    stepItem->item = stagger;
-    return stepItem;
-}
 Stagger * StaggerSemanticAction(char * time, StepItemList * stepItemList) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     Stagger * stagger = calloc(1, sizeof(Stagger));
@@ -610,5 +637,17 @@ Stagger * StaggerSemanticAction(char * time, StepItemList * stepItemList) {
     stagger->time = time;
     stagger->stepItemList = stepItemList;
     return stagger;
+}
+
+StepItem * StaggerStepItemSemanticAction(Stagger * stagger) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    StepItem * stepItem = calloc(1, sizeof(StepItem));
+    if (stepItem == NULL) {
+        logError(_logger, "Memory allocation failed for StepItem");
+        return NULL;
+    }
+    stepItem->type = STAGGER_ITEM;
+    stepItem->item = stagger;
+    return stepItem;
 }
 

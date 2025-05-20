@@ -134,6 +134,13 @@ Token TimeValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     return TIME;
 }
 
+Token SelectorAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
+	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+	lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
+	destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
+	return token;
+}
+
 Token ColorValueAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
     lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);

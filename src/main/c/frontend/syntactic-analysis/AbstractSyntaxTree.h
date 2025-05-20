@@ -21,6 +21,7 @@ typedef enum AliasType AliasType;
 typedef enum StepItemType StepItemType;
 typedef enum AnimateType AnimateType;
 typedef enum AnimateInfoType AnimateInfoType;
+typedef enum SelectorType SelectorType;
 
 typedef struct Program Program;
 typedef struct Trigger Trigger;
@@ -46,6 +47,7 @@ typedef struct TriggerBlock TriggerBlock;
 typedef struct TransitionRule TransitionRule;
 typedef struct StepItem StepItem;
 typedef struct StepItemList StepItemList;
+typedef struct Query Query;
 
 enum Direction {
 	FORWARD,
@@ -74,6 +76,7 @@ enum StepItemType {
     STYLE_ITEM,
     GROUP_ITEM,
     SEQUENCE_ITEM,
+    QUERY_ITEM,
     STAGGER_ITEM,
 };
 
@@ -88,6 +91,13 @@ enum AnimateInfoType {
     DURATION_EASING,
     DURATION_DELAY_EASING,
     DURATION,
+};
+
+enum SelectorType {
+    CLASS,
+    ID,
+    TAG,
+    ALIAS_SELECTOR,
 };
 
 struct Trigger {
@@ -192,16 +202,25 @@ struct AnimateInfo {
 };
 
 struct Group { //TODO: this, along with sequence and stagger (which i hope exists by the time you read this) accept the same things... look into that IV0 and SantIAgo
-    StepItemList * stepItemList; // List of transition block items
+    StepItemList *stepItemList; // List of transition block items
 };
 
 struct Sequence {
-    StepItemList * stepItemList; // List of transition block items
+    StepItemList *stepItemList; // List of transition block items
+};
+
+struct Query {
+    union {
+        char *selector;
+        AliasType alias;
+    };
+    SelectorType selectorType;
+    StepItemList *stepItemList; // List of transition block items
 };
 
 struct Stagger {
     char *time; // e.g., "100ms"
-    StepItemList * stepItemList; // List of transition block items
+    StepItemList *stepItemList; // List of transition block items
 };
 
 struct Property {
@@ -243,5 +262,6 @@ void releaseProperty(Property * property);
 void releaseGroup(Group * group);
 void releaseSequence(Sequence * sequence);
 void releaseStagger(Stagger * stagger);
+void releaseQuery(Query * query);
 
 #endif

@@ -132,6 +132,9 @@ void releaseStepItem(StepItem * stepItem) {
             case SEQUENCE_ITEM:
                 releaseSequence((Sequence *) stepItem->item);
                 break;
+            case QUERY_ITEM:
+                releaseQuery((Query *) stepItem->item);
+                break;
             case STAGGER_ITEM:
                 releaseStagger((Stagger *) stepItem->item);
                 break;
@@ -244,6 +247,20 @@ void releaseSequence(Sequence * sequence) {
     if (sequence != NULL) {
         releaseStepItemList(sequence->stepItemList);
         free(sequence);
+    }
+}
+
+void releaseQuery(Query * query) {
+    logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+    if (query != NULL) {
+        switch (query->selectorType) {
+            case ALIAS_SELECTOR:
+                break;
+            default:
+                free(query->selector);
+        }
+        releaseStepItemList(query->stepItemList);
+        free(query);
     }
 }
 

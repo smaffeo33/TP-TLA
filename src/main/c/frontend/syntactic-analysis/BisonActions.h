@@ -64,6 +64,11 @@ StepItem * GroupStepItemSemanticAction(Group * group);
 
 Group * GroupSemanticAction(StepItemList * stepItemList);
 
+StepItem * QueryStepItemSemanticAction(Query * query);
+
+Query * QuerySemanticAction(char * selector, StepItemList * stepItemList, SelectorType type);
+Query * QueryAliasSemanticAction(AliasType aliasType, StepItemList * stepItemList);
+
 StepItem * SequenceStepItemSemanticAction(Sequence * sequence);
 Sequence * SequenceSemanticAction(StepItemList * stepItemList);
 

@@ -29,6 +29,7 @@
 	Property * property;
 	Group * group;
 	Sequence * sequence;
+	Query * query;
 	Stagger * stagger;
 	TriggerList * triggerList;
 	TriggerBlock * triggerBlock;
@@ -72,6 +73,7 @@
 %destructor { releaseGroup($$); } <group>
 %destructor { releaseSequence($$); } <sequence>
 %destructor { releaseStagger($$); } <stagger>
+%destructor { releaseQuery($$); } <query>
 
 
 
@@ -116,6 +118,8 @@
 %token <token> LEAVE_ALIAS
 %token <token> INCREMENT_ALIAS
 %token <token> DECREMENT_ALIAS
+%token <string> SELECTOR_ID
+%token <string> SELECTOR_CLASS
 
 
 %token <token> UNKNOWN
@@ -142,9 +146,12 @@
 %type <program> program
 %type <transitionBlock> transitionBlock
 %type <stepItem> stepItem
+%type <stepItem> queryStepItem
 %type <stepItemList> stepItemList
+%type <stepItemList> queryStepItemList
 %type <transitionRule> transitionRule
 %type <aliasType> aliasType
+%type <query> query
 
 /**
  * Precedence and associativity.
@@ -210,8 +217,29 @@ stepItem: animate                                                               
     | style                                                                         { $$ = StyleStepItemSemanticAction($1); }
     | group                                                                         { $$ = GroupStepItemSemanticAction($1); }
     | sequence                                                                      { $$ = SequenceStepItemSemanticAction($1); }
+    | query                                                                         { $$ = QueryStepItemSemanticAction($1); }
+    ;
+
+queryStepItemList: queryStepItem                                                    { $$ = StepItemListSemanticAction($1); }
+    | queryStepItemList COMMA queryStepItem                                         { $$ = StepItemStepItemListSemanticAction($1, $3); }
+    ;
+
+queryStepItem: animate                                                              { $$ = AnimateStepItemSemanticAction($1); }
+    | style                                                                         { $$ = StyleStepItemSemanticAction($1); }
+    | group                                                                         { $$ = GroupStepItemSemanticAction($1); }
+    | sequence                                                                      { $$ = SequenceStepItemSemanticAction($1); }
+    | query                                                                         { $$ = QueryStepItemSemanticAction($1); }
     | stagger                                                                       { $$ = StaggerStepItemSemanticAction($1); }
     ;
+
+query: QUERY OPEN_PARENTHESIS APOSTROPHE SELECTOR_ID APOSTROPHE COMMA OPEN_BRACKET queryStepItemList CLOSE_BRACKET CLOSE_PARENTHESIS
+                                                                                    { $$ = QuerySemanticAction($4, $8, ID); }
+    | QUERY OPEN_PARENTHESIS APOSTROPHE SELECTOR_CLASS APOSTROPHE COMMA OPEN_BRACKET queryStepItemList CLOSE_BRACKET CLOSE_PARENTHESIS
+                                                                                    { $$ = QuerySemanticAction($4, $8, CLASS); }
+    | QUERY OPEN_PARENTHESIS APOSTROPHE NAME APOSTROPHE COMMA OPEN_BRACKET queryStepItemList CLOSE_BRACKET CLOSE_PARENTHESIS
+                                                                                    { $$ = QuerySemanticAction($4, $8, TAG); }
+    | QUERY OPEN_PARENTHESIS APOSTROPHE aliasType APOSTROPHE COMMA OPEN_BRACKET queryStepItemList CLOSE_BRACKET CLOSE_PARENTHESIS
+                                                                                    { $$ = QueryAliasSemanticAction($4, $8); }
 
 stagger: STAGGER OPEN_PARENTHESIS APOSTROPHE TIME APOSTROPHE COMMA OPEN_BRACKET stepItemList CLOSE_BRACKET CLOSE_PARENTHESIS
                                                                                     { $$ = StaggerSemanticAction($4, $8); }
@@ -236,8 +264,6 @@ property: NAME COLON VALUE                                                      
     | NAME COLON NUMBER                                                             { $$ = FloatValuePropertySemanticAction($1, $3); }
     | NAME COLON APOSTROPHE STRING_VALUE APOSTROPHE                                 { $$ = TextValuePropertySemanticAction($1, $4); }
     ;
-
-
 
 animate: ANIMATE OPEN_PARENTHESIS APOSTROPHE animateInfo APOSTROPHE CLOSE_PARENTHESIS   { $$ = AnimateSemanticAction($4); }
     | ANIMATE OPEN_PARENTHESIS APOSTROPHE animateInfo APOSTROPHE COMMA style CLOSE_PARENTHESIS
