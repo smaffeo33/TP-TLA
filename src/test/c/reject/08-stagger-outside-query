@@ -1,0 +1,17 @@
+trigger('listStagger', [
+  transition(':enter', [
+      /* ← here you can call query()… */
+      query('.item', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 }))
+      ]),
+      stagger('50ms', [ query('.baz', [ animate('100ms', style({ opacity:0.5 })) ]) ]),
+      /* …and you can also nest it inside a group/sequence/stagger: */
+      group([
+        sequence([
+          query('.foo', [ animate('200ms', style({ transform:'scale(1)' })) ]),
+          query('.bar', [ animate('200ms', style({ transform:'scale(0.5)' })) ])
+        ])
+      ])
+    ])
+])
