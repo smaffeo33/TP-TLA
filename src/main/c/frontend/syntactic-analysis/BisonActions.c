@@ -350,7 +350,7 @@ AnimateInfo * AnimateInfoSemanticAction(char * duration, char * delay, char * ea
     return animateInfo;
 }
 
-TransitionBlock * AnimateTransitionBlockSemanticAction(Animate * animate) { //TODO check and or simplify
+TransitionBlock * AnimateTransitionBlockSemanticAction(Animate * animate) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     TransitionBlock * transitionBlock = calloc(1, sizeof(TransitionBlock));
     if (transitionBlock == NULL) {

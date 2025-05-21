@@ -1,0 +1,8 @@
+trigger('manyQueries', [
+  transition('* => *', [
+    query('#myId', [ animate('100ms') ]),
+    query('.myClass', [ animate('100ms') ]),
+    query('div',      [ animate('100ms') ]),
+    query(':increment', [ animate('100ms') ])
+  ])
+])

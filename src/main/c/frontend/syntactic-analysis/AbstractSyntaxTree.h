@@ -143,12 +143,12 @@ struct TransitionRule {
             char *toState; // e.g., "expanded"
             Direction direction; // e.g., "FORWARD"
         };
-        AliasType alias; // e.g., ":enter" //TODO check if it is better to use char * or enum for these reserved (i think enum)
+        AliasType alias; // e.g., ":enter"
     };
     TransitionRuleType ruleType;
 };
 
-struct TransitionBlock { //TODO: this might need simplifying, it only calls the list, might this be the list instead? applies for everything that is a list
+struct TransitionBlock {
     StepItemList * stepItemList; // List of transition block items
 };
 
@@ -202,7 +202,7 @@ struct AnimateInfo {
 
 };
 
-struct Group { //TODO: this, along with sequence and stagger (which i hope exists by the time you read this) accept the same things... look into that IV0 and SantIAgo
+struct Group {
     StepItemList *stepItemList; // List of transition block items
 };
 

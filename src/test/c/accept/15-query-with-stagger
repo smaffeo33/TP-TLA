@@ -19,8 +19,7 @@ trigger('listStagger', [
         sequence([
           query('.foo', [ animate('200ms', style({ transform:'scale(1)' })) ]),
           query('.bar', [ animate('200ms', style({ transform:'scale(0.5)' })), stagger('50ms', [ query('.baz', [ animate('100ms', style({ opacity:0.5 })) ]) ]) ])
-        ]),
-        animateChild()
+        ])
       ])
     ])
 ])

@@ -1,0 +1,14 @@
+trigger('child1', [
+  transition(':enter', [
+    animateChild()
+  ])
+]),
+
+trigger('child2', [
+  transition(':enter', [
+    group([
+      animateChild(),
+      sequence([ animateChild() ])
+    ])
+  ])
+])

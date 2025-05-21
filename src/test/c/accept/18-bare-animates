@@ -1,0 +1,7 @@
+trigger('multiAnimate', [
+  transition('* => *', [
+    animate('100ms'),
+    animate('200ms'),
+    animate('300ms')
+  ])
+])
