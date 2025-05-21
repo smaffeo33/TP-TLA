@@ -102,7 +102,7 @@ enum SelectorType {
 };
 
 struct Trigger {
-	char *name; // e.g., "cardAnimation"
+	char *name; 
 	TriggerBlock *block;
 };
 
@@ -117,49 +117,49 @@ struct TriggerBlock {
 };
 
 struct TransitionList {
-	Transition **transitions; // Array of transitions
+	Transition **transitions; 
 	size_t transitionCount;
 };
 
 struct StateList {
-	State **states; // Array of states
+	State **states; 
 	size_t stateCount;
 };
 
 struct State {
-	char *name; // e.g., "default"
-	Style *style; // Associated style
+	char *name; 
+	Style *style; 
 };
 
 struct Transition {
 	TransitionRule * transitionRule;
-	TransitionBlock * transitionBlock; // Associated block
+	TransitionBlock * transitionBlock; 
 };
 
 struct TransitionRule {
     union {
         struct {
-            char *fromState; // e.g., "default"
-            char *toState; // e.g., "expanded"
-            Direction direction; // e.g., "FORWARD"
+            char *fromState; 
+            char *toState; 
+            Direction direction; 
         };
-        AliasType alias; // e.g., ":enter"
+        AliasType alias; 
     };
     TransitionRuleType ruleType;
 };
 
 struct TransitionBlock {
-    StepItemList * stepItemList; // List of transition block items
+    StepItemList * stepItemList; 
 };
 
 struct StepItemList {
-    StepItem **items; // Array of items (Animate, Style, etc.)
+    StepItem **items; 
     size_t itemCount;
 };
 
 typedef struct StepItem {
     StepItemType type;
-    void *item; // Pointer to either Animate or Style
+    void *item; 
 } TransitionBlockItem;
 
 struct Style {
@@ -167,17 +167,17 @@ struct Style {
 };
 
 struct KeyframeStyle {
-    PropertyList *properties; // Reuse the existing Style struct
-    float offset;    // Offset for the keyframe (e.g., 0.0 to 1.0)
+    PropertyList *properties; 
+    float offset;    
 };
 
 struct KeyframeStyleList {
-    KeyframeStyle **keyframeStyles; // Array of keyframe styles
+    KeyframeStyle **keyframeStyles; 
     size_t keyframeCount;
 };
 
 struct PropertyList {
-	Property **properties; // Array of properties
+	Property **properties; 
 	size_t propertyCount;
 };
 
@@ -190,24 +190,24 @@ struct Animate {
         Style * style;
         Keyframes * keyframes;
     };
-    AnimateType type; // Type of animation (none, with style, with keyframe)
-	AnimateInfo * animateInfo; // Animation information (duration, easing)
+    AnimateType type; 
+	AnimateInfo * animateInfo; 
 };
 
 struct AnimateInfo {
-    char *duration; // e.g., "300ms"
-    char *easing; // e.g., "cubic-bezier(0.4, 0.0, 0.2, 1)"
-    char *delay; // e.g., "100ms"
-    AnimateInfoType type; // Type of animation information (delay, easing, delay + easing)
+    char *duration; 
+    char *easing; 
+    char *delay; 
+    AnimateInfoType type; 
 
 };
 
 struct Group {
-    StepItemList *stepItemList; // List of transition block items
+    StepItemList *stepItemList; 
 };
 
 struct Sequence {
-    StepItemList *stepItemList; // List of transition block items
+    StepItemList *stepItemList; 
 };
 
 struct Query {
@@ -216,21 +216,21 @@ struct Query {
         AliasType alias;
     };
     SelectorType selectorType;
-    StepItemList *stepItemList; // List of transition block items
+    StepItemList *stepItemList; 
 };
 
 struct Stagger {
-    char *time; // e.g., "100ms"
-    StepItemList *stepItemList; // List of transition block items
+    char *time; 
+    StepItemList *stepItemList; 
 };
 
 struct Property {
-	char *name; // e.g., "height"
+	char *name; 
 	union {
-        char *value; // e.g., "200px"
-        float floatValue; // e.g., 200.0
+        char *value; 
+        float floatValue; 
     };
-    PropertyType type; // Type of the property (string or float)
+    PropertyType type; 
 };
 
 struct Program {
