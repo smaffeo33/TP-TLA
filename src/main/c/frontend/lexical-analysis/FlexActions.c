@@ -92,9 +92,9 @@ Token NameAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
     return NAME;
 }
 
-Token StylePropertySemanticAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
+Token StylePropertySemanticAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) { //TODO: legal? why not
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-	lexicalAnalyzerContext->semanticValue->token = token;
+	lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
 	destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
 	return token;
 }

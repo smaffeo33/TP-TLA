@@ -56,7 +56,9 @@ enum Direction {
 
 enum PropertyType {
     STRING,
-    FLOAT,
+    UNIT,
+    COLOR,
+    UNITLESS,
 };
 
 enum TransitionRuleType {
@@ -228,7 +230,7 @@ struct Property {
 	char *name; 
 	union {
         char *value; 
-        float floatValue; 
+        float floatValue;
     };
     PropertyType type; 
 };

@@ -234,11 +234,10 @@ void releaseProperty(Property * property) {
 	if (property != NULL) {
 		free(property->name);
         switch (property->type) {
-            case STRING:
-                free(property->value);
+            case UNITLESS:
                 break;
             default:
-                break;
+                free(property->value);
         }
 		free(property);
 	}

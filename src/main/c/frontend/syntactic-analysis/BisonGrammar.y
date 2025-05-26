@@ -109,6 +109,10 @@
 %token <token> OFFSET
 %token <token> COMMA
 %token <token> COLON
+%token <string> VALUE_PROPERTY
+%token <string> COLOR_PROPERTY
+%token <string> KEYWORD_PROPERTY
+%token <string> NUMBER_PROPERTY
 %token <string> NAME
 %token <string> EASING
 %token <token> LEAVE_QUERY
@@ -257,11 +261,12 @@ propertyList: property                                                          
     | propertyList COMMA property                                                   { $$ = PropertyListSemanticAction($1, $3); }
     ;
 
-property: NAME COLON VALUE                                                          { $$ = ValuePropertySemanticAction($1, $3); }
-    | NAME COLON COLOR_VALUE                                                        { $$ = ValuePropertySemanticAction($1, $3); }
-    | NAME COLON NUMBER                                                             { $$ = FloatValuePropertySemanticAction($1, $3); }
-    | NAME COLON APOSTROPHE STRING_VALUE APOSTROPHE                                 { $$ = TextValuePropertySemanticAction($1, $4); }
+property: VALUE_PROPERTY COLON VALUE                                                { $$ = ValuePropertySemanticAction($1, $3); }
+    | COLOR_PROPERTY COLON COLOR_VALUE                                              { $$ = ColorValuePropertySemanticAction($1, $3); }
+    | KEYWORD_PROPERTY COLON APOSTROPHE STRING_VALUE APOSTROPHE                     { $$ = TextValuePropertySemanticAction($1, $4); }
+    | NUMBER_PROPERTY COLON NUMBER                                                  { $$ = FloatValuePropertySemanticAction($1, $3); }
     ;
+
 
 animate: ANIMATE OPEN_PARENTHESIS APOSTROPHE animateInfo APOSTROPHE CLOSE_PARENTHESIS   { $$ = AnimateSemanticAction($4); }
     | ANIMATE OPEN_PARENTHESIS APOSTROPHE animateInfo APOSTROPHE COMMA style CLOSE_PARENTHESIS

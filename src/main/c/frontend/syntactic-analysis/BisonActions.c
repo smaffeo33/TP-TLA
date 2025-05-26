@@ -268,7 +268,20 @@ Property * ValuePropertySemanticAction( char * name,  char * value) {
     }
     property->name = name;
     property->value = value;
-    property->type = STRING;
+    property->type = UNIT;
+    return property;
+}
+
+Property * ColorValuePropertySemanticAction( char * name,  char * value) {
+    _logSyntacticAnalyzerAction(__FUNCTION__);
+    Property * property = calloc(1, sizeof(Property));
+    if (property == NULL) {
+        logError(_logger, "Memory allocation failed for Property");
+        return NULL;
+    }
+    property->name = name;
+    property->value = value;
+    property->type = COLOR;
     return property;
 }
 
@@ -281,7 +294,7 @@ Property * FloatValuePropertySemanticAction( char * name,  float value) {
     }
     property->name = name;
     property->floatValue = value;
-    property->type = FLOAT;
+    property->type = UNITLESS;
     return property;
 }
 

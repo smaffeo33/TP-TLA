@@ -35,8 +35,6 @@ State * StateDefinitionSemanticAction( char * name, Style * style);
 Transition * TransitionSemanticAction( TransitionRule * transitionRule, TransitionBlock * transitionBlock);
 Style * StyleSemanticAction(PropertyList * propertyList);
 PropertyList * PropertyListSemanticAction(PropertyList * propertyList, Property * property);
-Property * ValuePropertySemanticAction( char * name,  char * value);
-Property * FloatValuePropertySemanticAction( char * name,  float value);
 
 Animate * AnimateSemanticAction(AnimateInfo * animateInfo);
 Animate * AnimateWithStyleSemanticAction( AnimateInfo * animateInfo, Style * style);
@@ -81,6 +79,9 @@ KeyframeStyleList * KeyframeStyleKeyframeStyleListOffsetSemanticAction(KeyframeS
 KeyframeStyleList * KeyframeStyleListSemanticAction(KeyframeStyleList * keyframeStyleList, KeyframeStyle * keyframeStyle);
 
 Property * TextValuePropertySemanticAction(char * name, char * value);
+Property * ValuePropertySemanticAction( char * name,  char * value);
+Property * ColorValuePropertySemanticAction( char * name,  char * value);
+Property * FloatValuePropertySemanticAction( char * name,  float value);
 
 KeyframeStyle * keyframeStyleSemanticAction(PropertyList * propertyList, float offset);
 

@@ -74,6 +74,62 @@ SELECTOR_TAG        {ALPHA}+
 "offset"                                            { return KeywordLexemeAction(createLexicalAnalyzerContext(), OFFSET); }
 
 
+"width"                                             { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"height"                                            { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"margin"                                            { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"margin-top"                                        { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"margin-right"                                      { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"margin-bottom"                                     { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"margin-left"                                       { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"padding"                                           { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"padding-top"                                       { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"padding-right"                                     { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"padding-bottom"                                    { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"padding-left"                                      { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"top"                                               { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"right"                                             { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"bottom"                                            { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"left"                                              { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"font-size"                                         { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"line-height"                                       { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"border-width"                                      { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+"border-radius"                                     { return StylePropertySemanticAction(createLexicalAnalyzerContext(), VALUE_PROPERTY); }
+
+
+"color"                                             { return StylePropertySemanticAction(createLexicalAnalyzerContext(), COLOR_PROPERTY); }
+"background-color"                                  { return StylePropertySemanticAction(createLexicalAnalyzerContext(), COLOR_PROPERTY); }
+"border-color"                                      { return StylePropertySemanticAction(createLexicalAnalyzerContext(), COLOR_PROPERTY); }
+"outline-color"                                     { return StylePropertySemanticAction(createLexicalAnalyzerContext(), COLOR_PROPERTY); }
+
+"display"                                           { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"position"                                          { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"overflow"                                          { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"overflow-x"                                        { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"overflow-y"                                        { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"visibility"                                        { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"text-align"                                        { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"white-space"                                       { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"font-style"                                        { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"text-decoration"                                   { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"text-transform"                                    { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"flex-direction"                                    { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"justify-content"                                   { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"align-items"                                       { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+"transform"                                         { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+
+
+"opacity"                                           { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
+"scale"                                           { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
+"z-index"                                           { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
+"flex-grow"                                         { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
+"flex-shrink"                                       { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
+"order"                                             { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
+"column-count"                                      { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
+"font-weight"                                       { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
+"tab-size"                                          { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
+"orphans"                                           { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
+"widows"                                            { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
+
 
 "("                                                 { return PunctuationAction(createLexicalAnalyzerContext(), OPEN_PARENTHESIS); }
 ")"                                                 { return PunctuationAction(createLexicalAnalyzerContext(), CLOSE_PARENTHESIS); }
