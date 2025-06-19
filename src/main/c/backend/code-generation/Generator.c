@@ -127,14 +127,22 @@ static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
     char kfName[DEF_BUF];
     snprintf(kfName, sizeof(kfName), "%s-%s-to-%s", t->name, from, to);
 
-    if (anim->type == ANIMATE_WITH_KEYFRAMES)
+    if (anim->type == ANIMATE_WITH_KEYFRAMES && anim->keyframes) {
         _genKeyframesCss(f, kfName, anim->keyframes);
-    else {
+
+    } else if (anim->style) {
         _out(f, 0, "@keyframes %s {\n", kfName);
         _out(f, 1, "from {\n"); _genStylePropsCss(f, 2, anim->style->properties); _out(f, 1, "}\n");
         _out(f, 1, "to   {\n"); _genStylePropsCss(f, 2, anim->style->properties); _out(f, 1, "}\n");
         _out(f, 0, "}\n");
+
+    } else {
+        _out(f, 0, "@keyframes %s {\n"
+                   "  from { /* implicit */ }\n"
+                   "  to   { /* implicit */ }\n"
+                   "}\n", kfName);
     }
+
 
     const char *dur = ai->duration ? ai->duration : "0ms";
     const char *eas = ai->easing   ? ai->easing   : "ease";
