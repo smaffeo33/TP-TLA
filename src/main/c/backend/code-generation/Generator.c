@@ -1,174 +1,173 @@
 #include "Generator.h"
+#include "../../frontend/syntactic-analysis/AbstractSyntaxTree.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <string.h>
 
-/* MODULE INTERNAL STATE */
 
-const char _indentationCharacter = ' ';
-const char _indentationSize = 4;
-static Logger * _logger = NULL;
+static Logger *_logger = NULL;
+const  char    _indentationCharacter = ' ';
+const  unsigned _indentationSize     = 4;
 
-void initializeGeneratorModule() {
-	_logger = createLogger("Generator");
+
+void initializeGeneratorModule(void)  { _logger = createLogger("Generator"); }
+void shutdownGeneratorModule(void)    { destroyLogger(_logger);  }
+
+
+static void   _printIndent(FILE *f, unsigned lvl);
+static void   _out       (FILE *f, unsigned lvl, const char *fmt, ...);
+static void   _genProgramCss (FILE *f, Program *p);
+static void   _genTriggerCss (FILE *f, Trigger *t);
+static void   _genStateClassCss(FILE *f, Trigger *t, State *s);
+static void   _genStylePropsCss(FILE *f, unsigned lvl, PropertyList *plist);
+static void   _genKeyframesCss (FILE *f, const char *kfName, Keyframes *kfs);
+static void   _genTransitionCss(FILE *f, Trigger *t, Transition *tr);
+
+static const char *_aliasToState(AliasType a);
+#define DEF_BUF 256
+
+
+void generate(CompilerState * compilerState)
+{
+    if (!compilerState || !compilerState->abstractSyntaxtTree) {
+        logError(_logger, "Compiler state or AST is NULL – nothing to generate.");
+        return;
+    }
+    logDebugging(_logger, "Generating CSS for the program...");
+    //Si queremos sacarlo a un archivo habria que cambiar el FILE *stdout por un FILE *f
+    _genProgramCss(stdout,
+                   compilerState->abstractSyntaxtTree);
 }
 
-void shutdownGeneratorModule() {
-	if (_logger != NULL) {
-		destroyLogger(_logger);
-	}
+
+
+static void _printIndent(FILE *f, unsigned lvl)
+{
+    for (unsigned i = 0; i < lvl * _indentationSize; ++i)
+        fputc(_indentationCharacter, f);
 }
 
-/** PRIVATE FUNCTIONS */
-
-static const char _expressionTypeToCharacter(const ExpressionType type);
-static void _generateConstant(const unsigned int indentationLevel, Constant * constant);
-static void _generateEpilogue(const int value);
-static void _generateExpression(const unsigned int indentationLevel, Expression * expression);
-static void _generateFactor(const unsigned int indentationLevel, Factor * factor);
-static void _generateProgram(Program * program);
-static void _generatePrologue(void);
-static char * _indentation(const unsigned int indentationLevel);
-static void _output(const unsigned int indentationLevel, const char * const format, ...);
-
-/**
- * Converts and expression type to the proper character of the operation
- * involved, or returns '\0' if that's not possible.
- */
-static const char _expressionTypeToCharacter(const ExpressionType type) {
-	switch (type) {
-		case ADDITION: return '+';
-		case DIVISION: return '/';
-		case MULTIPLICATION: return '*';
-		case SUBTRACTION: return '-';
-		default:
-			logError(_logger, "The specified expression type cannot be converted into character: %d", type);
-			return '\0';
-	}
+static void _out(FILE *f, unsigned lvl, const char *fmt, ...)
+{
+    _printIndent(f, lvl);
+    va_list ap;  va_start(ap, fmt);
+    vfprintf(f, fmt, ap);
+    va_end(ap);
 }
 
-/**
- * Generates the output of a constant.
- */
-static void _generateConstant(const unsigned int indentationLevel, Constant * constant) {
-	_output(indentationLevel, "%s", "[ $C$, circle, draw, black!20\n");
-	_output(1 + indentationLevel, "%s%d%s", "[ $", constant->value, "$, circle, draw ]\n");
-	_output(indentationLevel, "%s", "]\n");
+static void _genStylePropsCss(FILE *f, unsigned lvl, PropertyList *plist)
+{
+    if (!plist) return;
+    for (size_t i = 0; i < plist->propertyCount; ++i) {
+        Property *p = plist->properties[i];
+        switch (p->type) {
+            case STRING:
+            case COLOR:
+                _out(f, lvl, "%s: %s;\n", p->name, p->value);
+                break;
+            case UNIT:
+                if (p->value)
+                    _out(f, lvl, "%s: %s;\n", p->name, p->value);
+                else
+                    _out(f, lvl, "%s: %.2f;\n", p->name, p->floatValue);
+                break;
+            case UNITLESS:
+                _out(f, lvl, "%s: %.3g;\n", p->name, p->floatValue);
+                break;
+        }
+    }
 }
 
-/**
- * Creates the epilogue of the generated output, that is, the final lines that
- * completes a valid Latex document.
- */
-static void _generateEpilogue(const int value) {
-	_output(0, "%s%d%s",
-		"            [ $", value, "$, circle, draw, blue ]\n"
-		"        ]\n"
-		"    \\end{forest}\n"
-		"\\end{document}\n\n"
-	);
+static void _genStateClassCss(FILE *f, Trigger *t, State *s)
+{
+    _out(f, 0, ".%s-%s {\n", t->name, s->name);
+    _genStylePropsCss(f, 1, s->style->properties);
+    _out(f, 0, "}\n");
 }
 
-/**
- * Generates the output of an expression.
- */
-static void _generateExpression(const unsigned int indentationLevel, Expression * expression) {
-	_output(indentationLevel, "%s", "[ $E$, circle, draw, black!20\n");
-	switch (expression->type) {
-		case ADDITION:
-		case DIVISION:
-		case MULTIPLICATION:
-		case SUBTRACTION:
-			_generateExpression(1 + indentationLevel, expression->leftExpression);
-			_output(1 + indentationLevel, "%s%c%s", "[ $", _expressionTypeToCharacter(expression->type), "$, circle, draw, purple ]\n");
-			_generateExpression(1 + indentationLevel, expression->rightExpression);
-			break;
-		case FACTOR:
-			_generateFactor(1 + indentationLevel, expression->factor);
-			break;
-		default:
-			logError(_logger, "The specified expression type is unknown: %d", expression->type);
-			break;
-	}
-	_output(indentationLevel, "%s", "]\n");
+static void _genKeyframesCss(FILE *f, const char *kfName, Keyframes *kfs)
+{
+    _out(f, 0, "@keyframes %s {\n", kfName);
+    KeyframeStyleList *list = kfs->keyframeStyleList;
+    for (size_t i = 0; i < list->keyframeCount; ++i) {
+        KeyframeStyle *k = list->keyframeStyles[i];
+        _out(f, 1, "%.0f%% {\n", k->offset * 100.0f);
+        _genStylePropsCss(f, 2, k->properties);
+        _out(f, 1, "}\n");
+    }
+    _out(f, 0, "}\n");
 }
 
-/**
- * Generates the output of a factor.
- */
-static void _generateFactor(const unsigned int indentationLevel, Factor * factor) {
-	_output(indentationLevel, "%s", "[ $F$, circle, draw, black!20\n");
-	switch (factor->type) {
-		case CONSTANT:
-			_generateConstant(1 + indentationLevel, factor->constant);
-			break;
-		case EXPRESSION:
-			_output(1 + indentationLevel, "%s", "[ $($, circle, draw, purple ]\n");
-			_generateExpression(1 + indentationLevel, factor->expression);
-			_output(1 + indentationLevel, "%s", "[ $)$, circle, draw, purple ]\n");
-			break;
-		default:
-			logError(_logger, "The specified factor type is unknown: %d", factor->type);
-			break;
-	}
-	_output(indentationLevel, "%s", "]\n");
+static const char *_aliasToState(AliasType a)
+{
+    switch (a) {
+        case ENTER:     return "enter";
+        case LEAVE:     return "leave";
+        case INCREMENT: return "increment";
+        case DECREMENT: return "decrement";
+        default:        return "state";
+    }
 }
 
-/**
- * Generates the output of the program.
- */
-static void _generateProgram(Program * program) {
-	_generateExpression(3, program->expression);
+static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
+{
+    const char *from, *to;
+    if (tr->transitionRule->ruleType == FROM_TO) {
+        from = tr->transitionRule->fromState;
+        to   = tr->transitionRule->toState;
+    } else {
+        from = to = _aliasToState(tr->transitionRule->alias);
+    }
+
+    StepItem   *si   = tr->transitionBlock->stepItemList->items[0];
+    Animate    *anim = (Animate *)si->item;
+    AnimateInfo *ai  = anim->animateInfo;
+
+    char kfName[DEF_BUF];
+    snprintf(kfName, sizeof(kfName), "%s-%s-to-%s", t->name, from, to);
+
+    if (anim->type == ANIMATE_WITH_KEYFRAMES)
+        _genKeyframesCss(f, kfName, anim->keyframes);
+    else {
+        _out(f, 0, "@keyframes %s {\n", kfName);
+        _out(f, 1, "from {\n"); _genStylePropsCss(f, 2, anim->style->properties); _out(f, 1, "}\n");
+        _out(f, 1, "to   {\n"); _genStylePropsCss(f, 2, anim->style->properties); _out(f, 1, "}\n");
+        _out(f, 0, "}\n");
+    }
+
+    const char *dur = ai->duration ? ai->duration : "0ms";
+    const char *eas = ai->easing   ? ai->easing   : "ease";
+    const char *del = ai->delay    ? ai->delay    : "0ms";
+
+    _out(f, 0, ".%s-%s.%s-%s {\n", t->name, from, t->name, to);
+    _out(f, 1, "animation: %s %s %s %s;\n", kfName, dur, eas, del);
+    _out(f, 0, "}\n");
 }
 
-/**
- * Creates the prologue of the generated output, a Latex document that renders
- * a tree thanks to the Forest package.
- *
- * @see https://ctan.dcc.uchile.cl/graphics/pgf/contrib/forest/forest-doc.pdf
- */
-static void _generatePrologue(void) {
-	_output(0, "%s",
-		"\\documentclass{standalone}\n\n"
-		"\\usepackage[utf8]{inputenc}\n"
-		"\\usepackage[T1]{fontenc}\n"
-		"\\usepackage{amsmath}\n"
-		"\\usepackage{forest}\n"
-		"\\usepackage{microtype}\n\n"
-		"\\begin{document}\n"
-		"    \\centering\n"
-		"    \\begin{forest}\n"
-		"        [ \\text{$=$}, circle, draw, purple\n"
-	);
+static void _genTriggerCss(FILE *f, Trigger *t)
+{
+    logDebugging(_logger, "Generating CSS for trigger: %s", t->name);
+
+    StateList *sl = t->block->stateList;
+    for (size_t i = 0; i < sl->stateCount; ++i)
+        _genStateClassCss(f, t, sl->states[i]);
+
+    _out(f, 0, "\n");
+
+    TransitionList *tl = t->block->transitionList;
+    for (size_t i = 0; i < tl->transitionCount; ++i) {
+        _genTransitionCss(f, t, tl->transitions[i]);
+        _out(f, 0, "\n");
+    }
 }
 
-/**
- * Generates an indentation string for the specified level.
- */
-static char * _indentation(const unsigned int level) {
-	return indentation(_indentationCharacter, level, _indentationSize);
+static void _genProgramCss(FILE *f, Program *p)
+{
+    TriggerList *tl = p->triggerList;
+    for (size_t i = 0; i < tl->triggerCount; ++i)
+        _genTriggerCss(f, tl->trigger[i]);
 }
 
-/**
- * Outputs a formatted string to standard output. The "fflush" instruction
- * allows to see the output even close to a failure, because it drops the
- * buffering.
- */
-static void _output(const unsigned int indentationLevel, const char * const format, ...) {
-	va_list arguments;
-	va_start(arguments, format);
-	char * indentation = _indentation(indentationLevel);
-	char * effectiveFormat = concatenate(2, indentation, format);
-	vfprintf(stdout, effectiveFormat, arguments);
-	fflush(stdout);
-	free(effectiveFormat);
-	free(indentation);
-	va_end(arguments);
-}
 
-/** PUBLIC FUNCTIONS */
 
-void generate(CompilerState * compilerState) {
-	logDebugging(_logger, "Generating final output...");
-	_generatePrologue();
-	_generateProgram(compilerState->abstractSyntaxtTree);
-	_generateEpilogue(compilerState->value);
-	logDebugging(_logger, "Generation is done.");
-}
