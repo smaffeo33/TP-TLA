@@ -110,48 +110,76 @@ static const char *_aliasToState(AliasType a)
     }
 }
 
+
 static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
 {
     const char *from, *to;
+    int bidir = false;                         /* default → sentido único */
+
     if (tr->transitionRule->ruleType == FROM_TO) {
-        from = tr->transitionRule->fromState;
-        to   = tr->transitionRule->toState;
+        from   = tr->transitionRule->fromState;
+        to     = tr->transitionRule->toState;
+        bidir  = tr->transitionRule->direction;
     } else {
-        from = to = _aliasToState(tr->transitionRule->alias);
+        const char *alias = _aliasToState(tr->transitionRule->alias);
+        from = to = alias;
     }
 
-    StepItem   *si   = tr->transitionBlock->stepItemList->items[0];
-    Animate    *anim = (Animate *)si->item;
+    StepItem    *si  = tr->transitionBlock->stepItemList->items[0];
+    Animate     *anim= (Animate *)si->item;
     AnimateInfo *ai  = anim->animateInfo;
-
-    char kfName[DEF_BUF];
-    snprintf(kfName, sizeof(kfName), "%s-%s-to-%s", t->name, from, to);
-
-    if (anim->type == ANIMATE_WITH_KEYFRAMES && anim->keyframes) {
-        _genKeyframesCss(f, kfName, anim->keyframes);
-
-    } else if (anim->style) {
-        _out(f, 0, "@keyframes %s {\n", kfName);
-        _out(f, 1, "from {\n"); _genStylePropsCss(f, 2, anim->style->properties); _out(f, 1, "}\n");
-        _out(f, 1, "to   {\n"); _genStylePropsCss(f, 2, anim->style->properties); _out(f, 1, "}\n");
-        _out(f, 0, "}\n");
-
-    } else {
-        _out(f, 0, "@keyframes %s {\n"
-                   "  from { /* implicit */ }\n"
-                   "  to   { /* implicit */ }\n"
-                   "}\n", kfName);
-    }
-
 
     const char *dur = ai->duration ? ai->duration : "0ms";
     const char *eas = ai->easing   ? ai->easing   : "ease";
     const char *del = ai->delay    ? ai->delay    : "0ms";
 
-    _out(f, 0, ".%s-%s.%s-%s {\n", t->name, from, t->name, to);
-    _out(f, 1, "animation: %s %s %s %s;\n", kfName, dur, eas, del);
-    _out(f, 0, "}\n");
+    int withDelay = ai->delay && strcmp(ai->delay,"0ms")!=0 && strcmp(ai->delay,"0")!=0;
+
+    for (int pass = 0; pass < (bidir ? 2 : 1); ++pass) {
+
+        const char *orig = (pass == 0) ? from : to;
+        const char *dest = (pass == 0) ? to   : from;
+
+        Style *origStyle = NULL, *destStyle = NULL;
+        if (!anim->style && !(anim->type == ANIMATE_WITH_KEYFRAMES && anim->keyframes)) {
+            StateList *sl = t->block->stateList;
+            for (size_t i = 0; i < sl->stateCount; ++i) {
+                State *s = sl->states[i];
+                if (strcmp(s->name, orig) == 0) origStyle = s->style;
+                if (strcmp(s->name, dest) == 0) destStyle = s->style;
+            }
+        }
+
+        /* 3b. Nombre de keyframes ------------------------------------- */
+        char kfName[256];
+        snprintf(kfName, sizeof kfName,"%s-%s-to-%s", t->name, orig, dest);
+
+        if (anim->type == ANIMATE_WITH_KEYFRAMES && anim->keyframes) {
+            _genKeyframesCss(f, kfName, anim->keyframes);
+
+        } else if (anim->style) {
+            _out(f,0,"@keyframes %s {\n", kfName);
+            _out(f,1,"from {\n"); _genStylePropsCss(f,2,anim->style->properties); _out(f,1,"}\n");
+            _out(f,1,"to   {\n"); _genStylePropsCss(f,2,anim->style->properties); _out(f,1,"}\n");
+            _out(f,0,"}\n");
+
+        } else {
+            _out(f,0,"@keyframes %s {\n", kfName);
+            _out(f,1,"from {\n"); _genStylePropsCss(f,2, origStyle ? origStyle->properties : NULL); _out(f,1,"}\n");
+            _out(f,1,"to   {\n"); _genStylePropsCss(f,2, destStyle ? destStyle->properties : NULL); _out(f,1,"}\n");
+            _out(f,0,"}\n");
+        }
+
+        _out(f,0,".%s-%s.%s-%s {\n", t->name, orig, t->name, dest);
+        if (withDelay)
+            _out(f,1,"animation: %s %s %s %s forwards;\n", kfName, dur, eas, del);
+        else
+            _out(f,1,"animation: %s %s %s forwards;\n",    kfName, dur, eas);
+        _out(f,0,"}\n\n");
+    }
 }
+
+
 
 static void _genTriggerCss(FILE *f, Trigger *t)
 {

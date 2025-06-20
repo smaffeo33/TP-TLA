@@ -46,15 +46,15 @@ static ComputationResult _validateTrigger(Trigger *t)
     size_t errorCount = 0;
     char **stateNames = NULL; size_t stateCount = 0;
 
-    for (size_t i = 0; i < t->block->stateList->stateCount; ++i)
-        if (!_validateState(t, t->block->stateList->states[i],
-                            &stateNames, &stateCount))
-            ++errorCount;
-
-    for (size_t i = 0; i < t->block->transitionList->transitionCount; ++i)
-        if (!_validateTrans(t, t->block->transitionList->transitions[i],
-                            stateNames, stateCount))
-            ++errorCount;
+//    for (size_t i = 0; i < t->block->stateList->stateCount; ++i)
+//        if (!_validateState(t, t->block->stateList->states[i],
+//                            &stateNames, &stateCount))
+//            ++errorCount;
+//
+//    for (size_t i = 0; i < t->block->transitionList->transitionCount; ++i)
+//        if (!_validateTrans(t, t->block->transitionList->transitions[i],
+//                            stateNames, stateCount))
+//            ++errorCount;
 
     free(stateNames);
 
