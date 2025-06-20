@@ -82,20 +82,47 @@ static void _genStylePropsCss(FILE *f, unsigned lvl, PropertyList *plist)
 {
     if (!plist) return;
     for (size_t i = 0; i < plist->propertyCount; ++i) {
-        Property *p = plist->properties[i];
+        Property *p = plist->properties ? plist->properties[i] : NULL;
+        if (!p || !p->name) continue;               /* Robust‑guard against NULL */
+
+        const char *name = p->name;
+
+        /* Map Angular 'scale' to CSS transform */
+        if (strcmp(name, "scale") == 0) {
+            char buf[64] = "1";                   /* default scale(1) */
+            switch (p->type) {
+                case UNITLESS:
+                    snprintf(buf, sizeof buf, "%.3g", p->floatValue);
+                    break;
+                case UNIT:
+                case STRING:
+                    if (p->value && *p->value)
+                        snprintf(buf, sizeof buf, "%s", p->value);
+                    break;
+                default:
+                    break;
+            }
+            _out(f, lvl, "transform: scale(%s);", buf);
+            continue;
+        }
+
+        /* Normal property emission */
         switch (p->type) {
             case STRING:
             case COLOR:
-                _out(f, lvl, "%s: %s;\n", p->name, p->value);
+                if (p->value)
+                    _out(f, lvl, "%s: %s;", name, p->value);
                 break;
             case UNIT:
-                if (p->value)
-                    _out(f, lvl, "%s: %s;\n", p->name, p->value);
+                if (p->value && *p->value)
+                    _out(f, lvl, "%s: %s;", name, p->value);
                 else
-                    _out(f, lvl, "%s: %.2f;\n", p->name, p->floatValue);
+                    _out(f, lvl, "%s: %.2f;", name, p->floatValue);
                 break;
             case UNITLESS:
-                _out(f, lvl, "%s: %.3g;\n", p->name, p->floatValue);
+                _out(f, lvl, "%s: %.3g;", name, p->floatValue);
+                break;
+            default:
                 break;
         }
     }
@@ -121,55 +148,89 @@ static void _genAnimateCss(FILE *f,
 {
     if (!a) return;
 
-    AnimateInfo *ai  = a->animateInfo;
-    const char  *dur = ai && ai->duration ? ai->duration : "0ms";
-    const char  *eas = ai && ai->easing   ? ai->easing   : "ease";
-    const char  *del = ai && ai->delay    ? ai->delay    : "0ms";
-    int hasDelay     = ai && ai->delay &&
-                       strcmp(del,"0ms")!=0 && strcmp(del,"0")!=0;
+    /* === 1. Timing ==================================================== */
+    AnimateInfo *ai = a->animateInfo;
+    const char *dur = ai && ai->duration ? ai->duration : "0ms";
+    const char *eas = ai && ai->easing   ? ai->easing   : "ease";
+    const char *del = ai && ai->delay    ? ai->delay    : "0ms";
+    int   hasDelay = ai && ai->delay && strcmp(del, "0ms") != 0 && strcmp(del,"0")!=0;
 
-    char kf[128];
-    snprintf(kf, sizeof kf, "%s-kf-%u", prefix, _uniqueId++);
+    /* === 2. Unique names ============================================== */
+    unsigned id = _uniqueId++;
+    char kfName[128];  snprintf(kfName,  sizeof kfName,  "%s-kf-%u",   prefix, id);
+    char clsName[256]; snprintf(clsName, sizeof clsName, "%s-anim-%u", prefix, id);
 
-    _out(f, 0, "@keyframes %s {\n", kf);
+    /* === 3. Prep destination‑property list ============================ */
+    PropertyList *destProps = NULL;
+    if (toStyle)                   destProps = toStyle->properties;
+    else if (a->type == ANIMATE_WITH_STYLE && a->style)
+        destProps = a->style->properties;
 
-    _out(f, 1, "from {\n");
-    if (fromStyle) {
-        _genStylePropsCss(f, 2, fromStyle->properties);
-    } else {
-        if (strstr(prefix, "leave")) {          /* * ⇒ void  */
-            _out(f, 2, "opacity: 1;\n");
-            _out(f, 2, "height: auto;\n");
-        } else if (strstr(prefix, "enter")) {   /* void ⇒ *  */
-            _out(f, 2, "opacity: 0;\n");
-            _out(f, 2, "height: 0;\n");
+    /* === 4. @keyframes ================================================ */
+    _out(f, 0, "@keyframes %s {", kfName);
+
+    if (a->type == ANIMATE_WITH_KEYFRAMES && a->keyframes) {
+        /* Copy user‑defined keyframes verbatim */
+        KeyframeStyleList *kl = a->keyframes->keyframeStyleList;
+        for (size_t i = 0; i < kl->keyframeCount; ++i) {
+            KeyframeStyle *ks = kl->keyframeStyles[i];
+            float pct = ks->offset <= 1.f ? ks->offset * 100.f : ks->offset;
+            _out(f, 1, "%.0f%% {", pct);
+            _genStylePropsCss(f, 2, ks->properties);
+            _out(f, 1, "}");
         }
-    }
-    _out(f, 1, "}\n");
-
-    _out(f, 1, "to {\n");
-    if (toStyle) {
-        _genStylePropsCss(f, 2, toStyle->properties);
-    } else if (a->type == ANIMATE_WITH_STYLE && a->style) {
-        _genStylePropsCss(f, 2, a->style->properties);
     } else {
-        if (strstr(prefix, "leave")) {
-            _out(f, 2, "opacity: 0;\n");
-            _out(f, 2, "height: 0;\n");
-        } else if (strstr(prefix, "enter")) {
-            _out(f, 2, "opacity: 1;\n");
-            _out(f, 2, "height: auto;\n");
-        }
-    }
-    _out(f, 1, "}\n");
-    _out(f, 0, "}\n");
+        /* ------- FROM block ----------------------------------------- */
+        _out(f, 1, "from {");
+        if (fromStyle) {
+            _genStylePropsCss(f, 2, fromStyle->properties);
+        } else if (destProps) {
+            /* Provide sensible defaults per property animated */
+            for (size_t i = 0; i < destProps->propertyCount; ++i) {
+                Property *p = destProps->properties[i];
+                if (!p || !p->name) continue;
+                const char *name = p->name;
 
-    _out(f, 0, ".%s {\n", prefix);
+                if (strcmp(name, "opacity") == 0) {
+                    _out(f, 2, "opacity: %s;",
+                    strstr(prefix,"enter") ? "0" : "1");
+                } else if (strcmp(name, "height") == 0) {
+                    _out(f, 2, "height: %s;",
+                    strstr(prefix,"enter") ? "0" : "auto");
+                } else if (strcmp(name, "scale") == 0) {
+                    _out(f, 2, "transform: scale(1);");
+                }
+            }
+        }
+        _out(f, 1, "}");
+
+        /* ------- TO block ------------------------------------------- */
+        _out(f, 1, "to {");
+        if (toStyle) {
+            _genStylePropsCss(f, 2, toStyle->properties);
+        } else if (a->type == ANIMATE_WITH_STYLE && a->style) {
+            _genStylePropsCss(f, 2, a->style->properties);
+        } else {
+            /* Fallback generic defaults */
+            if (strstr(prefix, "enter")) {
+                _out(f, 2, "opacity: 1;");
+                _out(f, 2, "height: auto;");
+            } else if (strstr(prefix, "leave")) {
+                _out(f, 2, "opacity: 0;");
+                _out(f, 2, "height: 0;");
+            }
+        }
+        _out(f, 1, "}");
+    }
+    _out(f, 0, "}");
+
+    /* === 5. Utility class ============================================ */
+    _out(f, 0, ".%s {", clsName);
     if (hasDelay)
-        _out(f, 1, "animation: %s %s %s %s forwards;\n", kf, dur, eas, del);
+        _out(f, 1, "animation: %s %s %s %s forwards;", kfName, dur, eas, del);
     else
-        _out(f, 1, "animation: %s %s %s forwards;\n",     kf, dur, eas);
-    _out(f, 0, "}\n\n");
+        _out(f, 1, "animation: %s %s %s forwards;", kfName, dur, eas);
+    _out(f, 0, "}");
 }
 
 
