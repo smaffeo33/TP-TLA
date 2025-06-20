@@ -41,6 +41,7 @@
 	StepItemList * stepItemList;
 	TransitionRule * transitionRule;
 	AliasType aliasType;
+	Direction direction;
 }
 
 /**
@@ -156,6 +157,7 @@
 %type <stepItemList> queryStepItemList
 %type <transitionRule> transitionRule
 %type <aliasType> aliasType
+%type <direction> transitionType
 %type <query> query
 
 /**
@@ -199,9 +201,12 @@ transition: TRANSITION OPEN_PARENTHESIS APOSTROPHE transitionRule APOSTROPHE COM
                                                                                     { $$ = TransitionSemanticAction($4, $7); }
     ;
 
-transitionRule: NAME FORWARD_TRANSITION NAME                                        { $$ = TransitionRuleSemanticAction($1, $3, FORWARD); }
-    | NAME BIDIRECTIONAL_TRANSITION NAME                                            { $$ = TransitionRuleSemanticAction($1, $3, BIDIRECTIONAL); }
+transitionRule: NAME transitionType NAME                                            { $$ = TransitionRuleSemanticAction($1, $3, $2); }
     | aliasType                                                                     { $$ = AliasTypeSemanticAction($1); }
+    ;
+
+transitionType: FORWARD_TRANSITION                                                  { $$ = FORWARD; }
+    | BIDIRECTIONAL_TRANSITION                                                      { $$ = BIDIRECTIONAL; }
     ;
 
 aliasType: ENTER_ALIAS                                                              { $$ = AliasSemanticAction(ENTER); }
