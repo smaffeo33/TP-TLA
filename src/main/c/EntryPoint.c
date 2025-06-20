@@ -34,23 +34,26 @@ const int main(const int count, const char ** arguments) {
 		.succeed = false,
 		.value = 0
 	};
+
+	stInit(&compilerState.globalSymbolTable);
+
 	const SyntacticAnalysisStatus syntacticAnalysisStatus = parse(&compilerState);
 	CompilationStatus compilationStatus = SUCCEED;
 	Program * program = compilerState.abstractSyntaxtTree;
 	 if (syntacticAnalysisStatus == ACCEPT) {
 	 	// ----------------------------------------------------------------------------------------
 	 	// Beginning of the Backend... ------------------------------------------------------------
-//	 	logDebugging(logger, "Computing expression value...");
-//	 	ComputationResult computationResult = validateProgram(program);
-//	 	if (computationResult.succeed) {
-//	 		compilerState.value = computationResult.value;
-//	 		generate(&compilerState);
-//	 	}
-//	 	else {
-//	 		logError(logger, "The computation phase rejects the input program.");
-//	 		compilationStatus = FAILED;
-//	 	}
-	 		generate(&compilerState);
+	 	logDebugging(logger, "Computing expression value...");
+	 	ComputationResult computationResult = validateProgram(program, &compilerState.globalSymbolTable);
+	 	if (computationResult.succeed) {
+	 		compilerState.value = computationResult.value;
+	 		//generate(&compilerState);
+	 	}
+	 	else {
+	 		logError(logger, "The computation phase rejects the input program.");
+	 		compilationStatus = FAILED;
+	 	}
+	 		//generate(&compilerState);
 	 	// ...end of the Backend. -----------------------------------------------------------------
 	 	// ----------------------------------------------------------------------------------------
 	 }
@@ -69,5 +72,6 @@ const int main(const int count, const char ** arguments) {
 	shutdownFlexActionsModule();
 	logDebugging(logger, "Compilation is done.");
 	destroyLogger(logger);
+	stDestroy(&compilerState.globalSymbolTable);
 	return compilationStatus;
 }

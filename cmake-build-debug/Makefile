@@ -152,6 +152,54 @@ src/main/c/EntryPoint.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/EntryPoint.c.s
 .PHONY : src/main/c/EntryPoint.c.s
 
+src/main/c/backend/code-generation/Generator.obj: src/main/c/backend/code-generation/Generator.c.obj
+.PHONY : src/main/c/backend/code-generation/Generator.obj
+
+# target to build an object file
+src/main/c/backend/code-generation/Generator.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.obj
+.PHONY : src/main/c/backend/code-generation/Generator.c.obj
+
+src/main/c/backend/code-generation/Generator.i: src/main/c/backend/code-generation/Generator.c.i
+.PHONY : src/main/c/backend/code-generation/Generator.i
+
+# target to preprocess a source file
+src/main/c/backend/code-generation/Generator.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.i
+.PHONY : src/main/c/backend/code-generation/Generator.c.i
+
+src/main/c/backend/code-generation/Generator.s: src/main/c/backend/code-generation/Generator.c.s
+.PHONY : src/main/c/backend/code-generation/Generator.s
+
+# target to generate assembly for a file
+src/main/c/backend/code-generation/Generator.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/backend/code-generation/Generator.c.s
+.PHONY : src/main/c/backend/code-generation/Generator.c.s
+
+src/main/c/backend/domain-specific/Animato.obj: src/main/c/backend/domain-specific/Animato.c.obj
+.PHONY : src/main/c/backend/domain-specific/Animato.obj
+
+# target to build an object file
+src/main/c/backend/domain-specific/Animato.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Animato.c.obj
+.PHONY : src/main/c/backend/domain-specific/Animato.c.obj
+
+src/main/c/backend/domain-specific/Animato.i: src/main/c/backend/domain-specific/Animato.c.i
+.PHONY : src/main/c/backend/domain-specific/Animato.i
+
+# target to preprocess a source file
+src/main/c/backend/domain-specific/Animato.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Animato.c.i
+.PHONY : src/main/c/backend/domain-specific/Animato.c.i
+
+src/main/c/backend/domain-specific/Animato.s: src/main/c/backend/domain-specific/Animato.c.s
+.PHONY : src/main/c/backend/domain-specific/Animato.s
+
+# target to generate assembly for a file
+src/main/c/backend/domain-specific/Animato.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Compiler.dir\build.make CMakeFiles/Compiler.dir/src/main/c/backend/domain-specific/Animato.c.s
+.PHONY : src/main/c/backend/domain-specific/Animato.c.s
+
 src/main/c/frontend/lexical-analysis/FlexActions.obj: src/main/c/frontend/lexical-analysis/FlexActions.c.obj
 .PHONY : src/main/c/frontend/lexical-analysis/FlexActions.obj
 
@@ -404,6 +452,12 @@ help:
 	@echo ... src/main/c/EntryPoint.obj
 	@echo ... src/main/c/EntryPoint.i
 	@echo ... src/main/c/EntryPoint.s
+	@echo ... src/main/c/backend/code-generation/Generator.obj
+	@echo ... src/main/c/backend/code-generation/Generator.i
+	@echo ... src/main/c/backend/code-generation/Generator.s
+	@echo ... src/main/c/backend/domain-specific/Animato.obj
+	@echo ... src/main/c/backend/domain-specific/Animato.i
+	@echo ... src/main/c/backend/domain-specific/Animato.s
 	@echo ... src/main/c/frontend/lexical-analysis/FlexActions.obj
 	@echo ... src/main/c/frontend/lexical-analysis/FlexActions.i
 	@echo ... src/main/c/frontend/lexical-analysis/FlexActions.s
