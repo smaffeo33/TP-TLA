@@ -1,6 +1,8 @@
 #ifndef ANIMATO_HEADER
 #define ANIMATO_HEADER
 
+#include "../../shared/SymbolTable.h"
+
 /**
  * Este módulo valida la coherencia semántica del AST que describe
  * animaciones (triggers, estados, transiciones, keyframes, etc.).
@@ -36,12 +38,13 @@ void shutdownSemanticValidatorModule(void);
  * Valida el AST completo del programa.
  *
  * @param program  Nodo raíz del AST (tipo Program*).
+ * @param globalSymbols Tabla de símbolos globales del programa
  *
  * @return ComputationResult
  *         • succeed == true  → no se hallaron errores semánticos.
  *         • succeed == false → value contiene el número de errores
  *           detectados durante la validación.
  */
-ComputationResult validateProgram(Program * program);
+ComputationResult validateProgram(Program * program, SymbolTable * globalSymbols);
 
 #endif //ANIMATO_HEADER

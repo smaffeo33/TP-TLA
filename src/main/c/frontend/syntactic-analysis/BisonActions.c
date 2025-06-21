@@ -245,19 +245,21 @@ PropertyList * PropertyPropertyListSemanticAction(Property * property) {
 PropertyList * PropertyListSemanticAction(PropertyList * propertyList, Property * property) {
     _logSyntacticAnalyzerAction(__FUNCTION__);
     if (propertyList == NULL) {
-        logError(_logger, "Memory allocation failed for PropertyList");
+        logError(_logger, "PropertyList is NULL");
         return NULL;
     }
-    propertyList->properties = realloc(propertyList->properties, (propertyList->propertyCount + 1) * sizeof(Property *));
-    if (propertyList->properties == NULL) {
+    Property **temp = realloc(propertyList->properties, (propertyList->propertyCount + 1) * sizeof(Property *));
+    if (temp == NULL) {
         logError(_logger, "Memory allocation failed for Property");
-        free(propertyList);
+        // NO liberar propertyList aquí, porque el puntero original sigue válido
         return NULL;
     }
+    propertyList->properties = temp;
     propertyList->properties[propertyList->propertyCount] = property;
     propertyList->propertyCount++;
     return propertyList;
 }
+
 
 Property * ValuePropertySemanticAction( char * name,  char * value) {
     _logSyntacticAnalyzerAction(__FUNCTION__);

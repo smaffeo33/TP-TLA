@@ -8,6 +8,7 @@
 #include "shared/Environment.h"
 #include "shared/Logger.h"
 #include "shared/String.h"
+#include "shared/SymbolTable.h"
 
 /**
  * The main entry-point of the entire application. If you use "strtok" to
@@ -32,8 +33,12 @@ const int main(const int count, const char ** arguments) {
 	CompilerState compilerState = {
 		.abstractSyntaxtTree = NULL,
 		.succeed = false,
-		.value = 0
+		.value = 0,
+		.symbolTable = calloc(1, sizeof(SymbolTable))
 	};
+
+	stInit(compilerState.symbolTable);
+
 	const SyntacticAnalysisStatus syntacticAnalysisStatus = parse(&compilerState);
 	CompilationStatus compilationStatus = SUCCEED;
 	Program * program = compilerState.abstractSyntaxtTree;
@@ -41,7 +46,7 @@ const int main(const int count, const char ** arguments) {
 	 	// ----------------------------------------------------------------------------------------
 	 	// Beginning of the Backend... ------------------------------------------------------------
 	 	logDebugging(logger, "Computing expression value...");
-	 	ComputationResult computationResult = validateProgram(program);
+	 	ComputationResult computationResult = validateProgram(program, compilerState.symbolTable);
 	 	if (computationResult.succeed) {
 	 		compilerState.value = computationResult.value;
 	 		generate(&compilerState);
@@ -68,5 +73,7 @@ const int main(const int count, const char ** arguments) {
 	shutdownFlexActionsModule();
 	logDebugging(logger, "Compilation is done.");
 	destroyLogger(logger);
+	stDestroy(compilerState.symbolTable);
+    free(compilerState.symbolTable);
 	return compilationStatus;
 }
