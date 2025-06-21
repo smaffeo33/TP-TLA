@@ -113,6 +113,8 @@
 %token <string> VALUE_PROPERTY
 %token <string> COLOR_PROPERTY
 %token <string> KEYWORD_PROPERTY
+%token <string> KEYWORD_TRANSFORM_PROPERTY
+%token <string> TRANSFORM_PROPERTY
 %token <string> NUMBER_PROPERTY
 %token <string> NAME
 %token <string> EASING
@@ -269,6 +271,7 @@ propertyList: property                                                          
 property: VALUE_PROPERTY COLON VALUE                                                { $$ = ValuePropertySemanticAction($1, $3); }
     | COLOR_PROPERTY COLON COLOR_VALUE                                              { $$ = ColorValuePropertySemanticAction($1, $3); }
     | KEYWORD_PROPERTY COLON APOSTROPHE STRING_VALUE APOSTROPHE                     { $$ = TextValuePropertySemanticAction($1, $4); }
+    | KEYWORD_TRANSFORM_PROPERTY COLON APOSTROPHE TRANSFORM_PROPERTY APOSTROPHE     { $$ = TextValuePropertySemanticAction($1, $4); }
     | NUMBER_PROPERTY COLON NUMBER                                                  { $$ = FloatValuePropertySemanticAction($1, $3); }
     ;
 

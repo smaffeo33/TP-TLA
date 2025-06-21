@@ -44,6 +44,7 @@ Token AnimationAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 Token NameAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 Token StylePropertySemanticAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+Token TransformPropertySemanticAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
 Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 

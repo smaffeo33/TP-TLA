@@ -29,10 +29,14 @@ NUMBER              {DIGIT}+(\.{DIGIT}+)?
 TIME_UNIT           "ms"|"s"
 COLOR               (#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3}|rgba\([ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*\)|rgb\([ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*,[ \t\r\n]*{NUMBER}[ \t\r\n]*\))
 VALUE_UNIT          "px"|"em"|"%"|"rem"|"vh"|"vw"
+ANGLE_UNIT         "deg"|"rad"|"grad"
+ANGLE              {NUMBER}{ANGLE_UNIT}
 EASING              "ease"|"ease-in"|"ease-out"|"ease-in-out"|"linear"|"cubic-bezier"{WHITESPACE}*\({WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*,{WHITESPACE}*{NUMBER}{WHITESPACE}*\)
 SELECTOR_ID         #{ALPHANUM}+
 SELECTOR_CLASS     \.{ALPHANUM}+
 SELECTOR_TAG        {ALPHA}+
+TRANSFORM_PROPERTY  "translate"\({NUMBER}{VALUE_UNIT}{WHITESPACE}*","{WHITESPACE}*{NUMBER}{VALUE_UNIT}{WHITESPACE}*\)|"translateX"\({NUMBER}{VALUE_UNIT}{WHITESPACE}*\)|"translateY"\({NUMBER}{VALUE_UNIT}{WHITESPACE}*\)|"translateZ"\({NUMBER}{VALUE_UNIT}{WHITESPACE}*\)|"translate3d"\({NUMBER}{VALUE_UNIT}{WHITESPACE}*","{WHITESPACE}*{NUMBER}{VALUE_UNIT}{WHITESPACE}*","{WHITESPACE}*{NUMBER}{VALUE_UNIT}{WHITESPACE}*\)|"rotate"\({ANGLE}{WHITESPACE}*\)|"rotateX"\({ANGLE}{WHITESPACE}*\)|"rotateY"\({ANGLE}{WHITESPACE}*\)|"rotateZ"\({ANGLE}{WHITESPACE}*\)|"rotate3d"\({NUMBER}{WHITESPACE}*","{NUMBER}{WHITESPACE}*","{NUMBER}{WHITESPACE}*","{ANGLE}{WHITESPACE}*\)|"scale"\({NUMBER}{WHITESPACE}*","{NUMBER}{WHITESPACE}*\)|"scaleX"\({NUMBER}{WHITESPACE}*\)|"scaleY"\({NUMBER}{WHITESPACE}*\)|"scaleZ"\({NUMBER}{WHITESPACE}*\)|"scale3d"\({NUMBER}{WHITESPACE}*","{NUMBER}{WHITESPACE}*","{NUMBER}{WHITESPACE}*\)
+
 
 %%
 
@@ -53,6 +57,7 @@ SELECTOR_TAG        {ALPHA}+
 <STRING_CONTEXT>{SELECTOR_ID}                       { return SelectorAction(createLexicalAnalyzerContext(), SELECTOR_ID); }
 <STRING_CONTEXT>{SELECTOR_CLASS}                    { return SelectorAction(createLexicalAnalyzerContext(), SELECTOR_CLASS); }
 <STRING_CONTEXT>{ID}                                { return NameAction(createLexicalAnalyzerContext()); }
+<STRING_CONTEXT>{TRANSFORM_PROPERTY}                { return TransformPropertySemanticAction(createLexicalAnalyzerContext(), TRANSFORM_PROPERTY); }
 <STRING_CONTEXT>"=>"                                { return PunctuationAction(createLexicalAnalyzerContext(), FORWARD_TRANSITION); }
 <STRING_CONTEXT>"<=>"                               { return PunctuationAction(createLexicalAnalyzerContext(), BIDIRECTIONAL_TRANSITION); }
 <STRING_CONTEXT>[^' \t\r\n]+                        { return StringValueAction(createLexicalAnalyzerContext()); }
@@ -115,11 +120,15 @@ SELECTOR_TAG        {ALPHA}+
 "flex-direction"                                    { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
 "justify-content"                                   { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
 "align-items"                                       { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
-"transform"                                         { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_PROPERTY); }
+
+
+
+"transform"                                         { return StylePropertySemanticAction(createLexicalAnalyzerContext(), KEYWORD_TRANSFORM_PROPERTY); }
+
 
 
 "opacity"                                           { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
-"scale"                                           { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
+"scale"                                             { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
 "z-index"                                           { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
 "flex-grow"                                         { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
 "flex-shrink"                                       { return StylePropertySemanticAction(createLexicalAnalyzerContext(), NUMBER_PROPERTY); }
