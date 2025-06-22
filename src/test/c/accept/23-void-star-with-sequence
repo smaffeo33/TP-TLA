@@ -1,0 +1,9 @@
+trigger('voidStarSequence', [
+  transition('void => *', [
+    sequence([
+      style({ opacity: 0 }),
+      animate('150ms', style({ opacity: 0.5 })),
+      animate('150ms', style({ opacity: 1 }))
+    ])
+  ])
+])
