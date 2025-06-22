@@ -5,13 +5,11 @@
 #include <stdarg.h>
 #include <string.h>
 
-  
 static Logger   *_logger     = NULL;
 static const char _indentChar = ' ';
 static const unsigned _indentSize = 4;
 static unsigned _uniqueId    = 0;
 
-  
 static void   _printIndent (FILE *f, unsigned lvl);
 static void   _out         (FILE *f, unsigned lvl, const char *fmt, ...);
 static const char *_sanitize    (const char *name);
@@ -25,9 +23,18 @@ static void   _genTransitionCss(FILE *f, Trigger *t, Transition *tr);
 static void   _genAnimateCss   (FILE *f, const char *prefix, Animate *a,
                                 Style *fromStyle, Style *toStyle);
 
-  
 void initializeGeneratorModule(void)  { _logger = createLogger("Generator"); }
 void shutdownGeneratorModule(void)    { destroyLogger(_logger);            }
+
+static const char *_normalizeSelectorName(const char *sel) {
+    static char buf[128];
+    size_t j = 0;
+    for (size_t i = 0; sel && sel[i] && j < sizeof(buf) - 1; ++i) {
+        if (sel[i] != '.' && sel[i] != '#') buf[j++] = sel[i];
+    }
+    buf[j] = '\0';
+    return buf;
+}
 
 void generate(CompilerState *compilerState)
 {
@@ -42,14 +49,12 @@ void generate(CompilerState *compilerState)
     _genProgramCss(stdout, compilerState->abstractSyntaxtTree);
 }
 
-  
 static void _printIndent(FILE *f, unsigned lvl)
 {
     for (unsigned i = 0; i < lvl * _indentSize; ++i)
         fputc(_indentChar, f);
 }
 
-  
 static void _out(FILE *f, unsigned lvl, const char *fmt, ...)
 {
     _printIndent(f, lvl);
@@ -58,17 +63,15 @@ static void _out(FILE *f, unsigned lvl, const char *fmt, ...)
     vfprintf(f, fmt, ap);
     va_end(ap);
 
-      
     size_t len = strlen(fmt);
     if (len == 0 || fmt[len - 1] != '\n')
         fputc('\n', f);
 }
 
-  
 static const char *_sanitize(const char *name)
 {
     if (!name)      return "";
-    if (strcmp(name, "*")   == 0) return "active";   
+    if (strcmp(name, "*")   == 0) return "active";
     if (strcmp(name, "void") == 0) return "void";
     return name;
 }
@@ -84,18 +87,16 @@ static const char *_aliasToState(AliasType a)
     }
 }
 
-  
 static void _genStylePropsCss(FILE *f, unsigned lvl, PropertyList *plist)
 {
     if (!plist) return;
 
     for (size_t i = 0; i < plist->propertyCount; ++i) {
         Property *p = (plist->properties) ? plist->properties[i] : NULL;
-        if (!p || !p->name) continue;    
+        if (!p || !p->name) continue;
 
         const char *name = p->name;
 
-          
         char val[64] = {0};
         switch (p->type) {
             case UNITLESS:
@@ -113,7 +114,6 @@ static void _genStylePropsCss(FILE *f, unsigned lvl, PropertyList *plist)
                 break;
         }
 
-          
         if (strcmp(name, "scale") == 0) {
             if (!*val) strcpy(val, "1");
             _out(f, lvl, "transform: scale(%s);", val);
@@ -125,25 +125,22 @@ static void _genStylePropsCss(FILE *f, unsigned lvl, PropertyList *plist)
             continue;
         }
 
-          
         if (*val) {
             _out(f, lvl, "%s: %s;", name, val);
         }
     }
 }
 
-  
 static void _genStateClassCss(FILE *f, const char *triggerName, State *s)
 {
     const char *san = _sanitize(s->name);
-    if (strcmp(san, "void") == 0) return;   
+    if (strcmp(san, "void") == 0) return;
 
     _out(f, 0, ".%s-%s {", triggerName, san);
     _genStylePropsCss(f, 1, s->style ? s->style->properties : NULL);
-    _out(f, 0, "}\n");
+    _out(f, 0, "}");
 }
 
-  
 static void _genAnimateCss(FILE *f,
                            const char *prefix,
                            Animate    *a,
@@ -152,29 +149,24 @@ static void _genAnimateCss(FILE *f,
 {
     if (!a) return;
 
-      
     AnimateInfo *ai = a->animateInfo;
     const char *dur = (ai && ai->duration) ? ai->duration : "0ms";
     const char *eas = (ai && ai->easing)   ? ai->easing   : "ease";
     const char *del = (ai && ai->delay)    ? ai->delay    : "0ms";
     int   hasDelay = (ai && ai->delay && strcmp(del, "0ms") != 0 && strcmp(del, "0") != 0);
 
-      
     unsigned id = _uniqueId++;
     char kfName [128]; snprintf(kfName,  sizeof kfName,  "%s-kf-%u",   prefix, id);
     char clsName[256]; snprintf(clsName, sizeof clsName, "%s-anim-%u", prefix, id);
 
-      
     PropertyList *destProps = NULL;
     if (toStyle) destProps = toStyle->properties;
     else if (a->type == ANIMATE_WITH_STYLE && a->style)
         destProps = a->style->properties;
 
-      
     _out(f, 0, "@keyframes %s {", kfName);
 
     if (a->type == ANIMATE_WITH_KEYFRAMES && a->keyframes && a->keyframes->keyframeStyleList) {
-          
         KeyframeStyleList *kl = a->keyframes->keyframeStyleList;
         for (size_t i = 0; i < kl->keyframeCount; ++i) {
             KeyframeStyle *ks = kl->keyframeStyles[i];
@@ -184,57 +176,31 @@ static void _genAnimateCss(FILE *f,
             _out(f, 1, "}");
         }
     } else {
-          
         _out(f, 1, "from {");
         if (fromStyle) {
             _genStylePropsCss(f, 2, fromStyle->properties);
-        } else if (destProps) {
-              
-            for (size_t i = 0; i < destProps->propertyCount; ++i) {
-                Property *p = destProps->properties[i];
-                if (!p || !p->name) continue;
-                const char *n = p->name;
-                if (strcmp(n, "opacity") == 0)
-                    _out(f, 2, "opacity: %s;", strstr(prefix, "enter") ? "0" : "1");
-                else if (strcmp(n, "height") == 0)
-                    _out(f, 2, "height: %s;", strstr(prefix, "enter") ? "0" : "auto");
-                else if (strcmp(n, "scale") == 0)
-                    _out(f, 2, "transform: scale(1);");
-            }
         }
         _out(f, 1, "}");
 
-          
         _out(f, 1, "to {");
         if (toStyle) {
             _genStylePropsCss(f, 2, toStyle->properties);
         } else if (a->type == ANIMATE_WITH_STYLE && a->style) {
             _genStylePropsCss(f, 2, a->style->properties);
-        } else {
-              
-            if (strstr(prefix, "enter")) {
-                _out(f, 2, "opacity: 1;");
-                _out(f, 2, "height: auto;");
-            } else if (strstr(prefix, "leave")) {
-                _out(f, 2, "opacity: 0;");
-                _out(f, 2, "height: 0;");
-            }
         }
         _out(f, 1, "}");
     }
 
-    _out(f, 0, "}\n");
+    _out(f, 0, "}");
 
-      
     _out(f, 0, ".%s {", clsName);
     if (hasDelay)
         _out(f, 1, "animation: %s %s %s %s forwards;", kfName, dur, eas, del);
     else
         _out(f, 1, "animation: %s %s %s forwards;", kfName, dur, eas);
-    _out(f, 0, "}\n");
+    _out(f, 0, "}");
 }
 
-  
 static void _genStepItem(FILE *f, const char *prefix, StepItem *step)
 {
     if (!step) return;
@@ -250,7 +216,7 @@ static void _genStepItem(FILE *f, const char *prefix, StepItem *step)
             snprintf(tmp, sizeof tmp, "%s-style-%u", prefix, _uniqueId++);
             _out(f, 0, ".%s {", tmp);
             _genStylePropsCss(f, 1, st ? st->properties : NULL);
-            _out(f, 0, "}\n");
+            _out(f, 0, "}");
             break;
         }
 
@@ -268,16 +234,17 @@ static void _genStepItem(FILE *f, const char *prefix, StepItem *step)
             Query *q = (Query *)step->item;
             const char *sel = (q->selectorType == ALIAS_SELECTOR)
                               ? _sanitize(_aliasToState(q->alias))
-                              : q->selector;
-            char nprefix[256];
-            snprintf(nprefix, sizeof nprefix, "%s-query-%s", prefix, sel);
+                              : _normalizeSelectorName(q->selector);
+
+            char queryPrefix[256];
+            snprintf(queryPrefix, sizeof queryPrefix, "%s-query-%s", prefix, sel);
+
             for (size_t i = 0; i < q->stepItemList->itemCount; ++i)
-                _genStepItem(f, nprefix, q->stepItemList->items[i]);
+                _genStepItem(f, queryPrefix, q->stepItemList->items[i]);
             break;
         }
 
         case ANIMATE_CHILD_ITEM: {
-              
             static char lastChildPrefix[256] = {0};
             if (strcmp(lastChildPrefix, prefix) != 0) {
                 strcpy(lastChildPrefix, prefix);
@@ -294,11 +261,11 @@ static void _genStepItem(FILE *f, const char *prefix, StepItem *step)
                 _out(f, 2, "opacity: 1;");
                 _out(f, 2, "transform: translateY(0);");
                 _out(f, 1, "}");
-                _out(f, 0, "}\n");
+                _out(f, 0, "}");
 
                 _out(f, 0, ".%s > * {", prefix);
                 _out(f, 1, "animation: %s-kf 0.3s ease-out forwards;", childPrefix);
-                _out(f, 0, "}\n");
+                _out(f, 0, "}");
             }
             break;
         }
@@ -312,10 +279,10 @@ static void _genStepItem(FILE *f, const char *prefix, StepItem *step)
             char staggerPrefix[256];
             snprintf(staggerPrefix, sizeof staggerPrefix, "%s-stagger-%u", prefix, _uniqueId++);
 
-            _out(f, 0, "  ", staggerDelay);
+            // Generate stagger timing classes
             _out(f, 0, ".%s {", staggerPrefix);
             _out(f, 1, "animation-fill-mode: forwards;");
-            _out(f, 0, "}\n");
+            _out(f, 0, "}");
 
             for (int i = 1; i <= 10; ++i) {
                 _out(f, 0, ".%s:nth-child(%d) {", staggerPrefix, i);
@@ -329,9 +296,10 @@ static void _genStepItem(FILE *f, const char *prefix, StepItem *step)
                     int delayMs = 100 * (i - 1);
                     _out(f, 1, "animation-delay: %dms;", delayMs);
                 }
-                _out(f, 0, "}\n");
+                _out(f, 0, "}");
             }
 
+            // Process nested step items within the stagger
             if (stag->stepItemList) {
                 for (size_t i = 0; i < stag->stepItemList->itemCount; ++i)
                     _genStepItem(f, staggerPrefix, stag->stepItemList->items[i]);
@@ -344,7 +312,6 @@ static void _genStepItem(FILE *f, const char *prefix, StepItem *step)
     }
 }
 
-  
 static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
 {
     if (!tr || !tr->transitionRule || !tr->transitionBlock) return;
@@ -357,7 +324,6 @@ static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
         to    = tr->transitionRule->toState;
         bidir = (tr->transitionRule->direction == BIDIRECTIONAL);
     } else {
-          
         if (tr->transitionRule->alias == ENTER)      { from = "void"; to = "*";   }
         else if (tr->transitionRule->alias == LEAVE) { from = "*";    to = "void"; }
         else {
@@ -366,7 +332,6 @@ static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
         }
     }
 
-      
     Style *origSt = NULL, *destSt = NULL;
     if (t->block && t->block->stateList) {
         for (size_t i = 0; i < t->block->stateList->stateCount; ++i) {
@@ -376,7 +341,6 @@ static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
         }
     }
 
-      
     for (int pass = 0; pass < (bidir ? 2 : 1); ++pass) {
         const char *o = (pass == 0 ? from : to);
         const char *d = (pass == 0 ? to   : from);
@@ -391,48 +355,26 @@ static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
         }
 
         StepItemList *sil = tr->transitionBlock->stepItemList;
-        Style *lastSt = NULL;
 
         for (size_t i = 0; i < sil->itemCount; ++i) {
             StepItem *si = sil->items[i];
             if (!si) continue;
-
-            switch (si->type) {
-                case STYLE_ITEM:
-                    lastSt = (Style *)si->item;
-                    break;
-
-                case ANIMATE_ITEM: {
-                    Animate *a      = (Animate *)si->item;
-                    Style  *fromSty = lastSt ? lastSt : origSt;
-                    Style  *toSty   = destSt ? destSt
-                                             : (a->type == ANIMATE_WITH_STYLE ? a->style : NULL);
-                    _genAnimateCss(f, prefix, a, fromSty, toSty);
-                    lastSt = NULL;
-                    break;
-                }
-
-                default:
-                    _genStepItem(f, prefix, si);
-            }
+            _genStepItem(f, prefix, si);
         }
     }
 }
 
-  
 static void _genTriggerCss(FILE *f, Trigger *t)
 {
     if (!t || !t->block) return;
 
     logDebugging(_logger, "Trigger `%s`…", t->name);
 
-      
     if (t->block->stateList) {
         for (size_t i = 0; i < t->block->stateList->stateCount; ++i)
             _genStateClassCss(f, t->name, t->block->stateList->states[i]);
     }
 
-      
     if (t->block->transitionList) {
         for (size_t i = 0; i < t->block->transitionList->transitionCount; ++i)
             _genTransitionCss(f, t, t->block->transitionList->transitions[i]);
