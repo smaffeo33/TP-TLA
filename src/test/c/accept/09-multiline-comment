@@ -8,7 +8,7 @@ trigger('parallelExample', [
       style({ opacity: 0 }),
       animate('200ms', style({ opacity: 1 })),
       animate('300ms ease-out', keyframes([
-        style({ transform: 'translate(20px)', offset: 0 }),
+        style({ transform: 'translateX(20px)', offset: 0 }),
         style({ height: 30px,       offset: 1 })
       ])),
       sequence([

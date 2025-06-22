@@ -3,7 +3,7 @@ trigger('listStagger', [
     query(':enter', [
       style({ opacity: 0, transform: 'translateY(20px)' }),
       stagger('100ms', [
-        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0px)' }))
       ])
     ])
   ]),
@@ -17,8 +17,8 @@ trigger('listStagger', [
       /* …and you can also nest it inside a group/sequence/stagger: */
       group([
         sequence([
-          query('.foo', [ animate('200ms', style({ transform:'scale(1)' })) ]),
-          query('.bar', [ animate('200ms', style({ transform:'scale(0.5)' })), stagger('50ms', [ query('.baz', [ animate('100ms', style({ opacity:0.5 })) ]) ]) ])
+          query('.foo', [ animate('200ms', style({ transform:'scaleX(1)' })) ]),
+          query('.bar', [ animate('200ms', style({ transform:'scaleX(0.5)' })), stagger('50ms', [ query('.baz', [ animate('100ms', style({ opacity:0.5 })) ]) ]) ])
         ])
       ])
     ])

@@ -99,6 +99,13 @@ Token StylePropertySemanticAction(LexicalAnalyzerContext * lexicalAnalyzerContex
 	return token;
 }
 
+Token TransformPropertySemanticAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
+    _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+    lexicalAnalyzerContext->semanticValue->string = strdup(lexicalAnalyzerContext->lexeme);
+    destroyLexicalAnalyzerContext(lexicalAnalyzerContext);
+    return token;
+}
+
 Token StringLiteralAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
     _logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
     lexicalAnalyzerContext->semanticValue->token = token;
