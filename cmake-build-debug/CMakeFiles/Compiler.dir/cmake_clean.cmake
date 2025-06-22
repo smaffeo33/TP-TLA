@@ -28,6 +28,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Compiler.dir/src/main/c/shared/Logger.c.o.d"
   "CMakeFiles/Compiler.dir/src/main/c/shared/String.c.o"
   "CMakeFiles/Compiler.dir/src/main/c/shared/String.c.o.d"
+  "CMakeFiles/Compiler.dir/src/main/c/shared/SymbolTable.c.o"
+  "CMakeFiles/Compiler.dir/src/main/c/shared/SymbolTable.c.o.d"
   "Compiler"
   "Compiler.pdb"
 )

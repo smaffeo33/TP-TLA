@@ -441,6 +441,30 @@ src/main/c/shared/String.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Compiler.dir/build.make CMakeFiles/Compiler.dir/src/main/c/shared/String.c.s
 .PHONY : src/main/c/shared/String.c.s
 
+src/main/c/shared/SymbolTable.o: src/main/c/shared/SymbolTable.c.o
+.PHONY : src/main/c/shared/SymbolTable.o
+
+# target to build an object file
+src/main/c/shared/SymbolTable.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Compiler.dir/build.make CMakeFiles/Compiler.dir/src/main/c/shared/SymbolTable.c.o
+.PHONY : src/main/c/shared/SymbolTable.c.o
+
+src/main/c/shared/SymbolTable.i: src/main/c/shared/SymbolTable.c.i
+.PHONY : src/main/c/shared/SymbolTable.i
+
+# target to preprocess a source file
+src/main/c/shared/SymbolTable.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Compiler.dir/build.make CMakeFiles/Compiler.dir/src/main/c/shared/SymbolTable.c.i
+.PHONY : src/main/c/shared/SymbolTable.c.i
+
+src/main/c/shared/SymbolTable.s: src/main/c/shared/SymbolTable.c.s
+.PHONY : src/main/c/shared/SymbolTable.s
+
+# target to generate assembly for a file
+src/main/c/shared/SymbolTable.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Compiler.dir/build.make CMakeFiles/Compiler.dir/src/main/c/shared/SymbolTable.c.s
+.PHONY : src/main/c/shared/SymbolTable.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -489,6 +513,9 @@ help:
 	@echo "... src/main/c/shared/String.o"
 	@echo "... src/main/c/shared/String.i"
 	@echo "... src/main/c/shared/String.s"
+	@echo "... src/main/c/shared/SymbolTable.o"
+	@echo "... src/main/c/shared/SymbolTable.i"
+	@echo "... src/main/c/shared/SymbolTable.s"
 .PHONY : help
 
 
