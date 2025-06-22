@@ -1,0 +1,11 @@
+trigger('voidWildcardAnimateChild', [
+  transition('void => *', [
+    style({ opacity: 0 }),
+    animate('200ms', style({ opacity: 1 })),
+    animateChild()
+  ]),
+  transition('* => void', [
+    animate('200ms', style({ opacity: 0 })),
+    animateChild()
+  ])
+])

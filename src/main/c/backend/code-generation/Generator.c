@@ -245,30 +245,13 @@ static void _genStepItem(FILE *f, const char *prefix, StepItem *step)
         }
 
         case ANIMATE_CHILD_ITEM: {
-            static char lastChildPrefix[256] = {0};
-            if (strcmp(lastChildPrefix, prefix) != 0) {
-                strcpy(lastChildPrefix, prefix);
-
-                char childPrefix[256];
-                snprintf(childPrefix, sizeof childPrefix, "%s-child-anim", prefix);
-
-                _out(f, 0, "@keyframes %s-kf {", childPrefix);
-                _out(f, 1, "from {");
-                _out(f, 2, "opacity: 0;");
-                _out(f, 2, "transform: translateY(10px);");
-                _out(f, 1, "}");
-                _out(f, 1, "to {");
-                _out(f, 2, "opacity: 1;");
-                _out(f, 2, "transform: translateY(0);");
-                _out(f, 1, "}");
-                _out(f, 0, "}");
-
-                _out(f, 0, ".%s > * {", prefix);
-                _out(f, 1, "animation: %s-kf 0.3s ease-out forwards;", childPrefix);
-                _out(f, 0, "}");
-            }
+            _out(f, 0, "/* animateChild: apply child animations to nested elements */");
+            _out(f, 0, ".%s > * {", prefix);
+            _out(f, 1, "animation: inherit;");
+            _out(f, 0, "}");
             break;
         }
+
 
         case STAGGER_ITEM: {
             Stagger *stag = (Stagger *)step->item;
@@ -279,7 +262,6 @@ static void _genStepItem(FILE *f, const char *prefix, StepItem *step)
             char staggerPrefix[256];
             snprintf(staggerPrefix, sizeof staggerPrefix, "%s-stagger-%u", prefix, _uniqueId++);
 
-            // Generate stagger timing classes
             _out(f, 0, ".%s {", staggerPrefix);
             _out(f, 1, "animation-fill-mode: forwards;");
             _out(f, 0, "}");
