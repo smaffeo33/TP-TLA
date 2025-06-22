@@ -91,6 +91,9 @@ static void _genStylePropsCss(FILE *f, unsigned lvl, PropertyList *plist)
 {
     if (!plist) return;
 
+    char transformBuf[256] = "";
+    transformBuf[0] = '\0';
+
     for (size_t i = 0; i < plist->propertyCount; ++i) {
         Property *p = (plist->properties) ? plist->properties[i] : NULL;
         if (!p || !p->name) continue;
@@ -116,12 +119,19 @@ static void _genStylePropsCss(FILE *f, unsigned lvl, PropertyList *plist)
 
         if (strcmp(name, "scale") == 0) {
             if (!*val) strcpy(val, "1");
-            _out(f, lvl, "transform: scale(%s);", val);
+            strncat(transformBuf, " scale(", sizeof(transformBuf) - strlen(transformBuf) - 1);
+            strncat(transformBuf, val, sizeof(transformBuf) - strlen(transformBuf) - 1);
+            strncat(transformBuf, ")", sizeof(transformBuf) - strlen(transformBuf) - 1);
             continue;
         }
+
         if (strcmp(name, "translateY") == 0 || strcmp(name, "translateX") == 0) {
             const char *func = (strcmp(name, "translateY") == 0) ? "translateY" : "translateX";
-            _out(f, lvl, "transform: %s(%s);", func, val);
+            strncat(transformBuf, " ", sizeof(transformBuf) - strlen(transformBuf) - 1);
+            strncat(transformBuf, func, sizeof(transformBuf) - strlen(transformBuf) - 1);
+            strncat(transformBuf, "(", sizeof(transformBuf) - strlen(transformBuf) - 1);
+            strncat(transformBuf, val, sizeof(transformBuf) - strlen(transformBuf) - 1);
+            strncat(transformBuf, ")", sizeof(transformBuf) - strlen(transformBuf) - 1);
             continue;
         }
 
@@ -129,7 +139,12 @@ static void _genStylePropsCss(FILE *f, unsigned lvl, PropertyList *plist)
             _out(f, lvl, "%s: %s;", name, val);
         }
     }
+
+    if (strlen(transformBuf) > 0) {
+        _out(f, lvl, "transform:%s;", transformBuf);
+    }
 }
+
 
 static void _genStateClassCss(FILE *f, const char *triggerName, State *s)
 {
@@ -172,25 +187,57 @@ static void _genAnimateCss(FILE *f,
             KeyframeStyle *ks = kl->keyframeStyles[i];
             float pct = (ks->offset <= 1.f) ? ks->offset * 100.f : ks->offset;
             _out(f, 1, "%.0f%% {", pct);
+
+            int hasTransform = 0, hasHeight = 0, hasOpacity = 0;
+
+            for (size_t j = 0; j < ks->properties->propertyCount; ++j) {
+                Property *p = ks->properties->properties[j];
+                if (!p || !p->name) continue;
+
+                if (strcmp(p->name, "transform") == 0 ||
+                    strcmp(p->name, "scale") == 0 ||
+                    strcmp(p->name, "translateX") == 0 ||
+                    strcmp(p->name, "translateY") == 0) {
+                    hasTransform = 1;
+                }
+                if (strcmp(p->name, "height") == 0) hasHeight = 1;
+                if (strcmp(p->name, "opacity") == 0) hasOpacity = 1;
+            }
+
             _genStylePropsCss(f, 2, ks->properties);
+
+            if (!hasTransform) _out(f, 2, "transform: none;");
+            if (!hasHeight)    _out(f, 2, "height: auto;");
+            if (!hasOpacity)   _out(f, 2, "opacity: 1;");
+
             _out(f, 1, "}");
         }
-    } else {
-        _out(f, 1, "from {");
-        if (fromStyle && fromStyle->properties) {
-            _genStylePropsCss(f, 2, fromStyle->properties);
-        } else if (a->type == ANIMATE_WITH_STYLE && a->style && a->style->properties) {
-            _genStylePropsCss(f, 2, a->style->properties);
-        }
-        _out(f, 1, "}");
 
-        _out(f, 1, "to {");
-        if (toStyle && toStyle->properties) {
-            _genStylePropsCss(f, 2, toStyle->properties);
-        } else if (a->type == ANIMATE_WITH_STYLE && a->style && a->style->properties) {
-            _genStylePropsCss(f, 2, a->style->properties);
+    } else {
+        int hasFrom = (fromStyle && fromStyle->properties && fromStyle->properties->propertyCount > 0);
+        int hasTo   = (toStyle && toStyle->properties && toStyle->properties->propertyCount > 0) ||
+                      (a->type == ANIMATE_WITH_STYLE && a->style && a->style->properties && a->style->properties->propertyCount > 0);
+
+        if (hasFrom) {
+            _out(f, 1, "from {");
+            _genStylePropsCss(f, 2, fromStyle->properties);
+            _out(f, 1, "}");
         }
-        _out(f, 1, "}");
+
+        if (hasTo) {
+            _out(f, 1, "to {");
+            if (toStyle && toStyle->properties)
+                _genStylePropsCss(f, 2, toStyle->properties);
+            else if (a->type == ANIMATE_WITH_STYLE && a->style && a->style->properties)
+                _genStylePropsCss(f, 2, a->style->properties);
+            _out(f, 1, "}");
+        }
+
+        if (!hasFrom && !hasTo) {
+            // fallback no-op animation for timing control
+            _out(f, 1, "from { opacity: 1; }");
+            _out(f, 1, "to { opacity: 1; }");
+        }
     }
 
     _out(f, 0, "}");
