@@ -1,0 +1,17 @@
+trigger('buttonAnimation', [
+state('normal', style({
+background-color: #3498db,
+border-radius: 4px
+})),
+state('hovered', style({
+background-color: #2980b9,
+border-radius: 4px
+})),
+state('hovered', style({
+background-color: #1c6ea4,
+border-radius: 4px
+})),
+transition('normal => hovered', animate('150ms ease-out')),
+transition('hovered => pressed', animate('100ms ease-in')),
+transition('pressed => normal', animate('200ms ease-in-out'))
+])

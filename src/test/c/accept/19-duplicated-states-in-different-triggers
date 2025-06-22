@@ -1,0 +1,16 @@
+trigger('modalAnimation', [
+state('closed', style({
+height: 0px,
+opacity: 0
+})),
+state('open', style({
+height: 400px,
+opacity: 1
+})),
+transition('closed => open', [
+animate('250ms ease-out')
+]),
+transition('open => closed', [
+animate('200ms ease-in')
+])
+])

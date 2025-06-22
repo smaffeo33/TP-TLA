@@ -1,0 +1,22 @@
+trigger('menuAnimation', [
+state('collapsed', style({
+width: 60px
+})),
+state('expanded', style({
+width: 250px
+})),
+transition('collapsed <=> expanded', [
+animate('300ms ease-in-out')
+])
+]),
+trigger('menuAnimation', [
+state('collapsed', style({
+width: 60px
+})),
+state('expanded', style({
+width: 250px
+})),
+transition('collapsed <=> expanded', [
+animate('300ms ease-in-out')
+])
+])
