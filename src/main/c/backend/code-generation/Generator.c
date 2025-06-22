@@ -18,7 +18,7 @@ static void   _genProgramCss   (FILE *f, Program *p);
 static void   _genTriggerCss   (FILE *f, Trigger *t);
 static void   _genStateClassCss(FILE *f, const char *triggerName, State *s);
 static void   _genStylePropsCss(FILE *f, unsigned lvl, PropertyList *plist);
-static void   _genStepItem     (FILE *f, const char *prefix, StepItem *step);
+static void _genStepItem(FILE *f, const char *prefix, StepItem *step, Style *fromStyle, Style *toStyle);
 static void   _genTransitionCss(FILE *f, Trigger *t, Transition *tr);
 static void   _genAnimateCss   (FILE *f, const char *prefix, Animate *a,
                                 Style *fromStyle, Style *toStyle);
@@ -201,13 +201,13 @@ static void _genAnimateCss(FILE *f,
     _out(f, 0, "}");
 }
 
-static void _genStepItem(FILE *f, const char *prefix, StepItem *step)
+static void _genStepItem(FILE *f, const char *prefix, StepItem *step, Style *fromStyle, Style *toStyle)
 {
     if (!step) return;
 
     switch (step->type) {
         case ANIMATE_ITEM:
-            _genAnimateCss(f, prefix, (Animate *)step->item, NULL, NULL);
+            _genAnimateCss(f, prefix, (Animate *)step->item, fromStyle, toStyle);
             break;
 
         case STYLE_ITEM: {
@@ -226,7 +226,7 @@ static void _genStepItem(FILE *f, const char *prefix, StepItem *step)
                                 ? ((Group *)step->item)->stepItemList
                                 : ((Sequence *)step->item)->stepItemList;
             for (size_t i = 0; i < lst->itemCount; ++i)
-                _genStepItem(f, prefix, lst->items[i]);
+                _genStepItem(f, prefix, lst->items[i], fromStyle, toStyle);
             break;
         }
 
@@ -240,7 +240,7 @@ static void _genStepItem(FILE *f, const char *prefix, StepItem *step)
             snprintf(queryPrefix, sizeof queryPrefix, "%s-query-%s", prefix, sel);
 
             for (size_t i = 0; i < q->stepItemList->itemCount; ++i)
-                _genStepItem(f, queryPrefix, q->stepItemList->items[i]);
+                _genStepItem(f, queryPrefix, q->stepItemList->items[i], fromStyle, toStyle);
             break;
         }
 
@@ -281,10 +281,9 @@ static void _genStepItem(FILE *f, const char *prefix, StepItem *step)
                 _out(f, 0, "}");
             }
 
-            // Process nested step items within the stagger
             if (stag->stepItemList) {
                 for (size_t i = 0; i < stag->stepItemList->itemCount; ++i)
-                    _genStepItem(f, staggerPrefix, stag->stepItemList->items[i]);
+                    _genStepItem(f, staggerPrefix, stag->stepItemList->items[i],fromStyle, toStyle);
             }
             break;
         }
@@ -314,7 +313,6 @@ static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
         }
     }
 
-    // 💡 Avoid duplicating output for transitions like * <=> *
     if (bidir && from && to && strcmp(from, to) == 0) {
         bidir = 0;
     }
@@ -345,7 +343,7 @@ static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
         for (size_t i = 0; i < sil->itemCount; ++i) {
             StepItem *si = sil->items[i];
             if (!si) continue;
-            _genStepItem(f, prefix, si);
+            _genStepItem(f, prefix, si, (pass == 0 ? origSt : destSt), (pass == 0 ? destSt : origSt));
         }
     }
 }
