@@ -177,15 +177,17 @@ static void _genAnimateCss(FILE *f,
         }
     } else {
         _out(f, 1, "from {");
-        if (fromStyle) {
+        if (fromStyle && fromStyle->properties) {
             _genStylePropsCss(f, 2, fromStyle->properties);
+        } else if (a->type == ANIMATE_WITH_STYLE && a->style && a->style->properties) {
+            _genStylePropsCss(f, 2, a->style->properties);
         }
         _out(f, 1, "}");
 
         _out(f, 1, "to {");
-        if (toStyle) {
+        if (toStyle && toStyle->properties) {
             _genStylePropsCss(f, 2, toStyle->properties);
-        } else if (a->type == ANIMATE_WITH_STYLE && a->style) {
+        } else if (a->type == ANIMATE_WITH_STYLE && a->style && a->style->properties) {
             _genStylePropsCss(f, 2, a->style->properties);
         }
         _out(f, 1, "}");
@@ -222,13 +224,28 @@ static void _genStepItem(FILE *f, const char *prefix, StepItem *step, Style *fro
 
         case GROUP_ITEM:
         case SEQUENCE_ITEM: {
-            StepItemList *lst = (step->type == GROUP_ITEM)
-                                ? ((Group *)step->item)->stepItemList
-                                : ((Sequence *)step->item)->stepItemList;
-            for (size_t i = 0; i < lst->itemCount; ++i)
-                _genStepItem(f, prefix, lst->items[i], fromStyle, toStyle);
+            StepItemList *lst = ((Sequence *)step->item)->stepItemList;
+            Style *lastStyle = NULL;
+
+            for (size_t i = 0; i < lst->itemCount; ++i) {
+                StepItem *sub = lst->items[i];
+                if (!sub) continue;
+
+                if (sub->type == STYLE_ITEM) {
+                    lastStyle = (Style *)sub->item;
+                    _genStepItem(f, prefix, sub, fromStyle, toStyle);
+                } else if (sub->type == ANIMATE_ITEM && lastStyle) {
+                    _genStepItem(f, prefix, sub, lastStyle, toStyle);
+                    lastStyle = NULL;
+                } else {
+                    _genStepItem(f, prefix, sub, fromStyle, toStyle);
+                }
+            }
             break;
         }
+
+
+
 
         case QUERY_ITEM: {
             Query *q = (Query *)step->item;
@@ -340,11 +357,25 @@ static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
         }
 
         StepItemList *sil = tr->transitionBlock->stepItemList;
+        Style *lastStyle = NULL;
+        Style *fromSt = (pass == 0 ? origSt : destSt);
+        Style *toSt   = (pass == 0 ? destSt : origSt);
+
         for (size_t i = 0; i < sil->itemCount; ++i) {
             StepItem *si = sil->items[i];
             if (!si) continue;
-            _genStepItem(f, prefix, si, (pass == 0 ? origSt : destSt), (pass == 0 ? destSt : origSt));
+
+            if (si->type == STYLE_ITEM) {
+                lastStyle = (Style *)si->item;
+                _genStepItem(f, prefix, si, fromSt, toSt);
+            } else if (si->type == ANIMATE_ITEM && lastStyle) {
+                _genStepItem(f, prefix, si, lastStyle, toSt);
+                lastStyle = NULL;
+            } else {
+                _genStepItem(f, prefix, si, fromSt, toSt);
+            }
         }
+
     }
 }
 
