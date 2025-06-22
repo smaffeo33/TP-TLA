@@ -1,0 +1,12 @@
+trigger('nestedQueryStaggerChild', [
+  transition(':enter', [
+    query('.container', [
+      stagger('150ms', [
+        query(':enter', [
+          animate('300ms', style({ opacity: 1 })),
+          animateChild()
+        ])
+      ])
+    ])
+  ])
+])
