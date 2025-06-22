@@ -314,6 +314,11 @@ static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
         }
     }
 
+    // 💡 Avoid duplicating output for transitions like * <=> *
+    if (bidir && from && to && strcmp(from, to) == 0) {
+        bidir = 0;
+    }
+
     Style *origSt = NULL, *destSt = NULL;
     if (t->block && t->block->stateList) {
         for (size_t i = 0; i < t->block->stateList->stateCount; ++i) {
@@ -337,7 +342,6 @@ static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
         }
 
         StepItemList *sil = tr->transitionBlock->stepItemList;
-
         for (size_t i = 0; i < sil->itemCount; ++i) {
             StepItem *si = sil->items[i];
             if (!si) continue;
@@ -345,6 +349,7 @@ static void _genTransitionCss(FILE *f, Trigger *t, Transition *tr)
         }
     }
 }
+
 
 static void _genTriggerCss(FILE *f, Trigger *t)
 {

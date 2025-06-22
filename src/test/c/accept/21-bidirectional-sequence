@@ -1,0 +1,9 @@
+trigger('bidirectionalSequence', [
+  transition('* <=> *', [
+    sequence([
+      style({ opacity: 0 }),
+      animate('100ms', style({ opacity: 0.5 })),
+      animate('100ms', style({ opacity: 1 }))
+    ])
+  ])
+])
